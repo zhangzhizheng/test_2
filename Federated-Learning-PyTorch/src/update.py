@@ -126,10 +126,12 @@ def test_inference(args, model, test_dataset, groups):
     testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=10,shuffle=False) # test non-IID
     # print(len(testloader.batches))
     # print(len(testloader.batches))
-    dataiter = iter(testloader)
-    a,b = dataiter.next()
-    print(len(dataiter))
+    # dataiter = iter(testloader)
+    # a,b = dataiter.next()
+    # print(len(dataiter))
+    i = 0
     for _, (images, labels) in enumerate(testloader):
+        i += 1
         images, labels = images.to(device), labels.to(device)
 
         # Inference
@@ -142,6 +144,6 @@ def test_inference(args, model, test_dataset, groups):
         pred_labels = pred_labels.view(-1)
         correct += torch.sum(torch.eq(pred_labels, labels)).item()
         total += len(labels)
-
+    print(i)
     accuracy = correct/total
     return accuracy, loss/len(testloader)
