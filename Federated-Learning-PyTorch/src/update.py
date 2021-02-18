@@ -95,7 +95,7 @@ class LocalUpdate(object):
         model.eval()
         loss, total, correct = 0.0, 0.0, 0.0
 
-        for batch_idx, (images, labels) in enumerate(self.testloader):
+        for _, (images, labels) in enumerate(self.trainloader):
             images, labels = images.to(self.device), labels.to(self.device)
 
             # Inference

@@ -104,7 +104,7 @@ if __name__ == '__main__':
         # for c in range(args.num_users):
         test_model = LocalUpdate(args=args, dataset=test_dataset,
                                     idxs=user_groups[idx], logger=logger)
-        acc, loss = test_model.inference(model=global_model)
+        acc, loss = test_model.inference(model=copy.deepcopy(global_model))
         list_acc.append(acc)
         list_loss.append(loss)
         # test_accuracy.append(sum(list_acc)/len(list_acc))
