@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
         global_model.train()
         m = max(int(args.frac * args.num_users), 1)
-        idxs_users = np.random.choice(range(args.num_users), m, replace=False) # random client federated
+        # idxs_users = np.random.choice(range(args.num_users), m, replace=False) # random client federated
         
         for idx in range(args.num_users):
         # for idx in idxs_users:  # random client federated
@@ -93,7 +93,7 @@ if __name__ == '__main__':
             local_losses.append(copy.deepcopy(loss))
 
         # update global weights
-        global_weights = average_weights(local_weights)
+        # global_weights = average_weights(local_weights)
 
         # update global weights
         global_model.load_state_dict(global_weights)
