@@ -67,7 +67,7 @@ class LocalUpdate(object):
 
         for iter in range(self.args.local_ep):
             batch_loss = []
-            # j = 0
+            #j = 0
             for batch_idx, (images, labels) in enumerate(self.dataloader):
                 images, labels = images.to(self.device), labels.to(self.device)
                 # j += 1
@@ -122,7 +122,7 @@ def test_inference(args, model, test_dataset, groups):
     loss, total, correct = 0.0, 0.0, 0.0
 
     device = 'cuda' if args.gpu else 'cpu'
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.NLLLoss().to(device)
     # testloader = DataLoader(test_dataset, batch_size=128,
     #                         shuffle=False)
     testloader = DataLoader(DatasetSplit(test_dataset, groups[0]),batch_size=128,shuffle=False) # test non-IID
@@ -139,13 +139,13 @@ def test_inference(args, model, test_dataset, groups):
         # Inference
         outputs = model(images)
         batch_loss = criterion(outputs, labels)
-        loss += batch_loss.data[0]
+        loss += batch_loss.item()
+
         # Prediction
-        _, pred_labels = torch.max(outputs.data, 1)
-        print(type(pred_labels))
+        _, pred_labels = torch.max(outputs, 1)
         pred_labels = pred_labels.view(-1)
         correct += torch.sum(torch.eq(pred_labels, labels)).item()
-        # total += len(labels)
+        total += len(labels)
     # print(i)
-    # accuracy = correct/total
-    return correct/len(testloader.dataset), loss/len(testloader)
+    accuracy = correct/total
+    return accuracy, loss/len(testloader)
