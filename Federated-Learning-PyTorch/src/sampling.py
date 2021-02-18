@@ -244,7 +244,7 @@ def cifar_noniid_test(dataset, num_users, args):
 
     rand_set_all_1 = [0, 10 ,20 ,30 ,40 , 50, 60]
     rand_set_all_2 = [90, 80, 70, 60 ,50, 40, 30]
-    k = [5, 10, 5, 3 ,2 ,1, 1]
+    # k = [5, 10, 5, 3 ,2 ,1, 1]
     # rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
     dis = [5, 10, 5, 3 ,2 ,1, 1]
     # divide and assign 2 shards/client
@@ -261,7 +261,7 @@ def cifar_noniid_test(dataset, num_users, args):
             dict_users_2[i] = np.concatenate(
                 (dict_users_2[i], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
         #print(dict_users)
-        print(len(dict_users_1), len(dict_users_2))
+        print(len(dict_users_1[0]), len(dict_users_2[0]))
     return dict_users_1, dict_users_2
 
 if __name__ == '__main__':
