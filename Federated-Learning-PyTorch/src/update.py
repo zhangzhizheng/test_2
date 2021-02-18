@@ -109,7 +109,7 @@ class LocalUpdate(object):
             total += len(labels)
 
         accuracy = correct/total
-        return accuracy, loss
+        return accuracy, loss/len(self.dataloader)
 
 
 def test_inference(args, model, test_dataset):
@@ -139,4 +139,4 @@ def test_inference(args, model, test_dataset):
         total += len(labels)
 
     accuracy = correct/total
-    return accuracy, loss
+    return accuracy, loss/len(testloader)
