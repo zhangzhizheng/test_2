@@ -126,7 +126,7 @@ if __name__ == '__main__':
     # print("|-------  Loss -------:".format(test_loss))
 
     # Saving the objects train_loss and test_accuracy:
-    file_name = '/home/Federated-Learning-PyTorch/save/objects/{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pkl'.\
+    file_name = '/home/test_2/Federated-Learning-PyTorch/save/objects/{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pkl'.\
         format(args.dataset, args.model, args.epochs, args.frac, args.iid,
                args.local_ep, args.local_bs)
 
@@ -147,7 +147,7 @@ if __name__ == '__main__':
     plt.plot(range(len(list_loss)), train_loss, color='k')
     plt.ylabel('Training loss')
     plt.xlabel('Communication Rounds')
-    plt.savefig('/home/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_loss.png'.
+    plt.savefig('/home/test_2/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_loss.png'.
                 format(args.dataset, args.model, args.epochs, args.frac,
                        args.iid, args.local_ep, args.local_bs))
 
@@ -157,6 +157,6 @@ if __name__ == '__main__':
     plt.plot(range(len(list_acc)), list_acc, color='k')
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')
-    plt.savefig('/home/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
+    plt.savefig('/home/test_2/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
                 format(args.dataset, args.model, args.epochs, args.frac,
                        args.iid, args.local_ep, args.local_bs))
