@@ -123,8 +123,8 @@ def test_inference(args, model, test_dataset, groups):
     criterion = nn.NLLLoss().to(device)
     # testloader = DataLoader(test_dataset, batch_size=128,
     #                         shuffle=False)
-    testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=128,shuffle=False) # test non-IID
-    print(len(testloader.batch_sampler))
+    testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=10,shuffle=False) # test non-IID
+    print(len(testloader))
     # print(len(testloader.batches))
     for _, (images, labels) in enumerate(testloader):
         images, labels = images.to(device), labels.to(device)
