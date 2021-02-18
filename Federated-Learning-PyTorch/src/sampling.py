@@ -202,7 +202,7 @@ def cifar_noniid(dataset, num_users, args):
             # print(rand, j)
             dict_users[i] = np.concatenate(
                 (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
-        #print(dict_users)
+        print(len(dict_users[0]))
     return dict_users
 
 def cifar_noniid_test(dataset, num_users, args):
