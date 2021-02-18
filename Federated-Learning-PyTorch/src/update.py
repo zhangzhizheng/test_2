@@ -67,9 +67,10 @@ class LocalUpdate(object):
 
         for iter in range(self.args.local_ep):
             batch_loss = []
+            j = 0
             for batch_idx, (images, labels) in enumerate(self.dataloader):
                 images, labels = images.to(self.device), labels.to(self.device)
-
+                j += 1
                 model.zero_grad()
                 log_probs = model(images)
                 loss = self.criterion(log_probs, labels)
@@ -84,7 +85,7 @@ class LocalUpdate(object):
                 self.logger.add_scalar('loss', loss.item())
                 batch_loss.append(loss.item())
             epoch_loss.append(sum(batch_loss)/len(batch_loss))
-
+            print("--------------j------------|",j)
         return model.state_dict(), sum(epoch_loss) / len(epoch_loss)
 
     def inference(self, model):
