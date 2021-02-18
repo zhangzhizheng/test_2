@@ -67,10 +67,10 @@ class LocalUpdate(object):
 
         for iter in range(self.args.local_ep):
             batch_loss = []
-            j = 0
+            # j = 0
             for batch_idx, (images, labels) in enumerate(self.dataloader):
                 images, labels = images.to(self.device), labels.to(self.device)
-                j += 1
+                # j += 1
                 model.zero_grad()
                 log_probs = model(images)
                 loss = self.criterion(log_probs, labels)
@@ -85,7 +85,7 @@ class LocalUpdate(object):
                 self.logger.add_scalar('loss', loss.item())
                 batch_loss.append(loss.item())
             epoch_loss.append(sum(batch_loss)/len(batch_loss))
-            print("--------------j------------|",j)
+            # print("--------------j------------|",j)
         return model.state_dict(), sum(epoch_loss) / len(epoch_loss)
 
     def inference(self, model):
@@ -131,9 +131,9 @@ def test_inference(args, model, test_dataset, groups):
     # dataiter = iter(testloader)
     # a,b = dataiter.next()
     # print(len(dataiter))
-    i = 0
+    # i = 0
     for _, (images, labels) in enumerate(testloader):
-        i += 2
+        # i += 2
         images, labels = images.to(device), labels.to(device)
 
         # Inference
@@ -146,6 +146,6 @@ def test_inference(args, model, test_dataset, groups):
         pred_labels = pred_labels.view(-1)
         correct += torch.sum(torch.eq(pred_labels, labels)).item()
         total += len(labels)
-    print(i)
+    # print(i)
     accuracy = correct/total
     return accuracy, loss/len(testloader)
