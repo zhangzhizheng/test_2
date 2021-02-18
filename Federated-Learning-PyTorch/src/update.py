@@ -130,9 +130,9 @@ def test_inference(args, model, test_dataset, groups):
     # dataiter = iter(testloader)
     # a,b = dataiter.next()
     # print(len(dataiter))
-    i = 0
+    # i = 0
     for _, (images, labels) in enumerate(testloader):
-        i += 2
+        # i += 2
         images, labels = images.to(device), labels.to(device)
 
         # Inference
@@ -145,6 +145,6 @@ def test_inference(args, model, test_dataset, groups):
         pred_labels = pred_labels.view(-1)
         correct += torch.sum(torch.eq(pred_labels, labels)).item()
         total += len(labels)
-    print(i)
+    # print(i)
     accuracy = correct/total
     return accuracy, loss/len(testloader)
