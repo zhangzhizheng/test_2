@@ -244,7 +244,9 @@ def cifar_noniid_test(dataset, num_users, args):
 
     rand_set_all_1 = [0, 10 ,20 ,30 ,40 , 50, 60]
     rand_set_all_2 = [90, 80, 70, 60 ,50, 40, 30]
+    k = [5, 10, 5, 3 ,2 ,1, 1]
     rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
+    dis = [5, 10, 5, 3 ,2 ,1, 1]
     # divide and assign 2 shards/client
     for i in range(num_users):
         # rand_set = set(np.random.choice(idx_shard, 2, replace=False)) # rand set the datasets
@@ -252,15 +254,14 @@ def cifar_noniid_test(dataset, num_users, args):
         # print(rand_set)
         # idx_shard = list(set(idx_shard) - rand_set_all[i])
         # print(rand_set_all[i])
-        for rand, j in zip(rand_set_all, [5, 10, 5, 3 ,2 ,1, 1]):
+        for j in range(len(dis)):
             # print(rand_1, rand_2, j)
-            for rand_1, rand_2 in enumerate(rand):
-                dict_users_1[i] = np.concatenate(
-                    (dict_users_1[i], idxs[rand_1*num_imgs:(rand_1+j)*num_imgs]), axis=0)
-                dict_users_2[i] = np.concatenate(
-                    (dict_users_2[i], idxs[rand_2*num_imgs:(rand_2+j)*num_imgs]), axis=0)
+            dict_users_1[i] = np.concatenate(
+                (dict_users_1[i], idxs[rand_set_all_1[j]*num_imgs:(rand_set_all_1[j]+dis[j])*num_imgs]), axis=0)
+            dict_users_2[i] = np.concatenate(
+                (dict_users_2[i], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
         #print(dict_users)
-        print(len(dict_users_1), len(dict_users_2))
+        #print(len(dict_users_1), len(dict_users_2))
     return dict_users_1, dict_users_2
 
 if __name__ == '__main__':
