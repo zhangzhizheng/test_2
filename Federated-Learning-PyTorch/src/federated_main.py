@@ -66,7 +66,7 @@ if __name__ == '__main__':
     global_weights = global_model.state_dict()
 
     # Training
-    train_loss, test_accuracy = [], []
+    train_loss, test_accuracy, test_loss = [], [], []
     val_acc_list, net_list = [], []
     cv_loss, cv_acc = [], []
     print_every = 2
@@ -108,13 +108,14 @@ if __name__ == '__main__':
         acc, loss = local_model.inference(model=global_model)
         list_acc.append(acc)
         list_loss.append(loss)
-        test_accuracy.append(sum(list_acc)/len(list_acc))
-
+        # test_accuracy.append(sum(list_acc)/len(list_acc))
+        # test_accuracy.append(list_acc)
+        # test_loss.append(list_loss)
         # print global training loss after every 'i' rounds
         if (epoch+1) % print_every == 0:
             print(f' \nAvg Training Stats after {epoch+1} global rounds:')
             print(f'Training Loss : {np.mean(np.array(train_loss))}')
-            print('Train Accuracy: {:.2f}% \n'.format(100*test_accuracy[-1]))
+            print('Train Accuracy: {:.2f}% \n'.format(100*list_acc[-1]))
 
     # Test inference after completion of training
     # test_acc, test_loss = test_inference(args, global_model, test_dataset)
@@ -130,7 +131,7 @@ if __name__ == '__main__':
                args.local_ep, args.local_bs)
 
     with open(file_name, 'wb') as f:
-        pickle.dump([train_loss, test_accuracy], f)
+        pickle.dump([train_loss, list_acc], f)
 
     print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
@@ -152,7 +153,7 @@ if __name__ == '__main__':
     # Plot Average Accuracy vs Communication rounds
     plt.figure()
     plt.title('Average Accuracy vs Communication rounds')
-    plt.plot(range(len(test_accuracy)), test_accuracy, color='k')
+    plt.plot(range(len(list_acc)), list_acc, color='k')
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
