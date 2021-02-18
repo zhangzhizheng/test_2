@@ -147,7 +147,7 @@ if __name__ == '__main__':
     plt.figure()
     plt.title('Training Loss vs Communication rounds')
     plt.plot(range(len(train_loss)), train_loss, color='r', label = "train_loss")
-    plt.plot(range(len(list_loss_1)), list_loss_1, color='k', label = "d1_loss")
+    plt.plot(range(len(list_loss_1)), list_loss_1, color='m', label = "d1_loss")
     plt.plot(range(len(list_loss_2)), list_loss_2, color='c', label = "d2_loss")
     plt.legend()
     plt.ylabel('Training loss')
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     # Plot Average Accuracy vs Communication rounds
     plt.figure()
     plt.title('Average Accuracy vs Communication rounds')
-    plt.plot(range(len(list_acc_1)), list_acc_1, color='k', label = "d1_acc")
+    plt.plot(range(len(list_acc_1)), list_acc_1, color='m', label = "d1_acc")
     plt.plot(range(len(list_acc_2)), list_acc_2, color='r', label = "d2_acc")
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')

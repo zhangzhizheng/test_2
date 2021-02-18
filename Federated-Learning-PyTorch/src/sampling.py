@@ -204,7 +204,7 @@ def cifar_noniid(dataset, num_users, args):
                 (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
         #print(dict_users)
     return dict_users
-    
+
 def cifar_noniid_test(dataset, num_users, args):
     """
     Sample non-I.I.D client data from MNIST dataset
@@ -259,7 +259,7 @@ def cifar_noniid_test(dataset, num_users, args):
             dict_users_2[i] = np.concatenate(
                 (dict_users_2[i], idxs[rand_2*num_imgs:(rand_2+j)*num_imgs]), axis=0)
         #print(dict_users)
-        # print(dict_users_1, dict_users_2)
+        print(dict_users_1, dict_users_2)
     return dict_users_1, dict_users_2
 
 if __name__ == '__main__':
