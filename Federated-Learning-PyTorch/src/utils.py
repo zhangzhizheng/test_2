@@ -6,7 +6,7 @@ import copy
 import torch
 from torchvision import datasets, transforms
 from sampling import mnist_iid, mnist_noniid, mnist_noniid_unequal
-from sampling import cifar_iid, cifar_noniid
+from sampling import cifar_iid, cifar_noniid, cifar_noniid_test
 
 
 def get_dataset(args):
@@ -38,7 +38,8 @@ def get_dataset(args):
                 raise NotImplementedError()
             else:
                 # Chose euqal splits for every user
-                user_groups = cifar_noniid(train_dataset, args.num_users)
+                user_groups = cifar_noniid(train_dataset, args.num_users, args)
+                user_groups_test_1, user_groups_test_2 = cifar_noniid_test(test_dataset, args.num_users, args)
 
     elif args.dataset == 'mnist' or 'fmnist':
         if args.dataset == 'mnist':
@@ -69,7 +70,7 @@ def get_dataset(args):
                 # Chose euqal splits for every user
                 user_groups = mnist_noniid(train_dataset, args.num_users)
 
-    return train_dataset, test_dataset, user_groups
+    return train_dataset, test_dataset, user_groups, user_groups_test_1, user_groups_test_2
 
 
 def average_weights(w):

@@ -34,7 +34,7 @@ if __name__ == '__main__':
     device = 'cuda' if args.gpu else 'cpu'
 
     # load dataset and user groups
-    train_dataset, test_dataset, user_groups = get_dataset(args)
+    train_dataset, test_dataset, user_groups, user_groups_test_1, user_groups_test_2 = get_dataset(args)
 
     # BUILD MODEL
     if args.model == 'cnn':
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     global_weights = global_model.state_dict()
 
     # Calculate avg training accuracy over all users at every epoch
-    list_acc, list_loss = [], []
+    list_acc_1, list_loss_1, list_acc_2, list_loss_2 = [], [], [], []
 
     # Training
     train_loss, test_accuracy, test_loss = [], [], []
@@ -104,9 +104,12 @@ if __name__ == '__main__':
         # for c in range(args.num_users):
 
         # acc, loss = test_model.inference(model=copy.deepcopy(global_model))
-        acc, loss = test_inference(args, copy.deepcopy(global_model), test_dataset)
-        list_acc.append(acc)
-        list_loss.append(loss)
+        acc_1, loss_1 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_1)
+        acc_2, loss_2 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_2)
+        list_acc_1.append(acc_1)
+        list_loss_1.append(loss_1)
+        list_acc_2.append(acc_2)
+        list_loss_2.append(loss_2)
         # test_accuracy.append(sum(list_acc)/len(list_acc))
         # test_accuracy.append(list_acc)
         # test_loss.append(list_loss)
@@ -114,7 +117,8 @@ if __name__ == '__main__':
         if (epoch+1) % print_every == 0:
             print(f' \nAvg Training Stats after {epoch+1} global rounds:')
             print(f'Training Loss : {np.mean(np.array(train_loss))}')
-            print('Train Accuracy: {:.2f}% \n'.format(100*list_acc[-1]))
+            print('Train Accuracy: {:.2f}% \n'.format(100*list_acc_1[-1]))
+            print('Train Accuracy: {:.2f}% \n'.format(100*list_acc_2[-1]))
 
     # Test inference after completion of training
     # test_acc, test_loss = test_inference(args, global_model, test_dataset)
@@ -130,7 +134,7 @@ if __name__ == '__main__':
                args.local_ep, args.local_bs)
 
     with open(file_name, 'wb') as f:
-        pickle.dump([train_loss, list_loss, list_acc], f)
+        pickle.dump([train_loss, list_loss_1, list_acc_1, list_loss_2, list_acc_2], f)
 
     print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
@@ -142,8 +146,10 @@ if __name__ == '__main__':
     # Plot Loss curve
     plt.figure()
     plt.title('Training Loss vs Communication rounds')
-    plt.plot(range(len(train_loss)), train_loss, color='r')
-    plt.plot(range(len(list_loss)), list_loss, color='k')
+    plt.plot(range(len(train_loss)), train_loss, color='r', label = "train_loss")
+    plt.plot(range(len(list_loss_1)), list_loss_1, color='k', label = "d1_loss")
+    plt.plot(range(len(list_loss_2)), list_loss_2, color='c', label = "d2_loss")
+    plt.legend()
     plt.ylabel('Training loss')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/test_2/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_loss.png'.
@@ -153,7 +159,8 @@ if __name__ == '__main__':
     # Plot Average Accuracy vs Communication rounds
     plt.figure()
     plt.title('Average Accuracy vs Communication rounds')
-    plt.plot(range(len(list_acc)), list_acc, color='k')
+    plt.plot(range(len(list_acc_1)), list_acc_1, color='k', label = "d1_acc")
+    plt.plot(range(len(list_acc_2)), list_acc_2, color='r', label = "d2_acc")
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/test_2/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
