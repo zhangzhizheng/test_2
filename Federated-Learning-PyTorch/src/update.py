@@ -125,7 +125,7 @@ def test_inference(args, model, test_dataset, groups):
     #                         shuffle=False)
     testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=128,shuffle=False) # test non-IID
     print(len(testloader.batch_sampler))
-    print(len(testloader.batches))
+    # print(len(testloader.batches))
     for _, (images, labels) in enumerate(testloader):
         images, labels = images.to(device), labels.to(device)
 
