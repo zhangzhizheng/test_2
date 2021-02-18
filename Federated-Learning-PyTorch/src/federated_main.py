@@ -131,7 +131,7 @@ if __name__ == '__main__':
                args.local_ep, args.local_bs)
 
     with open(file_name, 'wb') as f:
-        pickle.dump([train_loss, list_acc], f)
+        pickle.dump([train_loss, list_loss, list_acc], f)
 
     print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
@@ -144,6 +144,7 @@ if __name__ == '__main__':
     plt.figure()
     plt.title('Training Loss vs Communication rounds')
     plt.plot(range(len(train_loss)), train_loss, color='r')
+    plt.plot(range(len(list_loss)), train_loss, color='k')
     plt.ylabel('Training loss')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_loss.png'.
