@@ -187,7 +187,7 @@ def cifar_noniid(dataset, num_users, args):
         rand_set_all = [1,2]
         k = [1,2]
     if(args.data_distribution == 4):
-        rand_set_all = [{1, 20 ,40 ,60 ,80 , 100, 120}, {180, 160, 140, 120 ,100, 80, 60}]
+        rand_set_all = [{180, 160, 140, 120 ,100, 80, 60}, {1, 20 ,40 ,60 ,80 , 100, 120}]
         k = [10, 20, 10, 5 ,3 ,1, 1]
 
     # divide and assign
