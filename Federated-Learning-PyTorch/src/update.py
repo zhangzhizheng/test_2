@@ -125,15 +125,15 @@ def test_inference(args, model, test_dataset, groups):
     criterion = nn.NLLLoss().to(device)
     # testloader = DataLoader(test_dataset, batch_size=128,
     #                         shuffle=False)
-    testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=128,shuffle=False) # test non-IID
+    testloader = DataLoader(DatasetSplit(test_dataset, groups),batch_size=128,shuffle=True) # test non-IID
     # print(len(testloader.batches))
     # print(len(testloader.batches))
     # dataiter = iter(testloader)
     # a,b = dataiter.next()
     # print(len(dataiter))
-    # i = 0
+    i = 0
     for _, (images, labels) in enumerate(testloader):
-        # i += 2
+        i += 2
         images, labels = images.to(device), labels.to(device)
 
         # Inference
@@ -146,6 +146,6 @@ def test_inference(args, model, test_dataset, groups):
         pred_labels = pred_labels.view(-1)
         correct += torch.sum(torch.eq(pred_labels, labels)).item()
         total += len(labels)
-    # print(i)
+    print(i)
     accuracy = correct/total
     return accuracy, loss/len(testloader)
