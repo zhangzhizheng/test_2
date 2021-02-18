@@ -102,8 +102,7 @@ if __name__ == '__main__':
 
         global_model.eval()
         # for c in range(args.num_users):
-        test_model = LocalUpdate(args=args, dataset=test_dataset,
-                                    idxs=user_groups[idx], logger=logger)
+
         # acc, loss = test_model.inference(model=copy.deepcopy(global_model))
         acc, loss = test_inference(args, copy.deepcopy(global_model), test_dataset)
         list_acc.append(acc)
@@ -144,7 +143,7 @@ if __name__ == '__main__':
     plt.figure()
     plt.title('Training Loss vs Communication rounds')
     plt.plot(range(len(train_loss)), train_loss, color='r')
-    plt.plot(range(len(list_loss)), train_loss, color='k')
+    plt.plot(range(len(list_loss)), list_loss, color='k')
     plt.ylabel('Training loss')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/test_2/Federated-Learning-PyTorch/save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_loss.png'.
