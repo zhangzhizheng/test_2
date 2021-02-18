@@ -93,8 +93,9 @@ class LocalUpdate(object):
 
         model.eval()
         loss, total, correct = 0.0, 0.0, 0.0
-
+        j = 0
         for _, (images, labels) in enumerate(self.dataloader):
+            j += 1
             images, labels = images.to(self.device), labels.to(self.device)
 
             # Inference
@@ -107,7 +108,7 @@ class LocalUpdate(object):
             pred_labels = pred_labels.view(-1)
             correct += torch.sum(torch.eq(pred_labels, labels)).item()
             total += len(labels)
-
+        print("--------------j------------|",j)
         accuracy = correct/total
         return accuracy, loss/len(self.dataloader)
 
