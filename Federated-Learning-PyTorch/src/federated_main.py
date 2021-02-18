@@ -65,6 +65,9 @@ if __name__ == '__main__':
     # copy weights
     global_weights = global_model.state_dict()
 
+    # Calculate avg training accuracy over all users at every epoch
+    list_acc, list_loss = [], []
+
     # Training
     train_loss, test_accuracy, test_loss = [], [], []
     val_acc_list, net_list = [], []
@@ -96,9 +99,6 @@ if __name__ == '__main__':
         global_model.load_state_dict(global_weights)
         loss_avg = sum(local_losses) / len(local_losses)
         train_loss.append(loss_avg)
-
-        # Calculate avg training accuracy over all users at every epoch
-        list_acc, list_loss = [], []
 
         global_model.eval()
         # for c in range(args.num_users):
