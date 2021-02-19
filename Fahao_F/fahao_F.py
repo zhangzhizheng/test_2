@@ -21,28 +21,11 @@ import time
 from tqdm import tqdm, trange
 from models import *
 from Get_Loader import Get_Loader
-from options import args_parser
+from options import args_parser,exp_details
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 args = args_parser()
 exp_details(args)
-
-def exp_details(args):
-    print('\nExperimental details:')
-    print(f'    Model     : {args.model}')
-    print(f'    Optimizer : {args.optimizer}')
-    print(f'    Learning  : {args.lr}')
-    print(f'    Global Rounds   : {args.epochs}\n')
-
-    print('    Federated parameters:')
-    if args.iid:
-        print('    IID')
-    else:
-        print('    Non-IID')
-    print(f'    Fraction of users  : {args.frac}')
-    print(f'    Local Batch size   : {args.local_bs}')
-    print(f'    Local Epochs       : {args.local_ep}\n')
-    return
 
 def Set_dataset(dataset):
     if dataset == 'CIFAR10':
