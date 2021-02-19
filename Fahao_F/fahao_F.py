@@ -26,6 +26,7 @@ from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 args = args_parser()
+exp_details(args)
 
 def Set_dataset(dataset):
     if dataset == 'CIFAR10':
