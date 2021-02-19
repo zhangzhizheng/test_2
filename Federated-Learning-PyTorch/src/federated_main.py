@@ -79,7 +79,7 @@ if __name__ == '__main__':
         local_weights, local_losses = [], []
         print(f'\n | Global Training Round : {epoch+1} |\n')
 
-        global_model.train()
+        # global_model.train()
         m = max(int(args.frac * args.num_users), 1)
         # idxs_users = np.random.choice(range(args.num_users), m, replace=False) # random client federated
         
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         loss_avg = sum(local_losses) / len(local_losses)
         train_loss.append(loss_avg)
 
-        global_model.eval()
+        # global_model.eval()
         # for c in range(args.num_users):
 
         # acc, loss = test_model.inference(model=copy.deepcopy(global_model))
