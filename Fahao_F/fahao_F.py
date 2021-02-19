@@ -24,8 +24,6 @@ from Get_Loader import Get_Loader
 from options import args_parser,exp_details
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-args = args_parser()
-exp_details(args)
 
 def Set_dataset(dataset):
     if dataset == 'CIFAR10':
@@ -204,7 +202,7 @@ def Aggregate(model, client):
     return P[0]
 
 
-def run(dataset, net, client):
+def run(dataset, net, client, args):
     acc_list, loss_list = [], []
     acc_list_1, loss_list_1,acc_list_2, loss_list_2 = [], [], [], []
     X, Y, Z = [], [], []
@@ -299,4 +297,5 @@ def run(dataset, net, client):
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.num_users, args.iid, args.epochs))
 if __name__ == '__main__':
-    run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users)
+    args = args_parser()
+    run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users, args)
