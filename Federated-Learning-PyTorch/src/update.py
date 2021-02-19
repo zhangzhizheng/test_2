@@ -157,4 +157,5 @@ def test_inference(args, model, test_dataset, groups):
         # total += len(labels)
     # print(i)
     accuracy = correct/total
+    print(accuracy, loss/len(testloader))
     return accuracy, loss/len(testloader)
