@@ -103,10 +103,14 @@ if __name__ == '__main__':
 
         # global_model.eval()
         # for c in range(args.num_users):
-
-        # acc, loss = test_model.inference(model=copy.deepcopy(global_model))
-        acc_1, loss_1 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_1)
-        acc_2, loss_2 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_2)
+        test_model_1 = LocalUpdate(args=args, dataset=test_dataset,
+                                      idxs=user_groups_test_1[0], logger=logger)
+        test_model_2 = LocalUpdate(args=args, dataset=test_dataset,
+                                      idxs=user_groups_test_2[0], logger=logger)
+        acc_1, loss_1 = test_model_1.inference(model=copy.deepcopy(global_model))
+        acc_2, loss_2 = test_model_2.inference(model=copy.deepcopy(global_model))
+        # acc_1, loss_1 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_1)
+        # acc_2, loss_2 = test_inference(args, copy.deepcopy(global_model), test_dataset, user_groups_test_2)
         list_acc_1.append(acc_1)
         list_loss_1.append(loss_1)
         list_acc_2.append(acc_2)
