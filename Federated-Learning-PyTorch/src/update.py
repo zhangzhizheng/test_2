@@ -60,7 +60,7 @@ class LocalUpdate(object):
         # Set optimizer for the local updates
         if self.args.optimizer == 'sgd':
             optimizer = torch.optim.SGD(model.parameters(), lr=self.args.lr,
-                                        momentum=0.5)
+                                        momentum=0.9, weight_decay=5e-4)
         elif self.args.optimizer == 'adam':
             optimizer = torch.optim.Adam(model.parameters(), lr=self.args.lr,
                                          weight_decay=1e-4)
@@ -71,7 +71,8 @@ class LocalUpdate(object):
             for batch_idx, (images, labels) in enumerate(self.dataloader):
                 images, labels = images.to(self.device), labels.to(self.device)
                 # j += 1
-                model.zero_grad()
+                optimizer.zero_grad()
+                # model.zero_grad()
                 log_probs = model(images)
                 loss = self.criterion(log_probs, labels)
                 loss.backward()
@@ -95,7 +96,7 @@ class LocalUpdate(object):
         model.eval()
         loss, total, correct = 0.0, 0.0, 0.0
         j = 0
-        for _, (images, labels) in enumerate(self.dataloader):
+        for batch_idx, (images, labels) in enumerate(self.dataloader):
             j += 1
             images, labels = images.to(self.device), labels.to(self.device)
 
@@ -132,7 +133,7 @@ def test_inference(args, model, test_dataset, groups):
     # a,b = dataiter.next()
     # print(len(dataiter))
     # i = 0
-    for _, (images, labels) in enumerate(testloader):
+    for batch_idx, (images, labels) in enumerate(testloader):
         # i += 2
         images, labels = images.to(device), labels.to(device)
 
