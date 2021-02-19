@@ -7,6 +7,7 @@ import torch.backends.cudnn as cudnn
 import torchvision
 import torchvision.transforms as transforms
 
+import pickle
 import random
 import copy
 import pandas as pd
@@ -204,7 +205,10 @@ def Aggregate(model, client):
 
 
 def run(dataset, net, client):
+    acc_list, loss_list = [], []
+    acc_list_1, loss_list_1,acc_list_2, loss_list_2 = [], [], [], []
     X, Y, Z = [], [], []
+    Y1,Y2,Z1,Z2 = [], [], [], []
     if(args.iid == 1):
         trainloader, testloader = Set_dataset(dataset)
     else:
@@ -220,10 +224,16 @@ def run(dataset, net, client):
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
         if(args.iid == 1):
             acc, loss = Test(global_model, testloader)
+            acc_list = acc_list.append(acc)
+            loss_list = loss_list.append(loss)
             pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         else:
             acc_1, loss_1 = Test(global_model, testloader_d1)
             acc_2, loss_2 = Test(global_model, testloader_d2)
+            acc_list_1 = acc_list.append(acc_1)
+            loss_list_1 = loss_list.append(loss_1)
+            acc_list_2 = acc_list.append(acc_2)
+            loss_list_2 = loss_list.append(loss_2)
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
             pbar.set_description("Epoch: %d Accuracy_d2: %.3f Loss_d2: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
 
@@ -231,14 +241,62 @@ def run(dataset, net, client):
             model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
-        X.append(start_time)
-        Y.append(acc)
-        Z.append(loss)
-    location = '/home/cifar-gcn-drl/Test_data/FedAVG.csv'
-    dataframe = pd.DataFrame(X, columns=['X'])
-    dataframe = pd.concat([dataframe, pd.DataFrame(Y,columns=['Y'])],axis=1)
-    dataframe = pd.concat([dataframe, pd.DataFrame(Z,columns=['Z'])],axis=1)
-    dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
+        # X.append(start_time)
+
+        # if(args.idd == 1):
+        #     Y.append(acc)
+        #     Z.append(loss)
+        #     location = '/home/test_2/cifar-gcn-drl/Test_data/FedAVG_iid.csv'
+        #     dataframe = pd.DataFrame(X, columns=['X'])
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y,columns=['Y'])],axis=1)
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z,columns=['Z'])],axis=1)
+        #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
+        # else:
+        #     Y1.append(acc_1)
+        #     Y2.append(acc_2)
+        #     Z1.append(loss_1)
+        #     Z2.append(loss_2)
+        #     location = '/home/test_2/cifar-gcn-drl/Test_data/FedAVG_niid.csv'
+        #     dataframe = pd.DataFrame(X, columns=['X'])
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y1,columns=['Y1'])],axis=1)
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y2,columns=['Y2'])],axis=1)
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z1'])],axis=1)
+        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
+        #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
+
+    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}'.format(args.num_users, args.iid, args.epochs)
+
+    with open(file_name, 'wb') as f:
+        if(args.iid == 1):
+            pickle.dump([acc_list, loss_list], f)
+        else:
+            pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+
+    print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
+
+    # PLOTTING (optional)
+    import matplotlib
+    import matplotlib.pyplot as plt
+    matplotlib.use('Agg')
+
+    # Plot Loss curve
+    plt.figure()
+    plt.title('Training Loss vs Communication rounds')
+    plt.plot(range(len(loss_list_1)), loss_list_1, color='m', label = "d1_loss")
+    plt.plot(range(len(loss_list_2)), loss_list_2, color='c', label = "d2_loss")
+    plt.legend()
+    plt.ylabel('Training loss')
+    plt.xlabel('Communication Rounds')
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_loss.png'.format(args.num_users, args.iid, args.epochs))
+
+    # Plot Average Accuracy vs Communication rounds
+    plt.figure()
+    plt.title('Average Accuracy vs Communication rounds')
+    plt.plot(range(len(acc_list_1)), acc_list_1, color='m', label = "d1_acc")
+    plt.plot(range(len(acc_list_2)), acc_list_2, color='r', label = "d2_acc")
+    plt.ylabel('Average Accuracy')
+    plt.xlabel('Communication Rounds')
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.num_users, args.iid, args.epochs))
 if __name__ == '__main__':
     run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users)
