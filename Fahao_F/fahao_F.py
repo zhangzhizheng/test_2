@@ -16,10 +16,11 @@ import math
 import networkx as nx
 import argparse
 import time
-
 # from utils import progress_bar
 from tqdm import tqdm, trange
 from models import *
+
+from Get_Loader import Get_Loader
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -48,58 +49,64 @@ def Set_dataset(dataset):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-        trainset = torchvision.datasets.CIFAR10(
-            root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
+        trainset = torchvision.datasets.CIFAR10(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
 
-        trainloader = torch.utils.data.DataLoader(
-            trainset, batch_size=128, shuffle=True, num_workers=2)
+        testset = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader
+        else:
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            return trainloader, testloader_d1, testloader_d2
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
 
-        testset = torchvision.datasets.CIFAR10(
-            root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
 
-        testloader = torch.utils.data.DataLoader(
-            testset, batch_size=100, shuffle=False, num_workers=2)
+        # return args, trainloader, testloader
+    # elif dataset == 'MNIST':  # mnist dataset unuse
+    #     parser = argparse.ArgumentParser(description='PyTorch MNIST Training')
+    #     parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
+    #     parser.add_argument('--resume', '-r', action='store_true',
+    #                         help='resume from checkpoint')
+    #     parser.add_argument('--epoch',default=100,type=int,help='epoch')
+    #     args = parser.parse_args()
 
-        classes = ('plane', 'car', 'bird', 'cat', 'deer',
-                'dog', 'frog', 'horse', 'ship', 'truck')
+    #     # Data
+    #     print('==> Preparing data..')
+    #     # normalize
+    #     transform=transforms.Compose([
+    #     transforms.ToTensor(),
+    #     transforms.Normalize((0.1307,), (0.3081,))
+    #     ])
+    #     # download dataset
+    #     trainset = torchvision.datasets.MNIST(root = "./data/",
+    #                     transform=transform,
+    #                     train = True,
+    #                     download = True)
+    #     # load dataset with batch=64
+    #     trainloader = torch.utils.data.DataLoader(dataset=trainset,
+    #                                         batch_size = 64,
+    #                                         shuffle = True)
 
-        return args, trainloader, testloader
-    elif dataset == 'MNIST':
-        parser = argparse.ArgumentParser(description='PyTorch MNIST Training')
-        parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
-        parser.add_argument('--resume', '-r', action='store_true',
-                            help='resume from checkpoint')
-        parser.add_argument('--epoch',default=100,type=int,help='epoch')
-        args = parser.parse_args()
+    #     testset = torchvision.datasets.MNIST(root="./data/",
+    #                     transform = transform,
+    #                     train = False)
 
-        # Data
-        print('==> Preparing data..')
-        # normalize
-        transform=transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.1307,), (0.3081,))
-        ])
-        # download dataset
-        trainset = torchvision.datasets.MNIST(root = "./data/",
-                        transform=transform,
-                        train = True,
-                        download = True)
-        # load dataset with batch=64
-        trainloader = torch.utils.data.DataLoader(dataset=trainset,
-                                            batch_size = 64,
-                                            shuffle = True)
-
-        testset = torchvision.datasets.MNIST(root="./data/",
-                        transform = transform,
-                        train = False)
-
-        testloader = torch.utils.data.DataLoader(dataset=testset,
-                                            batch_size = 64,
-                                            shuffle = False)
-        return args, trainloader, testloader
-    else:
-        print ('Data load error!')
-        return 0
+    #     testloader = torch.utils.data.DataLoader(dataset=testset,
+    #                                         batch_size = 64,
+    #                                         shuffle = False)
+    #     return args, trainloader, testloader
+    # else:
+    #     print ('Data load error!')
+    #     return 0
 
 def Set_model(net, client, args):
     print('==> Building model..')
@@ -182,7 +189,7 @@ def Test(model, testloader):
     accuracy = float(correct / len(testloader.dataset))
     if device == 'cuda':
         model.cpu()
-    return accuracy, test_loss
+    return accuracy, test_loss.item()
 
 def Aggregate(model, client):
     P = []
@@ -198,7 +205,11 @@ def Aggregate(model, client):
 
 def run(dataset, net, client):
     X, Y, Z = [], [], []
-    args, trainloader, testloader = Set_dataset(dataset)
+    if(args.iid == 1):
+        trainloader, testloader = Set_dataset(dataset)
+    else:
+        trainloader, testloader_d1, testloader_d2 = Set_dataset(dataset)
+
     model, global_model, optimizer = Set_model(net, client, args)
     pbar = tqdm(range(args.epoch))
     start_time = 0
@@ -207,10 +218,18 @@ def run(dataset, net, client):
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-        acc, loss = Test(global_model, testloader)
-        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+        if(args.iid == 1):
+            acc, loss = Test(global_model, testloader)
+            pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+        else:
+            acc_1, loss_1 = Test(global_model, testloader_d1)
+            acc_2, loss_2 = Test(global_model, testloader_d2)
+            pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
+            pbar.set_description("Epoch: %d Accuracy_d2: %.3f Loss_d2: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
+
         for j in range (client):
             model[j].load_state_dict(global_model.state_dict())
+
         start_time += process_time
         X.append(start_time)
         Y.append(acc)
@@ -222,4 +241,4 @@ def run(dataset, net, client):
     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
 if __name__ == '__main__':
-    run(dataset = 'CIFAR10', net = 'MobileNet', client = 10)
+    run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users)
