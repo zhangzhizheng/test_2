@@ -137,7 +137,8 @@ def test_inference(args, model, test_dataset, groups):
         images, labels = images.to(device), labels.to(device)
 
         # Inference
-        outputs = model(images)
+        with torch.no_grad():
+            outputs = model(images)
         batch_loss = nn.functional.nll_loss(outputs, labels)
         # print(batch_loss)
         loss += batch_loss.item()
