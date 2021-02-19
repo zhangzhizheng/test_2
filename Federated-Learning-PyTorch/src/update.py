@@ -5,7 +5,7 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
-
+import torch.nn.functional as F
 
 class DatasetSplit(Dataset):
     """An abstract Dataset class wrapped around Pytorch Dataset class.
@@ -122,7 +122,7 @@ def test_inference(args, model, test_dataset, groups):
     loss, total, correct = 0.0, 0.0, 0.0
 
     device = 'cuda' if args.gpu else 'cpu'
-    criterion = nn.NLLLoss().to(device)
+    # criterion = nn.functional.nll_loss().to(device)
     # testloader = DataLoader(test_dataset, batch_size=128,
     #                         shuffle=False)
     testloader = DataLoader(DatasetSplit(test_dataset, groups[0]),batch_size=128,shuffle=False) # test non-IID
@@ -138,14 +138,22 @@ def test_inference(args, model, test_dataset, groups):
 
         # Inference
         outputs = model(images)
-        batch_loss = criterion(outputs, labels)
+        batch_loss = nn.functional.nll_loss(outputs, labels)
+        print(batch_loss)
         loss += batch_loss.item()
 
         # Prediction
-        _, pred_labels = torch.max(outputs, 1)
-        pred_labels = pred_labels.view(-1)
-        correct += torch.sum(torch.eq(pred_labels, labels)).item()
+        preds = outputs.max(1)[1].type_as(labels) #by pygcn maker
+        correct = preds.eq(labels).double()
+        print(correct)
+        correct = correct.sum()
+        print(correct)
         total += len(labels)
+
+        # _, pred_labels = torch.max(outputs, 1) # by sb
+        # pred_labels = pred_labels.view(-1)
+        # correct += torch.sum(torch.eq(pred_labels, labels)).item()
+        # total += len(labels)
     # print(i)
     accuracy = correct/total
     return accuracy, loss/len(testloader)
