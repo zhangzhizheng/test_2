@@ -21,7 +21,7 @@ import time
 from tqdm import tqdm, trange
 from models import *
 from Get_Loader import Get_Loader
-from options import args_parser,exp_details
+from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
