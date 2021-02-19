@@ -141,7 +141,7 @@ def test_inference(args, model, test_dataset, groups):
         batch_loss = nn.functional.nll_loss(outputs, labels)
         # print(batch_loss)
         loss += batch_loss.item()
-        print(loss)
+        # print(loss)
         # Prediction
         preds = outputs.max(1)[1].type_as(labels) #by pygcn maker
         correct_batch = preds.eq(labels).double()
@@ -150,7 +150,7 @@ def test_inference(args, model, test_dataset, groups):
         # print(correct)
         total += len(labels)
         correct += correct_batch.item()
-        print(correct)
+        # print(correct)
         # _, pred_labels = torch.max(outputs, 1) # by sb
         # pred_labels = pred_labels.view(-1)
         # correct += torch.sum(torch.eq(pred_labels, labels)).item()
