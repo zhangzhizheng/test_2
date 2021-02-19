@@ -123,7 +123,7 @@ def test_inference(args, model, test_dataset, groups):
 
     device = 'cuda' if args.gpu else 'cpu'
     # criterion = nn.functional.nll_loss().to(device)
-    testloader = DataLoader(test_dataset, batch_size=128,
+    testloader = DataLoader(test_dataset, batch_size=30,
                             shuffle=False)
     # testloader = DataLoader(DatasetSplit(test_dataset, groups[0]),batch_size=128,shuffle=False) # test non-IID
     # print(len(testloader.batches))
@@ -139,6 +139,8 @@ def test_inference(args, model, test_dataset, groups):
         # Inference
         with torch.no_grad():
             outputs = model(images)
+        print(outputs)
+        print(labels)
         batch_loss = nn.functional.nll_loss(outputs, labels)
         print("batchloss",batch_loss)
         loss += batch_loss.item()
