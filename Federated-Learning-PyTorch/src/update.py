@@ -139,17 +139,18 @@ def test_inference(args, model, test_dataset, groups):
         # Inference
         outputs = model(images)
         batch_loss = nn.functional.nll_loss(outputs, labels)
-        print(batch_loss)
+        # print(batch_loss)
         loss += batch_loss.item()
-
+        print(loss)
         # Prediction
         preds = outputs.max(1)[1].type_as(labels) #by pygcn maker
-        correct = preds.eq(labels).double()
-        print(correct)
-        correct = correct.sum()
-        print(correct)
+        correct_batch = preds.eq(labels).double()
+        # print(correct)
+        correct_batch = correct_batch.sum()
+        # print(correct)
         total += len(labels)
-
+        correct += correct_batch.item()
+        print(correct)
         # _, pred_labels = torch.max(outputs, 1) # by sb
         # pred_labels = pred_labels.view(-1)
         # correct += torch.sum(torch.eq(pred_labels, labels)).item()

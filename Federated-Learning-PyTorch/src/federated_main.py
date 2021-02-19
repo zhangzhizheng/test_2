@@ -93,11 +93,11 @@ if __name__ == '__main__':
             local_losses.append(copy.deepcopy(loss))
 
         # update global weights
-        # global_weights = average_weights(local_weights)
+        global_weights = average_weights(local_weights)
 
         # update global weights
-        # global_model.load_state_dict(global_weights)
-        global_model.load_state_dict(local_weights[0])
+        global_model.load_state_dict(global_weights)
+        # global_model.load_state_dict(local_weights[0])
         loss_avg = sum(local_losses) / len(local_losses)
         train_loss.append(loss_avg)
 
