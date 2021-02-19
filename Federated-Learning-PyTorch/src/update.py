@@ -123,9 +123,9 @@ def test_inference(args, model, test_dataset, groups):
 
     device = 'cuda' if args.gpu else 'cpu'
     # criterion = nn.functional.nll_loss().to(device)
-    # testloader = DataLoader(test_dataset, batch_size=128,
-    #                         shuffle=False)
-    testloader = DataLoader(DatasetSplit(test_dataset, groups[0]),batch_size=128,shuffle=False) # test non-IID
+    testloader = DataLoader(test_dataset, batch_size=128,
+                            shuffle=False)
+    # testloader = DataLoader(DatasetSplit(test_dataset, groups[0]),batch_size=128,shuffle=False) # test non-IID
     # print(len(testloader.batches))
     # print(len(testloader.batches))
     # dataiter = iter(testloader)
@@ -140,9 +140,9 @@ def test_inference(args, model, test_dataset, groups):
         with torch.no_grad():
             outputs = model(images)
         batch_loss = nn.functional.nll_loss(outputs, labels)
-        # print(batch_loss)
+        print("batchloss",batch_loss)
         loss += batch_loss.item()
-        # print(loss)
+        print("loss",loss)
         # Prediction
         preds = outputs.max(1)[1].type_as(labels) #by pygcn maker
         correct_batch = preds.eq(labels).double()
