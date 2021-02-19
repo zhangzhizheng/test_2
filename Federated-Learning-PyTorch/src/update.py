@@ -140,12 +140,12 @@ def test_inference(args, model, test_dataset, groups):
         # Inference
         with torch.no_grad():
             outputs = model(images)
-        print(outputs)
-        print(labels)
+        # print(outputs)
+        # print(labels)
         batch_loss = nn.functional.nll_loss(outputs, labels)
-        print("batchloss",batch_loss)
+        # print("batchloss",batch_loss)
         loss += batch_loss.item()
-        print("loss",loss)
+        # print("loss",loss)
         # Prediction
         preds = outputs.max(1)[1].type_as(labels) #by pygcn maker
         correct_batch = preds.eq(labels).double()
