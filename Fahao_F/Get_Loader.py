@@ -19,7 +19,7 @@ class Get_Loader(object):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
         if(args.iid == 0):
             groups = self.cifar_noniid()
-            train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[self.idxs_users-1]),
+            train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[self.idxs_users[0]]),
                                                     batch_size=64,shuffle=False) # test non-IID for one data distribute
         return train_loader
     def get_test_dataloader_iid(self, dataset):
@@ -102,10 +102,10 @@ class Get_Loader(object):
 
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
-            dict_users_1 = np.concatenate(
-                (dict_users_1, idxs[rand_set_all_1[j]*num_imgs:(rand_set_all_1[j]+dis[j])*num_imgs]), axis=0)
-            dict_users_2 = np.concatenate(
-                (dict_users_2, idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
+            dict_users_1[0] = np.concatenate(
+                (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:(rand_set_all_1[j]+dis[j])*num_imgs]), axis=0)
+            dict_users_2[0] = np.concatenate(
+                (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
