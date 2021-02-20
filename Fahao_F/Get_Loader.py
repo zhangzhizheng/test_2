@@ -45,6 +45,7 @@ class Get_Loader(object):
         num_shards, num_imgs = 100, 500
         idx_shard = [i for i in range(num_shards)]
         dict_users = {i: np.array([]) for i in range(self.args.num_users)}
+        dict_users_copy = {i: np.array([]) for i in range(self.args.num_users)}
         idxs = np.arange(num_shards*num_imgs)
         labels = np.array(self.dataset.targets)
 
@@ -81,8 +82,9 @@ class Get_Loader(object):
                     (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
         # print(len(dict_users), len(dict_users[0]))
         y = np.argsort(dict_users[0])
-        print(dict_users[0][y])
-        return dict_users
+        # print(int(dict_users[0][y]))
+        dict_users_copy[0] = dict_users[0][y]
+        return dict_users_copy
 
     def cifar_noniid_test(self):
         """
