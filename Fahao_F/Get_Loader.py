@@ -59,14 +59,14 @@ class Get_Loader(object):
         idxs = idxs_labels[0, :]
 
         if(self.args.data_distribution == 1):                    # Non-IID add
-            rand_set_all = [0, 20 ,40 ,60 ,80 , 100, 120]
-            k = [10, 20, 10, 5 ,3 ,1, 1]
+            rand_set_all = [0, 20 ,60 ,80 , 100, 120]
+            k = [10, 20, 5 ,3 ,1, 1]
             # rand_set_all = [0,10,20,30,40,50,60,70,80,90]
             # k = [10,10,10,10,10,10,10,10,10,10]
 
         if(self.args.data_distribution == 2):
-            rand_set_all = [180, 160, 140, 120 ,100, 80, 60]
-            k = [10, 20, 10, 5 ,3 ,1, 1]
+            rand_set_all = [180, 160, 120 ,100, 80, 60]
+            k = [10, 20, 5, 3,1, 1]
             # print("distribution", 2)
         if(self.args.data_distribution == 3):
             rand_set_all = [1,2]
@@ -110,11 +110,11 @@ class Get_Loader(object):
         idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
         idxs = idxs_labels[0, :]
 
-        rand_set_all_1 = [0, 10 ,20 ,30 ,40 , 50, 60]
-        rand_set_all_2 = [90, 80, 70, 60 ,50, 40, 30]
+        rand_set_all_1 = [0, 10 ,20 ,30 ,40, 50 ]
+        rand_set_all_2 = [90, 80, 70, 60 ,50, 40]
         # k = [5, 10, 5, 3 ,2 ,1, 1]
         # rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
-        dis = [1, 8, 4, 1 ,1 ,1, 1]
+        dis = [1, 8, 4, 1 ,1 ,1]
 
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
