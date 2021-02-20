@@ -58,8 +58,9 @@ def Set_dataset(dataset):
         testset = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
         test_class = Get_Loader(args, testset, 1)
         if(args.iid == 1):
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
             testloader = test_class.get_test_dataloader_iid(testset)
-            return trainloader, testloader
+            return trainloader, testloader_d1, testloader_d2, testloader
         else:
             testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
             testloader = test_class.get_test_dataloader_iid(testset)
@@ -209,7 +210,7 @@ def run(dataset, net, client, args):
     X, Y, Z = [], [], []
     Y1,Y2,Z1,Z2 = [], [], [], []
     if(args.iid == 1):
-        trainloader, testloader = Set_dataset(dataset)
+        trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
     else:
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
 
@@ -225,6 +226,10 @@ def run(dataset, net, client, args):
             acc, loss = Test(global_model, testloader)
             acc_list.append(acc)
             loss_list.append(loss)
+
+            acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
+            print(acc, loss, acc_1, loss_1)
+
             pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         else:
             acc, loss = Test(global_model, testloader)
