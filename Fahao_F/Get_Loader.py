@@ -123,7 +123,7 @@ class Get_Loader(object):
         y_1 = np.argsort(dict_users_1[0])
         print(int(dict_users_1[0][y_1]))
         y_2 = np.argsort(dict_users_2[0])
-        print(int(dict_users_2[0][y]_2))
+        print(int(dict_users_2[0][y_2]))
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
