@@ -46,7 +46,7 @@ class Get_Loader(object):
         :return:
         """
         # num_shards, num_imgs = 100, 500
-        num_shards, num_imgs = 200, 250
+        num_shards, num_imgs = 400, 125
         idx_shard = [i for i in range(num_shards)]
         dict_users = {i: np.array([]) for i in range(self.args.num_users)}
         dict_users_copy = {i: np.array([]) for i in range(self.args.num_users)}
@@ -60,13 +60,13 @@ class Get_Loader(object):
 
         if(self.args.data_distribution == 1):                    # Non-IID add
             rand_set_all = [0, 20 ,60 ,80 , 100, 120]
-            k = [10, 20, 5 ,3 ,1, 1]
+            k = [5, 20, 5 ,1 ,1, 1]
             # rand_set_all = [0,10,20,30,40,50,60,70,80,90]
             # k = [10,10,10,10,10,10,10,10,10,10]
 
         if(self.args.data_distribution == 2):
             rand_set_all = [180, 160, 120 ,100, 80, 60]
-            k = [10, 20, 5, 3,1, 1]
+            k = [5, 20, 5, 3, 1, 1]
             # print("distribution", 2)
         if(self.args.data_distribution == 3):
             rand_set_all = [1,2]
