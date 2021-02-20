@@ -19,6 +19,7 @@ class Get_Loader(object):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
         if(args.iid == 0):
             groups = self.cifar_noniid()
+            print(len(groups), len(groups[0]))
             train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
                                                     batch_size=64,shuffle=False) # test non-IID for one data distribute
             print("train_loader", len(train_loader))
@@ -78,7 +79,7 @@ class Get_Loader(object):
             for rand, j in zip(rand_set_all, k):
                 dict_users[i] = np.concatenate(
                     (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
-        print(len(dict_users), len(dict_users[0]))
+        # print(len(dict_users), len(dict_users[0]))
         return dict_users
 
     def cifar_noniid_test(self):
