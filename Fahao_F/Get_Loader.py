@@ -17,12 +17,13 @@ class Get_Loader(object):
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
+            print("train_loader", len(train_loader))
         if(args.iid == 0):
             groups = self.cifar_noniid()
-            print(len(groups), len(groups[0]))
+            # print(len(groups), len(groups[0]))
             train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
                                                     batch_size=64,shuffle=False) # test non-IID for one data distribute
-            print("train_loader", len(train_loader))
+            # print("train_loader", len(train_loader))
         return train_loader
     def get_test_dataloader_iid(self, dataset):
         test_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
@@ -126,7 +127,7 @@ class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):
         self.dataset = dataset
         self.idxs = [int(i) for i in idxs]
-        print(self.idxs)
+        # print(self.idxs)
 
     def __len__(self):
         return len(self.idxs)
