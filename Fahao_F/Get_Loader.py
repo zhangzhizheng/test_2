@@ -110,11 +110,13 @@ class Get_Loader(object):
         idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
         idxs = idxs_labels[0, :]
 
-        rand_set_all_1 = [0, 10 ,20 ,30 ,40, 50 ]
-        rand_set_all_2 = [90, 80, 70, 60 ,50, 40]
+        # rand_set_all_1 = [0, 10 ,20 ,30 ,40, 50 ]
+        # rand_set_all_2 = [90, 80, 70, 60 ,50, 40]
+        rand_set_all_1 = [0]
+        rand_set_all_2 = [90]
         # k = [5, 10, 5, 3 ,2 ,1, 1]
         # rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
-        dis = [1, 8, 4, 1 ,1 ,1]
+        dis = [1]
 
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
