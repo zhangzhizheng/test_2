@@ -17,7 +17,7 @@ class Get_Loader(object):
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
-            print("train_loader", len(train_loader))
+            
         if(args.iid == 0):
             groups = self.cifar_noniid()
             # print(len(groups), len(groups[0]))
@@ -133,5 +133,9 @@ class DatasetSplit(Dataset):
         return len(self.idxs)
 
     def __getitem__(self, item):
-        image, label = self.dataset[self.idxs[item]]
-        return torch.tensor(image), torch.tensor(label)
+        sample=self.dataset[item]
+        # if self.transform:
+        #     sample=self.transform(sample)
+        return sample
+        # image, label = self.dataset[self.idxs[item]]
+        # return torch.tensor(image), torch.tensor(label)
