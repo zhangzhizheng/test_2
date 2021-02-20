@@ -229,6 +229,7 @@ def run(dataset, net, client, args):
             acc_1, loss_1 = Test(global_model, testloader_d1)
             # acc_2, loss_2 = Test(global_model, testloader_d2)
             # print(acc_1, acc_2, loss_2)
+            print(acc_1)
             acc_list.append(acc_1)
             loss_list.append(loss_1)
             # acc_list.append(acc_2)
