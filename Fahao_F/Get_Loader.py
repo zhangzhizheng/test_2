@@ -41,7 +41,7 @@ class Get_Loader(object):
         :param num_users:
         :return:
         """
-        num_shards, num_imgs = 200, 250
+        num_shards, num_imgs = 100, 500
         idx_shard = [i for i in range(num_shards)]
         dict_users = {i: np.array([]) for i in range(self.args.num_users)}
         idxs = np.arange(num_shards*num_imgs)
@@ -100,7 +100,7 @@ class Get_Loader(object):
         rand_set_all_2 = [90, 80, 70, 60 ,50, 40, 30]
         # k = [5, 10, 5, 3 ,2 ,1, 1]
         # rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
-        dis = [5, 10, 5, 3 ,2 ,1, 1]
+        dis = [7, 10, 7, 3 ,2 ,1, 1]
 
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
