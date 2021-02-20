@@ -121,9 +121,9 @@ class Get_Loader(object):
             dict_users_2[0] = np.concatenate(
                 (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
         y_1 = np.argsort(dict_users_1[0])
-        print(int(dict_users_1[0][y_1]))
+        print(dict_users_1[0][y_1])
         y_2 = np.argsort(dict_users_2[0])
-        print(int(dict_users_2[0][y_2]))
+        print(dict_users_2[0][y_2])
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
