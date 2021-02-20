@@ -59,10 +59,10 @@ class Get_Loader(object):
         idxs = idxs_labels[0, :]
 
         if(self.args.data_distribution == 1):                    # Non-IID add
-            rand_set_all = [0, 20 ,60 ,80 , 100, 120]
-            k = [5, 20, 5 ,1 ,1, 1]
-            # rand_set_all = [0,10,20,30,40,50,60,70,80,90]
-            # k = [10,10,10,10,10,10,10,10,10,10]
+            # rand_set_all = [0, 20 ,60 ,80 , 100, 120]
+            # k = [5, 20, 5 ,1 ,1, 1]
+            rand_set_all = [0]
+            k = [10]
 
         if(self.args.data_distribution == 2):
             rand_set_all = [180, 160, 120 ,100, 80, 60]
