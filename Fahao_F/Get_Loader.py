@@ -30,6 +30,8 @@ class Get_Loader(object):
         return test_loader
     def get_test_dataloader_niid(self, dataset): #non-IID dataloader
         groups_d1, groups_d2 = self.cifar_noniid_test()
+        print(groups_d1, groups_d2)
+
         test_loader_d1 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d1[0]),
                                                     batch_size=64,shuffle=False)
         test_loader_d2 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d2[0]),
@@ -122,8 +124,11 @@ class Get_Loader(object):
                 (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
         y_1 = np.argsort(dict_users_1[0])
         print(dict_users_1[0][y_1])
+        dict_users_1[0] = dict_users_1[0][y_1]
         y_2 = np.argsort(dict_users_2[0])
         print(dict_users_2[0][y_2])
+        dict_users_2[0] = dict_users_2[0][y_2]
+        # return dict_users_1, dict_users_2
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
