@@ -305,6 +305,7 @@ def run(dataset, net, client, args):
     plt.title('Average Accuracy vs Communication rounds')
     plt.plot(range(len(acc_list_1)), acc_list_1, color='m', label = "d1_acc")
     plt.plot(range(len(acc_list_2)), acc_list_2, color='r', label = "d2_acc")
+    plt.legend()
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')
     plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.num_users, args.iid, args.epoch))

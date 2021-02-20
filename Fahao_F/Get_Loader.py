@@ -120,6 +120,10 @@ class Get_Loader(object):
                 (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:(rand_set_all_1[j]+dis[j])*num_imgs]), axis=0)
             dict_users_2[0] = np.concatenate(
                 (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
+        y = np.argsort(dict_users_1[0])
+        print(int(dict_users_1[0][y]))
+        y = np.argsort(dict_users_2[0])
+        print(int(dict_users_2[0][y]))
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
