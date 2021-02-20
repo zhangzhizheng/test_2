@@ -62,7 +62,8 @@ def Set_dataset(dataset):
             return trainloader, testloader
         else:
             testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
-            return trainloader, testloader_d1, testloader_d2
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
             # testloader = torch.utils.data.DataLoader(
             #     testset, batch_size=100, shuffle=False, num_workers=2)
 
@@ -210,7 +211,7 @@ def run(dataset, net, client, args):
     if(args.iid == 1):
         trainloader, testloader = Set_dataset(dataset)
     else:
-        trainloader, testloader_d1, testloader_d2 = Set_dataset(dataset)
+        trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
 
     model, global_model, optimizer = Set_model(net, client, args)
     pbar = tqdm(range(args.epoch))
@@ -226,10 +227,14 @@ def run(dataset, net, client, args):
             loss_list.append(loss)
             pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         else:
+            acc, loss = Test(global_model, testloader)
+            acc_list.append(acc)
+            loss_list.append(loss)
+
             acc_1, loss_1 = Test(global_model, testloader_d1)
             # acc_2, loss_2 = Test(global_model, testloader_d2)
             # print(acc_1, acc_2, loss_2)
-            print(acc_1)
+            print(acc, loss, acc_1, loss_1)
             acc_list.append(acc_1)
             loss_list.append(loss_1)
             # acc_list.append(acc_2)
