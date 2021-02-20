@@ -23,7 +23,7 @@ class Get_Loader(object):
             # print(len(groups), len(groups[0]))
             train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
                                                     batch_size=64,shuffle=False) # test non-IID for one data distribute
-            # print("train_loader", len(train_loader))
+            print("train_loader", len(train_loader))
         return train_loader
     def get_test_dataloader_iid(self, dataset):
         test_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
