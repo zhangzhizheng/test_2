@@ -30,7 +30,7 @@ class Get_Loader(object):
         return test_loader
     def get_test_dataloader_niid(self, dataset): #non-IID dataloader
         groups_d1, groups_d2 = self.cifar_noniid_test()
-        print(groups_d1, groups_d2)
+        # print(groups_d1, groups_d2)
 
         test_loader_d1 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d1[0]),
                                                     batch_size=64,shuffle=False)

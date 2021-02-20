@@ -244,7 +244,7 @@ def run(dataset, net, client, args):
             loss_list_1.append(loss_1)
             acc_list_2.append(acc_2)
             loss_list_2.append(loss_2)
-            print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
+            print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc, loss, start_time))
             pbar.set_description("Epoch: %d Accuracy_d2: %.3f Loss_d2: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
 
         for j in range (client):
