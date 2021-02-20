@@ -21,6 +21,7 @@ class Get_Loader(object):
             groups = self.cifar_noniid()
             train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
                                                     batch_size=64,shuffle=False) # test non-IID for one data distribute
+            print("train_loader", train_loader)
         return train_loader
     def get_test_dataloader_iid(self, dataset):
         test_loader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False)
@@ -31,6 +32,7 @@ class Get_Loader(object):
                                                     batch_size=64,shuffle=False)
         test_loader_d2 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d2[0]),
                                                     batch_size=64,shuffle=False)
+        print("test_loader_d1, test_loader_d2", test_loader_d1, test_loader_d2)
         return test_loader_d1, test_loader_d2
     def cifar_noniid(self):
         """
