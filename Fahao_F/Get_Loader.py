@@ -122,12 +122,12 @@ class Get_Loader(object):
                 (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:(rand_set_all_1[j]+dis[j])*num_imgs]), axis=0)
             dict_users_2[0] = np.concatenate(
                 (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:(rand_set_all_2[j]+dis[j])*num_imgs]), axis=0)
-        y_1 = np.argsort(dict_users_1[0])
-        print(dict_users_1[0][y_1])
-        dict_users_1[0] = dict_users_1[0][y_1]
-        y_2 = np.argsort(dict_users_2[0])
-        print(dict_users_2[0][y_2])
-        dict_users_2[0] = dict_users_2[0][y_2]
+        # y_1 = np.argsort(dict_users_1[0])
+        # # print(dict_users_1[0][y_1])
+        # dict_users_1[0] = dict_users_1[0][y_1]
+        # y_2 = np.argsort(dict_users_2[0])
+        # # print(dict_users_2[0][y_2])
+        # dict_users_2[0] = dict_users_2[0][y_2]
         # return dict_users_1, dict_users_2
         return dict_users_1, dict_users_2
 
@@ -138,7 +138,7 @@ class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):
         self.dataset = dataset
         self.idxs = [int(i) for i in idxs]
-        print(self.idxs)
+        # print(self.idxs)
 
     def __len__(self):
         return len(self.idxs)
