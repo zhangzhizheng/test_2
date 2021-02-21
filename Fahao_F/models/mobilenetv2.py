@@ -56,7 +56,7 @@ class MobileNetV2(nn.Module):
         self.conv2 = nn.Conv2d(320, 1280, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(1280)
         self.linear = nn.Linear(1280, num_classes)
-
+        self.dropout = nn.Dropout(0.25)
     def _make_layers(self, in_planes):
         layers = []
         for expansion, out_planes, num_blocks, stride in self.cfg:
@@ -73,6 +73,7 @@ class MobileNetV2(nn.Module):
         # NOTE: change pooling kernel_size 7 -> 4 for CIFAR10
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
+        out = self.dropout(out)
         out = self.linear(out)
         return out
 
