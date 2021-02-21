@@ -21,9 +21,9 @@ class Block(nn.Module):
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
-        out = self.dropout_1(0.2)
+        out = self.dropout_1(out)
         out = F.relu(self.bn2(self.conv2(out)))
-        out = self.dropout_2(0.5)
+        out = self.dropout_2(out)
         return out
 
 
