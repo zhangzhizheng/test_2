@@ -279,11 +279,11 @@ def run(dataset, net, client, args):
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch)
 
-    # with open(file_name, 'wb') as f:
-    #     if(args.iid == 1):
-    #         pickle.dump([acc_list, loss_list], f)
-    #     else:
-    #         pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+    with open(file_name, 'wb') as f:
+        if(args.iid == 1):
+            pickle.dump([acc_list, loss_list], f)
+        else:
+            pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
 
     # print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
