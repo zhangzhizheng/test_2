@@ -58,9 +58,9 @@ class Get_Loader(object):
         idxs_labels = np.vstack((idxs, labels))
         idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
         idxs = idxs_labels[0, :]
-        for idx in idxs:
-            print(labels[idx])
-            time.sleep(1)
+        # for idx in idxs:
+        #     print(labels[idx])
+        #     time.sleep(1)
         if(self.args.data_distribution == 1):                    # Non-IID add
             # rand_set_all = [0, 20 ,60 ,80 , 100, 120]
             # k = [5, 20, 5 ,1 ,1, 1]
@@ -92,6 +92,9 @@ class Get_Loader(object):
         # y = np.argsort(dict_users[0])
         # print(int(dict_users[0][y]))
         # dict_users_copy[0] = dict_users[0][y]
+        for idx in dict_users[0]:
+            print(labels[idx])
+            time.sleep(1)
         return dict_users
 
     def cifar_noniid_test(self):
