@@ -276,7 +276,7 @@ def run(dataset, net, client, args):
         #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
-    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}.pkl'.format(args.num_users, args.iid, args.epoch)
+    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch)
 
     with open(file_name, 'wb') as f:
         if(args.iid == 1):
@@ -299,7 +299,7 @@ def run(dataset, net, client, args):
     plt.legend()
     plt.ylabel('Training loss')
     plt.xlabel('Communication Rounds')
-    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_loss.png'.format(args.num_users, args.iid, args.epoch))
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_loss.png'.format(args.data_distribution, args.iid, args.epoch))
 
     # Plot Average Accuracy vs Communication rounds
     plt.figure()
@@ -309,7 +309,7 @@ def run(dataset, net, client, args):
     plt.legend()
     plt.ylabel('Average Accuracy')
     plt.xlabel('Communication Rounds')
-    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.num_users, args.iid, args.epoch))
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch))
 if __name__ == '__main__':
     args = args_parser()
     run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users, args = args)
