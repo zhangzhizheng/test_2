@@ -231,7 +231,7 @@ def run(dataset, client, args):
         Temp, process_time = Train(model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
-        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+        # global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
         if(args.iid == 1):
             acc, loss = Test(global_model, testloader)
             acc_list.append(acc)
