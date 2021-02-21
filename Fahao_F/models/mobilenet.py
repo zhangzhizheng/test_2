@@ -16,14 +16,13 @@ class Block(nn.Module):
         self.bn1 = nn.BatchNorm2d(in_planes)
         self.conv2 = nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(out_planes)
-        self.dropout_1 = nn.Dropout(0.2)
-        self.dropout_2 = nn.Dropout(0.5)
+        # self.dropout_1 = nn.Dropout(0.2)
+        # self.dropout_2 = nn.Dropout(0.5)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
-        out = self.dropout_1(out)
         out = F.relu(self.bn2(self.conv2(out)))
-        out = self.dropout_2(out)
+        #out = self.dropout_1(out)
         return out
 
 
@@ -53,6 +52,7 @@ class MobileNet(nn.Module):
         out = self.layers(out)
         out = F.avg_pool2d(out, 2)
         out = out.view(out.size(0), -1)
+        out = self.dropout(out)
         out = self.linear(out)
         return out
 
