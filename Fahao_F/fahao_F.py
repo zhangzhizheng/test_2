@@ -134,7 +134,7 @@ def Set_model(net, client, args):
             Model[i] = MobileNetV2()
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-        global_model = MobileNet()
+        global_model = MobileNetV2()
         return Model, global_model, Optimizer
     elif net == 'ResNet18':
         for i in range (client):
@@ -228,12 +228,12 @@ def run(dataset, client, args):
     pbar = tqdm(range(args.epoch))
     start_time = 0
     for i in range (args.epoch):
-        # Temp, process_time = Train(model, optimizer, client, trainloader)
-        Temp, process_time = Train(global_model, optimizer, client, trainloader)
+        Temp, process_time = Train(model, optimizer, client, trainloader)
+        # Temp, process_time = Train(global_model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
-        # global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-            global_model.load_state_dict(Temp[j])
+        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+        # global_model.load_state_dict(Temp[j])
         if(args.iid == 1):
             acc, loss = Test(global_model, testloader)
             acc_list.append(acc)
@@ -270,8 +270,8 @@ def run(dataset, client, args):
             # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
-        # for j in range (client):
-        #model[j].load_state_dict(global_model.state_dict())
+        for j in range (client):
+            model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
 
