@@ -149,19 +149,19 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-            if batch_idx < 360:
-                idx = (batch_idx % client)
-                model[idx].train()
-                inputs, targets = inputs.to(device), targets.to(device)
-                optimizer[idx].zero_grad()
-                outputs = model[idx](inputs)
-                Loss[idx] = criterion(outputs, targets)
-                Loss[idx].backward()
-                optimizer[idx].step()
-                train_loss[idx] += Loss[idx].item()
-                _, predicted = outputs.max(1)
-                total[idx] += targets.size(0)
-                correct[idx] += predicted.eq(targets).sum().item()
+        print(targets)
+        idx = (batch_idx % client)
+        model[idx].train()
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer[idx].zero_grad()
+        outputs = model[idx](inputs)
+        Loss[idx] = criterion(outputs, targets)
+        Loss[idx].backward()
+        optimizer[idx].step()
+        train_loss[idx] += Loss[idx].item()
+        _, predicted = outputs.max(1)
+        total[idx] += targets.size(0)
+        correct[idx] += predicted.eq(targets).sum().item()
     time_end = time.time()
     if device == 'cuda':
         for i in range (client):
@@ -179,7 +179,7 @@ def Test(model, testloader):
     test_loss = 0
     correct = 0
     for data, target in testloader:
-        print(target)
+        # print(target)
         indx_target = target.clone()
         data, target = data.to(device), target.to(device)
         with torch.no_grad():
