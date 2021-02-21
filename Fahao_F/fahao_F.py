@@ -232,6 +232,7 @@ def run(dataset, client, args):
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         # global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+            global_model.load_state_dict(Temp[j])
         if(args.iid == 1):
             acc, loss = Test(global_model, testloader)
             acc_list.append(acc)
@@ -269,7 +270,7 @@ def run(dataset, client, args):
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
         # for j in range (client):
-        #     model[j].load_state_dict(global_model.state_dict())
+        model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
 
