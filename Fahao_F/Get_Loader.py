@@ -92,10 +92,10 @@ class Get_Loader(object):
         # y = np.argsort(dict_users[0])
         # print(int(dict_users[0][y]))
         # dict_users_copy[0] = dict_users[0][y]
-        for idx in dict_users[0]:
-            idx = int(idx)
-            print(labels[idx])
-            time.sleep(0.01)
+        # for idx in dict_users[0]:
+        #     idx = int(idx)
+        #     print(labels[idx])
+        #     time.sleep(0.01)
         return dict_users
 
     def cifar_noniid_test(self):
@@ -138,14 +138,14 @@ class Get_Loader(object):
         # # print(dict_users_2[0][y_2])
         # dict_users_2[0] = dict_users_2[0][y_2]
         # return dict_users_1, dict_users_2
-        for idx in dict_users_1[0]:
-            idx = int(idx)
-            print(labels[idx])
-            time.sleep(0.01)
-        for idx in dict_users_2[0]:
-            idx = int(idx)
-            print(labels[idx])
-            time.sleep(0.01)
+        # for idx in dict_users_1[0]:
+        #     idx = int(idx)
+        #     print(labels[idx])
+        #     time.sleep(0.01)
+        # for idx in dict_users_2[0]:
+        #     idx = int(idx)
+        #     print(labels[idx])
+        #     time.sleep(0.01)
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
