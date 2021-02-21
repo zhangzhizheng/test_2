@@ -294,7 +294,7 @@ def run(dataset, net, client, args):
     # Plot Loss curve
     plt.figure()
     plt.title('Training Loss vs Communication rounds')
-    plt.plot(range(len(loss_list_1)), loss_list_1, "+-", color='m', label = "d1_loss")
+    plt.plot(range(len(loss_list_1)), loss_list_1, "x-", color='m', label = "d1_loss")
     plt.plot(range(len(loss_list_2)), loss_list_2, "+-", color='c', label = "d2_loss")
     plt.legend()
     plt.ylabel('Training loss')
