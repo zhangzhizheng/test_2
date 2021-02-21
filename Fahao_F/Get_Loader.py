@@ -63,7 +63,7 @@ class Get_Loader(object):
         #     time.sleep(1)
         if(self.args.data_distribution == 1):                    # Non-IID add
             rand_set_all = [0, 20 ,60 ,80 , 100, 120]
-            k = [10, 20, 10,1 ,1, 1]
+            k = [10, 20, 10, 3,1, 1]
             # rand_set_all = [0]
             # k = [10]
 
