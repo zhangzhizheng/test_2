@@ -230,6 +230,16 @@ def run(dataset, net, client, args):
             acc_list.append(acc)
             loss_list.append(loss)
 
+            acc_1, loss_1 = Test(global_model, testloader_d1)
+            acc_2, loss_2 = Test(global_model, testloader_d2)
+            print(acc_1, loss_1)
+            print(acc_2, loss_2)
+            # print(acc, loss)
+            acc_list_1.append(acc_1)
+            loss_list_1.append(loss_1)
+            acc_list_2.append(acc_2)
+            loss_list_2.append(loss_2)
+            
             # acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
             # print(acc, loss, acc_1, loss_1)
 
