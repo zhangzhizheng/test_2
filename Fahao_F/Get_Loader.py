@@ -161,7 +161,7 @@ class DatasetSplit(Dataset):
         return len(self.idxs)
 
     def __getitem__(self, item):
-        sample=self.dataset[item]
+        sample=self.dataset[self.idxs[item]]
         # if self.transform:
         #     sample=self.transform(sample)
         # print(sample)
