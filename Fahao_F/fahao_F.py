@@ -151,7 +151,7 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        # print(targets)
+        print(targets)
         idx = (batch_idx % client)
         model[idx].train()
         inputs, targets = inputs.to(device), targets.to(device)
