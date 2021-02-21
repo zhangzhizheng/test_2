@@ -93,6 +93,7 @@ class Get_Loader(object):
         # print(int(dict_users[0][y]))
         # dict_users_copy[0] = dict_users[0][y]
         for idx in dict_users[0]:
+            idx = int(idx)
             print(labels[idx])
             time.sleep(1)
         return dict_users
