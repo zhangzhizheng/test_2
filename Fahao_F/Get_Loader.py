@@ -130,9 +130,9 @@ class Get_Loader(object):
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
             dict_users_1[0] = np.concatenate(
-                (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:((rand_set_all_1[j]+dis[j])*num_imgs)-1], axis=0)
+                (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:((rand_set_all_1[j]+dis[j])*num_imgs)-1]), axis=0)
             dict_users_2[0] = np.concatenate(
-                (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:((rand_set_all_2[j]+dis[j])*num_imgs)-1], axis=0)
+                (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:((rand_set_all_2[j]+dis[j])*num_imgs)-1]), axis=0)
         y_1 = np.argsort(dict_users_1[0])
         # # print(dict_users_1[0][y_1])
         dict_users_1[0] = dict_users_1[0][y_1]
