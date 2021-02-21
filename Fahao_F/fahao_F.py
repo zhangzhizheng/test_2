@@ -287,32 +287,30 @@ def run(dataset, net, client, args):
         else:
             pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
 
-    # print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
+    # PLOTTING (optional)
+    import matplotlib
+    import matplotlib.pyplot as plt
+    matplotlib.use('Agg')
 
-    # # PLOTTING (optional)
-    # import matplotlib
-    # import matplotlib.pyplot as plt
-    # matplotlib.use('Agg')
+    # Plot Loss curve
+    plt.figure()
+    plt.title('Training Loss vs Communication rounds')
+    plt.plot(range(len(loss_list_1)), loss_list_1, "x-", color='m', label = "d1_loss")
+    plt.plot(range(len(loss_list_2)), loss_list_2, "+-", color='c', label = "d2_loss")
+    plt.legend()
+    plt.ylabel('Training loss')
+    plt.xlabel('Communication Rounds')
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_loss.png'.format(args.data_distribution, args.iid, args.epoch))
 
-    # # Plot Loss curve
-    # plt.figure()
-    # plt.title('Training Loss vs Communication rounds')
-    # plt.plot(range(len(loss_list_1)), loss_list_1, "x-", color='m', label = "d1_loss")
-    # plt.plot(range(len(loss_list_2)), loss_list_2, "+-", color='c', label = "d2_loss")
-    # plt.legend()
-    # plt.ylabel('Training loss')
-    # plt.xlabel('Communication Rounds')
-    # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_loss.png'.format(args.data_distribution, args.iid, args.epoch))
-
-    # # Plot Average Accuracy vs Communication rounds
-    # plt.figure()
-    # plt.title('Average Accuracy vs Communication rounds')
-    # plt.plot(range(len(acc_list_1)), acc_list_1, "x-", color='m', label = "d1_acc")
-    # plt.plot(range(len(acc_list_2)), acc_list_2, "+-", color='r', label = "d2_acc")
-    # plt.legend()
-    # plt.ylabel('Average Accuracy')
-    # plt.xlabel('Communication Rounds')
-    # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch))
+    # Plot Average Accuracy vs Communication rounds
+    plt.figure()
+    plt.title('Average Accuracy vs Communication rounds')
+    plt.plot(range(len(acc_list_1)), acc_list_1, "x-", color='m', label = "d1_acc")
+    plt.plot(range(len(acc_list_2)), acc_list_2, "+-", color='r', label = "d2_acc")
+    plt.legend()
+    plt.ylabel('Average Accuracy')
+    plt.xlabel('Communication Rounds')
+    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch))
 if __name__ == '__main__':
     args = args_parser()
     run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users, args = args)
