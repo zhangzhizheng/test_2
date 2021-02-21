@@ -230,24 +230,24 @@ def run(dataset, net, client, args):
             acc_list.append(acc)
             loss_list.append(loss)
 
-            acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
+            # acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
             # print(acc, loss, acc_1, loss_1)
 
             pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         else:
-            acc, loss = Test(global_model, testloader)
-            acc_list.append(acc)
-            loss_list.append(loss)
+            # acc, loss = Test(global_model, testloader)
+            # acc_list.append(acc)
+            # loss_list.append(loss)
 
             acc_1, loss_1 = Test(global_model, testloader_d1)
-            # acc_2, loss_2 = Test(global_model, testloader_d2)
+            acc_2, loss_2 = Test(global_model, testloader_d2)
             print(acc_1, loss_1)
-            # print(acc_2, loss_2)
-            print(acc, loss)
+            print(acc_2, loss_2)
+            # print(acc, loss)
             acc_list_1.append(acc_1)
             loss_list_1.append(loss_1)
-            # acc_list_2.append(acc_2)
-            # loss_list_2.append(loss_2)
+            acc_list_2.append(acc_2)
+            loss_list_2.append(loss_2)
             # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
