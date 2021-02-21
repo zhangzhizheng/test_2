@@ -73,8 +73,8 @@ class Get_Loader(object):
             # k = [20, 20, 20, 20,20, 20]
             # print("distribution", 2)
         if(self.args.data_distribution == 3):
-            rand_set_all = [1,2]
-            k = [1,2]
+            rand_set_all = [0]
+            k = [200]
         if(self.args.data_distribution == 4): # the double models train together
             rand_set_all = [{180, 160, 140, 120 ,100, 80, 60}, {1, 20 ,40 ,60 ,80 , 100, 120}]
             k = [10, 20, 10, 5 ,3 ,1, 1]
