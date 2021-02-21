@@ -95,7 +95,7 @@ class Get_Loader(object):
         for idx in dict_users[0]:
             idx = int(idx)
             print(labels[idx])
-            time.sleep(0.1)
+            time.sleep(0.01)
         return dict_users
 
     def cifar_noniid_test(self):
