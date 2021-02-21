@@ -277,7 +277,7 @@ def run(dataset, net, client, args):
         #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
-    # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch)
+    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch)
 
     with open(file_name, 'wb') as f:
         if(args.iid == 1):
