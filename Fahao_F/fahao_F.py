@@ -228,7 +228,8 @@ def run(dataset, client, args):
     pbar = tqdm(range(args.epoch))
     start_time = 0
     for i in range (args.epoch):
-        Temp, process_time = Train(model, optimizer, client, trainloader)
+        # Temp, process_time = Train(model, optimizer, client, trainloader)
+        Temp, process_time = Train(global_model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         # global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
@@ -270,7 +271,7 @@ def run(dataset, client, args):
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
         # for j in range (client):
-        model[j].load_state_dict(global_model.state_dict())
+        #model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
 
