@@ -142,10 +142,10 @@ class Get_Loader(object):
         #     idx = int(idx)
         #     print(labels[idx])
         #     time.sleep(0.01)
-        # for idx in dict_users_2[0]:
-        #     idx = int(idx)
-        #     print(labels[idx])
-        #     time.sleep(0.01)
+        for idx in dict_users_2[0]:
+            idx = int(idx)
+            print(labels[idx])
+            time.sleep(0.01)
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
