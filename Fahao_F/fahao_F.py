@@ -268,8 +268,8 @@ def run(dataset, client, args):
             # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
-        for j in range (client):
-            model[j].load_state_dict(global_model.state_dict())
+        # for j in range (client):
+        #     model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
 
