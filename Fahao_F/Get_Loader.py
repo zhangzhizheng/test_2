@@ -90,14 +90,14 @@ class Get_Loader(object):
                 dict_users[i] = np.concatenate(
                     (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
         # print(len(dict_users), len(dict_users[0]))
-        # y = np.argsort(dict_users[0])
+        y = np.argsort(dict_users[0])
         # print(int(dict_users[0][y]))
-        # dict_users_copy[0] = dict_users[0][y]
+        dict_users_copy[0] = dict_users[0][y]
         # for idx in dict_users[0]:
         #     idx = int(idx)
         #     print(labels[idx])
         #     time.sleep(0.01)
-        return dict_users
+        return dict_users_copy
 
     def cifar_noniid_test(self):
         """
