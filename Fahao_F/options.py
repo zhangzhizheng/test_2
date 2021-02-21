@@ -26,6 +26,7 @@ def args_parser():
 
     # model arguments
     parser.add_argument('--model', type=str, default='mlp', help='model name')
+    parser.add_argument('--net', type=str, default='MobileNet', help='model name')
     parser.add_argument('--kernel_num', type=int, default=9,
                         help='number of each kind of kernel')
     parser.add_argument('--kernel_sizes', type=str, default='3,4,5',

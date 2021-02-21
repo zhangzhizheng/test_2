@@ -129,6 +129,13 @@ def Set_model(net, client, args):
                         momentum=0.9, weight_decay=5e-4)
         global_model = MobileNet()
         return Model, global_model, Optimizer
+    elif net == 'MobileNetV2':
+        for i in range (client):
+            Model[i] = MobileNetV2()
+            Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
+                        momentum=0.9, weight_decay=5e-4)
+        global_model = MobileNet()
+        return Model, global_model, Optimizer
     elif net == 'ResNet18':
         for i in range (client):
             Model[i] = ResNet18()
@@ -207,7 +214,7 @@ def Aggregate(model, client):
     return P[0]
 
 
-def run(dataset, net, client, args):
+def run(dataset, client, args):
     acc_list, loss_list = [], []
     acc_list_1, loss_list_1,acc_list_2, loss_list_2 = [], [], [], []
     X, Y, Z = [], [], []
@@ -217,7 +224,7 @@ def run(dataset, net, client, args):
     else:
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
 
-    model, global_model, optimizer = Set_model(net, client, args)
+    model, global_model, optimizer = Set_model(args.net, client, args)
     pbar = tqdm(range(args.epoch))
     start_time = 0
     for i in range (args.epoch):
@@ -239,7 +246,7 @@ def run(dataset, net, client, args):
             loss_list_1.append(loss_1)
             acc_list_2.append(acc_2)
             loss_list_2.append(loss_2)
-            
+
             # acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
             # print(acc, loss, acc_1, loss_1)
 
@@ -323,4 +330,4 @@ def run(dataset, net, client, args):
     plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch))
 if __name__ == '__main__':
     args = args_parser()
-    run(dataset = 'CIFAR10', net = 'MobileNet', client = args.num_users, args = args)
+    run(dataset = 'CIFAR10', client = args.num_users, args = args)
