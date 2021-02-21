@@ -166,7 +166,7 @@ class DatasetSplit(Dataset):
         sample=self.dataset[self.idxs[item]]
         # if self.transform:
         #     sample=self.transform(sample)
-        print(sample)
+        # print(sample)
         return sample
         # image, label = self.dataset[self.idxs[item]]
         # return torch.tensor(image), torch.tensor(label)
