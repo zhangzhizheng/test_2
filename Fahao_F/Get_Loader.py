@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
 
+import time
 class Get_Loader(object):
     def __init__(self, args, dataset, idxs_users):
         self.args = args
@@ -59,6 +60,7 @@ class Get_Loader(object):
         idxs = idxs_labels[0, :]
         for idx in idxs:
             print(labels[idx])
+            time.sleep(1)
         if(self.args.data_distribution == 1):                    # Non-IID add
             # rand_set_all = [0, 20 ,60 ,80 , 100, 120]
             # k = [5, 20, 5 ,1 ,1, 1]
