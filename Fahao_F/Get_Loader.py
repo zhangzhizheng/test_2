@@ -92,10 +92,10 @@ class Get_Loader(object):
         # y = np.argsort(dict_users[0])
         # print(int(dict_users[0][y]))
         # dict_users_copy[0] = dict_users[0][y]
-        # for idx in dict_users[0]:
-        #     idx = int(idx)
-        #     print(labels[idx])
-        #     time.sleep(0.01)
+        for idx in dict_users[0]:
+            idx = int(idx)
+            print(labels[idx])
+            time.sleep(0.01)
         return dict_users
 
     def cifar_noniid_test(self):
