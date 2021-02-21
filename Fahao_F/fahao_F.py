@@ -174,7 +174,7 @@ def Train(model, optimizer, client, trainloader):
 def Test(model, testloader):
     # cpu ? gpu
     model = model.to(device)
-    P = model.state_dict()
+    # P = model.state_dict()
     model.eval()
     test_loss = 0
     correct = 0
@@ -239,7 +239,7 @@ def run(dataset, net, client, args):
 
             acc_1, loss_1 = Test(global_model, testloader_d1)
             acc_2, loss_2 = Test(global_model, testloader_d2)
-            # print(acc_1, acc_2, loss_2)
+            print(acc_1, acc_2, loss_2)
             # print(acc, loss, acc_1, loss_1)
             acc_list_1.append(acc_1)
             loss_list_1.append(loss_1)
