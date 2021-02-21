@@ -137,11 +137,11 @@ class Get_Loader(object):
         # y_2 = np.argsort(dict_users_2[0])
         # # print(dict_users_2[0][y_2])
         # dict_users_2[0] = dict_users_2[0][y_2]
-        # return dict_users_1, dict_users_2
-        for idx in dict_users_1[0]:
-            idx = int(idx)
-            print(labels[idx])
-            time.sleep(0.01)
+        # # return dict_users_1, dict_users_2
+        # for idx in dict_users_1[0]:
+        #     idx = int(idx)
+        #     print(labels[idx])
+        #     time.sleep(0.01)
         # for idx in dict_users_2[0]:
         #     idx = int(idx)
         #     print(labels[idx])
