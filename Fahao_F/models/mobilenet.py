@@ -16,12 +16,14 @@ class Block(nn.Module):
         self.bn1 = nn.BatchNorm2d(in_planes)
         self.conv2 = nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(out_planes)
+        self.dropout_1 = nn.Dropout(0.2)
+        self.dropout_2 = nn.Dropout(0.5)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
-        out = nn.Dropout(0.2)
+        out = self.dropout_1(0.2)
         out = F.relu(self.bn2(self.conv2(out)))
-        out = nn.Dropout(0.5)
+        out = self.dropout_2(0.5)
         return out
 
 
@@ -35,6 +37,7 @@ class MobileNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(32)
         self.layers = self._make_layers(in_planes=32)
         self.linear = nn.Linear(1024, num_classes)
+        self.dropout = nn.Dropout(0.25)
 
     def _make_layers(self, in_planes):
         layers = []
