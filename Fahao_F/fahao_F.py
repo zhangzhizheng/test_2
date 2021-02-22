@@ -187,7 +187,7 @@ def Train(model, optimizer, client, trainloader):
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
-        print(outputs[0], targets)
+        # print(outputs[0], targets)
         Loss[idx] = criterion(outputs, targets)
         Loss[idx].backward()
         optimizer[idx].step()
@@ -284,14 +284,14 @@ def run(dataset, client, args):
             # loss_list.append(loss)
 
             acc_1, loss_1 = Test(global_model, testloader_d1)
-            acc_2, loss_2 = Test(global_model, testloader_d2)
+            # acc_2, loss_2 = Test(global_model, testloader_d2)
             print(acc_1, loss_1)
-            print(acc_2, loss_2)
+            # print(acc_2, loss_2)
             # print(acc, loss)
             acc_list_1.append(acc_1)
             loss_list_1.append(loss_1)
-            acc_list_2.append(acc_2)
-            loss_list_2.append(loss_2)
+            # acc_list_2.append(acc_2)
+            # loss_list_2.append(loss_2)
             # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
             pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
@@ -323,38 +323,38 @@ def run(dataset, client, args):
         #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
-    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net)
+    # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net)
 
-    with open(file_name, 'wb') as f:
-        if(args.iid == 1):
-            pickle.dump([acc_list, loss_list], f)
-        else:
-            pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+    # with open(file_name, 'wb') as f:
+    #     if(args.iid == 1):
+    #         pickle.dump([acc_list, loss_list], f)
+    #     else:
+    #         pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
 
-    # PLOTTING (optional)
-    import matplotlib
-    import matplotlib.pyplot as plt
-    matplotlib.use('Agg')
+    # # PLOTTING (optional)
+    # import matplotlib
+    # import matplotlib.pyplot as plt
+    # matplotlib.use('Agg')
 
-    # Plot Loss curve
-    plt.figure()
-    plt.title('Training Loss vs Communication rounds')
-    plt.plot(range(len(loss_list_1)), loss_list_1, "x-", color='m', label = "d1_loss")
-    plt.plot(range(len(loss_list_2)), loss_list_2, "+-", color='c', label = "d2_loss")
-    plt.legend()
-    plt.ylabel('Training loss')
-    plt.xlabel('Communication Rounds')
-    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_loss.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
+    # # Plot Loss curve
+    # plt.figure()
+    # plt.title('Training Loss vs Communication rounds')
+    # plt.plot(range(len(loss_list_1)), loss_list_1, "x-", color='m', label = "d1_loss")
+    # plt.plot(range(len(loss_list_2)), loss_list_2, "+-", color='c', label = "d2_loss")
+    # plt.legend()
+    # plt.ylabel('Training loss')
+    # plt.xlabel('Communication Rounds')
+    # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_loss.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
 
-    # Plot Average Accuracy vs Communication rounds
-    plt.figure()
-    plt.title('Average Accuracy vs Communication rounds')
-    plt.plot(range(len(acc_list_1)), acc_list_1, "x-", color='m', label = "d1_acc")
-    plt.plot(range(len(acc_list_2)), acc_list_2, "+-", color='r', label = "d2_acc")
-    plt.legend()
-    plt.ylabel('Average Accuracy')
-    plt.xlabel('Communication Rounds')
-    plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
+    # # Plot Average Accuracy vs Communication rounds
+    # plt.figure()
+    # plt.title('Average Accuracy vs Communication rounds')
+    # plt.plot(range(len(acc_list_1)), acc_list_1, "x-", color='m', label = "d1_acc")
+    # plt.plot(range(len(acc_list_2)), acc_list_2, "+-", color='r', label = "d2_acc")
+    # plt.legend()
+    # plt.ylabel('Average Accuracy')
+    # plt.xlabel('Communication Rounds')
+    # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
 if __name__ == '__main__':
     args = args_parser()
     run(dataset = 'CIFAR10', client = args.num_users, args = args)
