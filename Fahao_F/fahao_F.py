@@ -188,7 +188,7 @@ def Train(model, optimizer, client, trainloader):
         optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
         # print(outputs[0], targets)
-        Loss[idx] = criterion(outputs, targets)
+        Loss[idx] = criterion(outputs, targets-4)
         Loss[idx].backward()
         optimizer[idx].step()
         train_loss[idx] += Loss[idx].item()
@@ -218,7 +218,7 @@ def Test(model, testloader):
         data, target = data.to(device), target.to(device)
         with torch.no_grad():
             output = model(data)
-        test_loss += F.cross_entropy(output, target).data
+        test_loss += F.cross_entropy(output, target-4).data
         pred = output.data.max(1)[1]  # get the index of the max log-probability
         correct += pred.cpu().eq(indx_target).sum()
     test_loss = test_loss / len(testloader) # average over number of mini-batch
@@ -283,17 +283,17 @@ def run(dataset, client, args):
             # acc_list.append(acc)
             # loss_list.append(loss)
 
-            acc_1, loss_1 = Test(global_model, testloader_d1)
-            # acc_2, loss_2 = Test(global_model, testloader_d2)
-            print(acc_1, loss_1)
+            # acc_1, loss_1 = Test(global_model, testloader_d1)
+            acc_2, loss_2 = Test(global_model, testloader_d2)
+            # print(acc_1, loss_1)
             # print(acc_2, loss_2)
             # print(acc, loss)
-            acc_list_1.append(acc_1)
-            loss_list_1.append(loss_1)
-            # acc_list_2.append(acc_2)
-            # loss_list_2.append(loss_2)
-            # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
-            pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
+            # acc_list_1.append(acc_1)
+            # loss_list_1.append(loss_1)
+            acc_list_2.append(acc_2)
+            loss_list_2.append(loss_2)
+            print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
+            # pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
 
         for j in range (client):
             model[j].load_state_dict(global_model.state_dict())
@@ -330,7 +330,7 @@ def run(dataset, client, args):
             pickle.dump([acc_list, loss_list], f)
         else:
             # pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
-            pickle.dump([acc_list_1, loss_list_1], f)
+            pickle.dump([acc_list_2, loss_list_2], f)
 
     # # PLOTTING (optional)
     # import matplotlib
