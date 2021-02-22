@@ -179,7 +179,7 @@ def Train(model, optimizer, client, trainloader):
             model[i].cpu()
     for i in range (client):
         P[i] = copy.deepcopy(model[i].state_dict())
-    print(labels_check)
+    # print(labels_check)
     time.sleep(10)
     return P, (time_end-time_start)
 
