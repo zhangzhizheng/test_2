@@ -323,13 +323,14 @@ def run(dataset, client, args):
         #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
-    # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net)
+    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net)
 
-    # with open(file_name, 'wb') as f:
-    #     if(args.iid == 1):
-    #         pickle.dump([acc_list, loss_list], f)
-    #     else:
-    #         pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+    with open(file_name, 'wb') as f:
+        if(args.iid == 1):
+            pickle.dump([acc_list, loss_list], f)
+        else:
+            # pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+            pickle.dump([acc_list_1, loss_list_1], f)
 
     # # PLOTTING (optional)
     # import matplotlib
