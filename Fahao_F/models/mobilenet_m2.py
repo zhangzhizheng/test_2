@@ -19,6 +19,7 @@ class VGG(nn.Module):
         self.classifier = nn.Linear(512, 10)
 
     def forward(self, x):
+        print("zhendejiade?")
         out = self.features(x)
         out = out.view(out.size(0), -1)
         out = self.classifier(out)
