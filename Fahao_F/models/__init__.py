@@ -12,6 +12,7 @@ from .resnext import *
 from .preact_resnet import *
 from .mobilenet import *
 from .mobilenetv2 import *
+from .mobilenet_m2 import *
 from .efficientnet import *
 from .regnet import *
 from .mnistnet import *
