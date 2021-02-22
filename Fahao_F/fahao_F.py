@@ -187,7 +187,7 @@ def Train(model, optimizer, client, trainloader):
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
-        print(outputs, targets)
+        print(outputs[0], targets)
         Loss[idx] = criterion(outputs, targets)
         Loss[idx].backward()
         optimizer[idx].step()
