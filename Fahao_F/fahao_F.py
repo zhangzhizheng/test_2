@@ -150,7 +150,7 @@ def Train(model, optimizer, client, trainloader):
     for i in range(client):
         model[i] = model[i].to(device)
     P = [None for i in range (client)]
-    # labels_check = [0,0,0,0,0,0,0,0,0,0]
+    labels_check = [0,0,0,0,0,0,0,0,0,0]
     # share a common dataset
     train_loss = [0 for i in range (client)]
     correct = [0 for i in range (client)]
@@ -158,8 +158,8 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        # for i in targets:
-        #     labels_check[i] += 1
+        for i in targets:
+            labels_check[i] += 1
         # print(targets)
         idx = (batch_idx % client)
         model[idx].train()
@@ -179,8 +179,8 @@ def Train(model, optimizer, client, trainloader):
             model[i].cpu()
     for i in range (client):
         P[i] = copy.deepcopy(model[i].state_dict())
-    # print(labels_check)
-    time.sleep(10)
+    print(labels_check)
+    # time.sleep(10)
     return P, (time_end-time_start)
 
 def Test(model, testloader):
