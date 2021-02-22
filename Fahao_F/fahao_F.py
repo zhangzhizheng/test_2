@@ -188,7 +188,7 @@ def Train(model, optimizer, client, trainloader):
         optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
         # print(outputs[0], targets)
-        print(targets-4)
+        # print(targets-4)
         Loss[idx] = criterion(outputs, targets-4)
         Loss[idx].backward()
         optimizer[idx].step()
@@ -219,7 +219,7 @@ def Test(model, testloader):
         data, target = data.to(device), target.to(device)
         with torch.no_grad():
             output = model(data)
-        print(target-4)
+        # print(target-4)
         test_loss += F.cross_entropy(output, target-4).data
         pred = output.data.max(1)[1]  # get the index of the max log-probability
         correct += pred.cpu().eq(indx_target).sum()
