@@ -21,7 +21,7 @@ class Block(nn.Module):
                 self.bn1 = nn.BatchNorm2d(out_planes)              
         elif(stride == 2):
             self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
-            self.bn1 = nn.BatchNorm2d(in_planes)
+            self.bn1 = nn.BatchNorm2d(out_planes)
         # self.dropout_1 = nn.Dropout(0.2)
         # self.dropout_2 = nn.Dropout(0.5)
 
