@@ -14,7 +14,7 @@ class Block(nn.Module):
         super(Block, self).__init__()
         if(stride == 1 or stride == 3):
             if(in_planes == out_planes):
-                self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=stride, stride=1, padding=0, bias=False)
+                self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=stride, stride=1, padding=1, bias=False)
                 self.bn1 = nn.BatchNorm2d(out_planes)
             elif(in_planes != out_planes):
                 self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, padding=0, bias=False)
