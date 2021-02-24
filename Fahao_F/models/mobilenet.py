@@ -27,7 +27,7 @@ class Block(nn.Module):
         # self.dropout_2 = nn.Dropout(0.5)
 
     def forward(self, x):
-        print(x.size)
+        print(x.shape)
         out = F.relu(self.bn1(self.conv1(x)))
         # out = F.relu(self.bn2(self.conv2(out)))
         # out = self.dropout_1(out)
