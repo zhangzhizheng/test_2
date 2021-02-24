@@ -20,6 +20,7 @@ class Block(nn.Module):
                 self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, padding=0, bias=False)
                 self.bn1 = nn.BatchNorm2d(out_planes)              
         elif(stride == 2):
+            print(1)
             self.conv1 = nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
             self.bn1 = nn.BatchNorm2d(out_planes)
         # self.dropout_1 = nn.Dropout(0.2)
