@@ -33,7 +33,7 @@ class MobileNetV2(nn.Module):
         self.bn1 = nn.BatchNorm2d(32)
         self.layers = self._make_layers(in_planes=32)
         self.linear = nn.Linear(1024, num_classes)
-        self.dropout = nn.Dropout(0.5)
+        self.dropout = nn.Dropout(0.15)
     def _make_layers(self, in_planes):
         layers = []
         for x in self.cfg:
