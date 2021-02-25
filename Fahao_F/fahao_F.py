@@ -76,42 +76,55 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
-    # elif dataset == 'MNIST':  # mnist dataset unuse
-    #     parser = argparse.ArgumentParser(description='PyTorch MNIST Training')
-    #     parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
-    #     parser.add_argument('--resume', '-r', action='store_true',
-    #                         help='resume from checkpoint')
-    #     parser.add_argument('--epoch',default=100,type=int,help='epoch')
-    #     args = parser.parse_args()
+    elif dataset == 'MNIST':  # mnist dataset unuse
+        # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
+        # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
+        # parser.add_argument('--resume', '-r', action='store_true',
+        #                     help='resume from checkpoint')
+        # parser.add_argument('--epoch',default=100,type=int,help='epoch')
+        # args = parser.parse_args()
 
-    #     # Data
-    #     print('==> Preparing data..')
-    #     # normalize
-    #     transform=transforms.Compose([
-    #     transforms.ToTensor(),
-    #     transforms.Normalize((0.1307,), (0.3081,))
-    #     ])
-    #     # download dataset
-    #     trainset = torchvision.datasets.MNIST(root = "./data/",
-    #                     transform=transform,
-    #                     train = True,
-    #                     download = True)
-    #     # load dataset with batch=64
-    #     trainloader = torch.utils.data.DataLoader(dataset=trainset,
-    #                                         batch_size = 64,
-    #                                         shuffle = True)
+        # Data
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
 
-    #     testset = torchvision.datasets.MNIST(root="./data/",
-    #                     transform = transform,
-    #                     train = False)
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
 
-    #     testloader = torch.utils.data.DataLoader(dataset=testset,
-    #                                         batch_size = 64,
-    #                                         shuffle = False)
-    #     return args, trainloader, testloader
-    # else:
-    #     print ('Data load error!')
-    #     return 0
+        trainset = torchvision.datasets.MNIST(root='/home/test_2/mnist/', train=True, download=True, transform=transform_train)
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            print(train_class)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
+
+        testset = torchvision.datasets.MNIST( root='/home/test_2/mnist/', train=False, download=True, transform=transform_test)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+        else:
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
+
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
+
+        # return args, trainloader, testloader
 
 def Set_model(net, client, args):
     print('==> Building model..')
@@ -360,4 +373,4 @@ def run(dataset, client, args):
     # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
 if __name__ == '__main__':
     args = args_parser()
-    run(dataset = 'CIFAR10', client = args.num_users, args = args)
+    run(dataset = 'MNIST', client = args.num_users, args = args)
