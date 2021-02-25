@@ -27,7 +27,7 @@ class Block(nn.Module):
         # self.dropout_2 = nn.Dropout(0.5)
 
     def forward(self, x):
-        print(x.shape)
+        # print(x.shape)
         out = F.relu(self.bn1(self.conv1(x)))
         # out = F.relu(self.bn2(self.conv2(out)))
         # out = self.dropout_1(out)
@@ -59,7 +59,7 @@ class MobileNet(nn.Module):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.layers(out)
         out = F.avg_pool2d(out, 2)
-        print(out.shape)
+        # print(out.shape)
         out = out.view(out.size(0), -1)
         out = self.dropout(out)
         out = self.linear(out)
