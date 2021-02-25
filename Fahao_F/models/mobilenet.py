@@ -36,7 +36,7 @@ class Block(nn.Module):
 
 class MobileNet(nn.Module):
     # (128,2) means conv planes=128, conv stride=2, by default conv stride=1
-    cfg = [64, (64,2),128, (128,2), 256, (256,2),   512, 512, 512, 512, 512, 512, 1024, 1024]
+    cfg = [64, (64,2),128, (128,2), 256, (256,2),   512] # , 512, 512, 512, 512, 512, 1024, 1024]
 
     def __init__(self, num_classes=10):
         super(MobileNet, self).__init__()
