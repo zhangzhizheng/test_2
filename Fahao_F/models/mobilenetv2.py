@@ -30,8 +30,11 @@ class Block(nn.Module):
             )
 
     def forward(self, x):
+        print(x.shape)
         out = F.relu(self.bn1(self.conv1(x)))
+        print(out.shape)
         out = F.relu(self.bn2(self.conv2(out)))
+        print(out.shape)
         out = self.bn3(self.conv3(out))
         out = out + self.shortcut(x) if self.stride==1 else out
         return out
