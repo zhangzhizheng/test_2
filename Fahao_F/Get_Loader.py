@@ -47,7 +47,7 @@ class Get_Loader(object):
         :return:
         """
         # num_shards, num_imgs = 100, 500
-        num_shards, num_imgs = 200, 250
+        num_shards, num_imgs = 200, 300
         idx_shard = [i for i in range(num_shards)]
         dict_users = {i: np.array([]) for i in range(self.args.num_users)}
         dict_users_copy = {i: np.array([]) for i in range(self.args.num_users)}
