@@ -18,8 +18,11 @@ class Block(nn.Module):
         self.bn2 = nn.BatchNorm2d(out_planes)
 
     def forward(self, x):
+        print(x.shape())
         out = F.relu(self.bn1(self.conv1(x)))
+        print(out.shape())
         out = F.relu(self.bn2(self.conv2(out)))
+        print(out.shape())
         return out
 
 
