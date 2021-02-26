@@ -62,10 +62,10 @@ class Get_Loader(object):
         #     print(labels[idx])
         #     time.sleep(1)
         if(self.args.data_distribution == 1):                    # Non-IID add
-            rand_set_all = [100, 80 , 60, 40, 20, 0]
+            rand_set_all = [0, 20 , 40, 60, 80, 100]
             # k = [100]
             # rand_set_all = [0]
-            k = [10, 20, 10, 6,4, 2]
+            k = [2, 4, 6, 10,20, 10]
 
         if(self.args.data_distribution == 2):
             rand_set_all = [180, 160, 140 ,120, 100, 80]
@@ -118,7 +118,7 @@ class Get_Loader(object):
         idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
         idxs = idxs_labels[0, :]
 
-        rand_set_all_1 = [50, 40 ,30 ,20 ,10, 0 ]
+        rand_set_all_1 = [0, 10 ,20 ,30 ,40, 50 ]
         rand_set_all_2 = [90, 80, 70, 60 ,50, 40]
         # rand_set_all_1 = [0]
         # rand_set_all_2 = [0]
