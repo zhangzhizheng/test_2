@@ -123,18 +123,18 @@ class Get_Loader(object):
         # rand_set_all_1 = [0, 10 ,20 ,30 ,40, 50 ]
         # rand_set_all_2 = [90, 80, 70, 60 ,50, 40]
         rand_set_all_1 = [0]
-        rand_set_all_2 = [80]
+        rand_set_all_2 = [90]
         # k = [5, 10, 5, 3 ,2 ,1]
         # rand_set_all = {[0,90],[10,80],[20,70],[30,60],[40,50],[50,40],[60,30]}
         # dis = [5, 10, 5, 3 ,2 ,1]
-        dis = [80]
+        dis = [90]
 
         for j in range(len(dis)):
             # print(rand_1, rand_2, j)
             dict_users_1[0] = np.concatenate(
                 (dict_users_1[0], idxs[rand_set_all_1[j]*num_imgs:((rand_set_all_1[j]+dis[j])*num_imgs)-1]), axis=0)
             dict_users_2[0] = np.concatenate(
-                (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:((rand_set_all_2[j]+dis[j]-60)*num_imgs)-1]), axis=0)
+                (dict_users_2[0], idxs[rand_set_all_2[j]*num_imgs:((rand_set_all_2[j]+dis[j]-80)*num_imgs)-1]), axis=0)
         y_1 = np.argsort(dict_users_1[0])
         # # print(dict_users_1[0][y_1])
         dict_users_1[0] = dict_users_1[0][y_1]
