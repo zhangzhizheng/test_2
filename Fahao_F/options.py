@@ -45,7 +45,7 @@ def args_parser():
 
     # other arguments
     parser.add_argument('--dataset', type=str, default='CIFAR10', help="name \
-                        of dataset") # MNIST imagenet
+                        of dataset") # MNIST ImageNet
     parser.add_argument('--num_classes', type=int, default=10, help="number \
                         of classes")
     parser.add_argument('--gpu', default=None, help="To use cuda, set \

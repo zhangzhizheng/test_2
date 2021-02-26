@@ -125,7 +125,7 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
-    elif dataset == 'imagenet':
+    elif dataset == 'ImageNet':
         # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
         # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
         # parser.add_argument('--resume', '-r', action='store_true',
