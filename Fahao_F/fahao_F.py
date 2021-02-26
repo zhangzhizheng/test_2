@@ -125,7 +125,55 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
+    elif dataset == 'imagenet':
+        # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
+        # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
+        # parser.add_argument('--resume', '-r', action='store_true',
+        #                     help='resume from checkpoint')
+        # parser.add_argument('--epoch',default=100,type=int,help='epoch')
+        # args = parser.parse_args()
 
+        # Data
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+
+        trainset = torchvision.datasets.ImageNet(root='/home/test_2/imagenet/', train=True, download=True, transform=transform_train)
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            print(train_class)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
+
+        testset = torchvision.datasets.ImageNet( root='/home/test_2/imagenet/', train=False, download=True, transform=transform_test)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+        else:
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
+
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
+
+        # return args, trainloader, testloader
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
@@ -338,7 +386,7 @@ def run(dataset, client, args):
         #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
-    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net)
+    file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
 
     with open(file_name, 'wb') as f:
         if(args.iid == 1):
