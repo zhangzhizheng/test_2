@@ -281,7 +281,22 @@ def Set_dataset(dataset):
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
           
         trainset = ImagenetDataset('/home/', transform=transform_train)
-        print(trainset)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            # testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader, testloader, testloader
+        else:
+            # testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader, testloader, testloader
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
+
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
+
+        # return args, trainloader, testloader
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
