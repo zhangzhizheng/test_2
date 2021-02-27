@@ -241,7 +241,7 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
         label = self.data['labels'][index]
         if self.transform is not None:
             image = self.transform(image)
-        print(image)
+        print(image,label)
         return image,label
     def __len__(self):
         return len(self.data['data'])
