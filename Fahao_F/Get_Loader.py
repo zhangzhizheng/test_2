@@ -279,6 +279,7 @@ def load_databatch(data_folder, idx, img_size=64):
         dic = pickle.load(fh)
         dic.pop('mean')
         dic_data.update(fh)
+    print(dic_data)
     dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
     print(dic_data)
     return 0
