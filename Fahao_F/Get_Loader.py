@@ -226,50 +226,25 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
         super(ImagenetDataset,self).__init__()
         data_file = os.path.join(path, 'train_data_batch_')
         dic_data = {}
-        for i in range(0,10):
+        for i in range(1,11):
             fh = open(data_file + str(i), 'rb')
-            del fh['mean']
-            dic_data.update(fh)
-        dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
-        imgs = []
-        for line in fh:
-            line = line.rstrip()
-            words = line.split()
-            imgs.append((words[0],int(words[1])))
-        random.shuffle(imgs)
-        # print(imgs)
-        self.imgs = imgs
+            dic = pickle.load(fh)
+            dic.pop('mean')
+            dic_data.update(dic)
+
+        self.data = dic_data
         self.transform = transform
         self.target_transform = target_transform
  
     def __getitem__(self, index):
-        fn, label = self.imgs[index]
-        # print(fn,label)
-        img = Image.open(fn).convert('RGB')
-
-        # x = TF.to_tensor(img)
-        # x.unsqueeze_(0)
-        # print(x.shape)
-        # plt.imshow(x[0])
-        # m = nn.AdaptiveMaxPool2d(32)
-        # print(img)
-        # print("sb")
-        # x = m(x)
-        # print("sb")
-        # print(x.shape)
-        # x = x.squeeze(dim=0)
-        # image = transforms.ToPILImage()(x).convert('RGB')
-        # image.show()
-        # if self.transform is not None:
-        #     image = self.transform(image)
-        # return image,label
-        # print(img.shape)
+        image = self.data['data'][index]
+        label = self.data['labels'][index]
         if self.transform is not None:
-            img = self.transform(img)
+            image = self.transform(image)
         # print(img)
-        return img,label
+        return image,label
     def __len__(self):
-        return len(self.imgs)
+        return len(self.data['data'])
 
 def load_databatch(data_folder, idx, img_size=64):
     data_file = os.path.join(data_folder, 'train_data_batch_')
@@ -280,6 +255,6 @@ def load_databatch(data_folder, idx, img_size=64):
         dic.pop('mean')
         dic_data.update(dic)
     # print(dic_data)
-    dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
-    print(dic_data)
+    # dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
+    # print(dic_data)
     return 0
