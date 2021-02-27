@@ -266,7 +266,7 @@ def Set_dataset(dataset):
         print('==> Preparing data..')
         transform_train = transforms.Compose([
             # transforms.RandomCrop(32, padding=4),
-            transforms.ToTensor(),
+            # transforms.ToTensor(),
             # transforms.Resize((32,32)),
             # transforms.RandomHorizontalFlip(),
             
