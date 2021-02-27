@@ -225,9 +225,12 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
     def __init__(self, path, train=True, transform=None, target_transform=None): #初始化一些需要传入的参数
         super(ImagenetDataset,self).__init__()
         data_file = os.path.join(path, 'train_data_batch_')
+        dic_data = {}
         for i in range(0,10):
             fh = open(data_file + str(i), 'rb')
-            
+            del fh['mean']
+            dic_data.update(fh)
+        dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
         imgs = []
         for line in fh:
             line = line.rstrip()
@@ -269,36 +272,12 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
         return len(self.imgs)
 
 def load_databatch(data_folder, idx, img_size=64):
-    data_file = os.path.join(data_folder, 'train_data_batch_')
-    pickleFile = open(data_file + str(idx), 'rb')
-    # print(data_file + str(idx))
-    d = pickle.load(pickleFile)
-    #print(d)
-    x = d['data']
-    y = d['labels']
-    mean_image = d['mean']
-    x = x/np.float32(255)
-    mean_image = mean_image/np.float32(255)
-    # Labels are indexed from 1, shift it so that indexes start at 0
-    y = [i-1 for i in y]
-    data_size = x.shape[0]
-    x -= mean_image
-    img_size2 = img_size * img_size
-    print("sb")
-    x = np.dstack((x[:, :img_size2], x[:, img_size2:2*img_size2], x[:, 2*img_size2:]))
-    print("sb")
-    x = x.reshape((x.shape[0], img_size, img_size, 3)).transpose(0, 3, 1, 2)
-    print("sb")
-    print(x)
-    # create mirrored images
-    X_train = x[0:data_size, :, :, :]
-    Y_train = y[0:data_size]
-    X_train_flip = X_train[:, :, :, ::-1]
-    Y_train_flip = Y_train
-    X_train = np.concatenate((X_train, X_train_flip), axis=0)
-    Y_train = np.concatenate((Y_train, Y_train_flip), axis=0)
-
-    return dict(
-        X_train=lasagne.utils.floatX(X_train),
-        Y_train=Y_train.astype('int32'),
-        mean=mean_image)
+    data_file = os.path.join(path, 'train_data_batch_')
+    dic_data = {}
+    for i in range(0,10):
+        fh = open(data_file + str(i), 'rb')
+        del fh['mean']
+        dic_data.update(fh)
+    dic_data = dic_data.fromkeys(dic_data['labels'], dic_data['data'])
+    print(dic_data)
+    return 0
