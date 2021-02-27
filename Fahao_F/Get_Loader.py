@@ -195,7 +195,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         fn, label = self.imgs[index]
         # print(fn,label)
         img = Image.open(fn).convert('RGB')
-        print(img)
+        # print(img)
         # x = TF.to_tensor(img)
         # x.unsqueeze_(0)
         # print(x.shape)
@@ -215,7 +215,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # print(img.shape)
         if self.transform is not None:
             img = self.transform(img)
-        print(img)
+        # print(img)
         return img,label
     def __len__(self):
         return len(self.imgs)
