@@ -274,7 +274,7 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
 def load_databatch(data_folder, idx, img_size=64):
     data_file = os.path.join(data_folder, 'train_data_batch_')
     dic_data = {}
-    for i in range(0,10):
+    for i in range(1,11):
         fh = open(data_file + str(i), 'rb')
         del fh['mean']
         dic_data.update(fh)
