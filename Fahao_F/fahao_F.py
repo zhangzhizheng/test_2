@@ -263,23 +263,23 @@ def Set_dataset(dataset):
 
         # return args, trainloader, testloader
     elif dataset == 'imagenet':
-        # print('==> Preparing data..')
-        # transform_train = transforms.Compose([
-        #     # transforms.RandomCrop(32, padding=4),
-        #     transforms.Resize((32,32)),
-        #     transforms.RandomHorizontalFlip(),
-        #     transforms.ToTensor(),
-        #     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-        #     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
-        # ])
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            # transforms.RandomCrop(32, padding=4),
+            transforms.Resize((32,32)),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
 
-        # transform_test = transforms.Compose([
-        #     transforms.ToTensor(),
-        #     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-        #     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
-        # ])
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
-        #   
+          
         dict_1 = load_databatch('/home/',1,64)
 def Set_model(net, client, args):
     print('==> Building model..')

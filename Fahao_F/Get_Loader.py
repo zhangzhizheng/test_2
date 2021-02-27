@@ -186,6 +186,54 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
             words = line.split()
             imgs.append((words[0],int(words[1])))
         random.shuffle(imgs)
+        print(imgs)
+        self.imgs = imgs
+        self.transform = transform
+        self.target_transform = target_transform
+ 
+    def __getitem__(self, index):
+        fn, label = self.imgs[index]
+        # print(fn,label)
+        img = Image.open(fn).convert('RGB')
+
+        # x = TF.to_tensor(img)
+        # x.unsqueeze_(0)
+        # print(x.shape)
+        # plt.imshow(x[0])
+        # m = nn.AdaptiveMaxPool2d(32)
+        # print(img)
+        # print("sb")
+        # x = m(x)
+        # print("sb")
+        # print(x.shape)
+        # x = x.squeeze(dim=0)
+        # image = transforms.ToPILImage()(x).convert('RGB')
+        # image.show()
+        # if self.transform is not None:
+        #     image = self.transform(image)
+        # return image,label
+        # print(img.shape)
+        if self.transform is not None:
+            img = self.transform(img)
+        # print(img)
+        return img,label
+    def __len__(self):
+        return len(self.imgs)
+
+class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的torch.utils.data.Dataset
+
+    def __init__(self, path, train=True, transform=None, target_transform=None): #初始化一些需要传入的参数
+        super(ImagenetDataset,self).__init__()
+        data_file = os.path.join(path, 'train_data_batch_')
+        for i in range(0,10):
+            fh = open(data_file + str(i), 'rb')
+            
+        imgs = []
+        for line in fh:
+            line = line.rstrip()
+            words = line.split()
+            imgs.append((words[0],int(words[1])))
+        random.shuffle(imgs)
         # print(imgs)
         self.imgs = imgs
         self.transform = transform
