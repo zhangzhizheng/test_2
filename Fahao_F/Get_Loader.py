@@ -226,26 +226,20 @@ def load_databatch(data_folder, idx, img_size=32):
     d = pickle.load(pickleFile)
     #print(d)
     x = d['data']
-    print("sb")
     y = d['labels']
-    print("sb")
     mean_image = d['mean']
-    print("sb")
     x = x/np.float32(255)
-    print("sb")
     mean_image = mean_image/np.float32(255)
-    print("sb")
     # Labels are indexed from 1, shift it so that indexes start at 0
     y = [i-1 for i in y]
-    print("sb")
     data_size = x.shape[0]
-    print("sb")
     x -= mean_image
-    print("sb")
     img_size2 = img_size * img_size
     print("sb")
     x = np.dstack((x[:, :img_size2], x[:, img_size2:2*img_size2], x[:, 2*img_size2:]))
+    print("sb")
     x = x.reshape((x.shape[0], img_size, img_size, 3)).transpose(0, 3, 1, 2)
+    print("sb")
     print(x)
     # create mirrored images
     X_train = x[0:data_size, :, :, :]
