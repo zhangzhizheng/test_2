@@ -21,6 +21,7 @@ class Get_Loader(object):
         # self.criterion = nn.NLLLoss().to(self.device)
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
+            print(dataset)
             train_loader = torch.utils.data.DataLoader(dataset,  batch_size = 128,shuffle=False)
             # print(train_loader)
         if(args.iid == 0):
