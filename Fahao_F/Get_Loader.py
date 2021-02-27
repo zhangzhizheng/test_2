@@ -5,7 +5,7 @@ import numpy as np
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 import random
-import time, os, pickle, unpickle
+import time, os, pickle
 import torchvision.transforms.functional as TF
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
@@ -222,7 +222,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
 def load_databatch(data_folder, idx, img_size=32):
     data_file = os.path.join(data_folder, 'train_data_batch_')
 
-    d = unpickle(data_file + str(idx))
+    d = pickle.load(data_file + str(idx))
     x = d['data']
     y = d['labels']
     mean_image = d['mean']
