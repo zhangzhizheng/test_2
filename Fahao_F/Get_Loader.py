@@ -241,7 +241,7 @@ def load_databatch(data_folder, idx, img_size=32):
 
     x = np.dstack((x[:, :img_size2], x[:, img_size2:2*img_size2], x[:, 2*img_size2:]))
     x = x.reshape((x.shape[0], img_size, img_size, 3)).transpose(0, 3, 1, 2)
-
+    print(x)
     # create mirrored images
     X_train = x[0:data_size, :, :, :]
     Y_train = y[0:data_size]
