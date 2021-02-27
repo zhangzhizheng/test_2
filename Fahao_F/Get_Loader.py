@@ -221,7 +221,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
 
 def load_databatch(data_folder, idx, img_size=32):
     data_file = os.path.join(data_folder, 'train_data_batch_')
-
+    print(data_file + str(idx))
     d = pickle.load(data_file + str(idx))
     x = d['data']
     y = d['labels']
