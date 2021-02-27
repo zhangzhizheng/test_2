@@ -281,6 +281,13 @@ def Set_dataset(dataset):
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
           
         trainset = ImagenetDataset('/home/', transform=transform_train)
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            # print(train_class)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
+        testset = ImagenetDataset('/home/', transform=transform_train)
         test_class = Get_Loader(args, testset, 1)
         if(args.iid == 1):
             # testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
