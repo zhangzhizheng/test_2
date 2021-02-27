@@ -220,7 +220,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
     def __len__(self):
         return len(self.imgs)
 
-def load_databatch(data_folder, idx, img_size=32):
+def load_databatch(data_folder, idx, img_size=64):
     data_file = os.path.join(data_folder, 'train_data_batch_')
     pickleFile = open(data_file + str(idx), 'rb')
     # print(data_file + str(idx))
