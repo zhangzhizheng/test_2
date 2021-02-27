@@ -239,10 +239,11 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
     def __getitem__(self, index):
         image = self.data['data'][index]
         label = self.data['labels'][index]
+        img = Image.fromarray(np.uint8(image))
         if self.transform is not None:
-            image = self.transform(image)
-        print(image,label)
-        return image,label
+            image_1 = self.transform(img)
+        print(image_1,label)
+        return image_1,label
     def __len__(self):
         return len(self.data['data'])
 
