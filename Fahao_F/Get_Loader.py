@@ -224,6 +224,7 @@ def load_databatch(data_folder, idx, img_size=32):
     pickleFile = open(data_file + str(idx), 'rb')
     # print(data_file + str(idx))
     d = pickle.load(pickleFile)
+    print(d)
     x = d['data']
     y = d['labels']
     mean_image = d['mean']
