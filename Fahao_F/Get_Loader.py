@@ -272,7 +272,7 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
         return len(self.imgs)
 
 def load_databatch(data_folder, idx, img_size=64):
-    data_file = os.path.join(path, 'train_data_batch_')
+    data_file = os.path.join(data_folder, 'train_data_batch_')
     dic_data = {}
     for i in range(0,10):
         fh = open(data_file + str(i), 'rb')
