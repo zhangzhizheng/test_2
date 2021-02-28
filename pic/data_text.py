@@ -4,6 +4,8 @@ file_name_animals = '/home/animals/data_list'
 caltech_class = os.listdir('/home/caltech/')
 animals_class = os.listdir('/home/animals/')
 #print(caltech, animals)
+caltech_class.remove('data_list')
+animals_class.remove('data_list')
 with open(file_name_caltech, 'a') as caltech:
     k = 0
     for i in caltech_class:
