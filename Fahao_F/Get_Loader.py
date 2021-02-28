@@ -8,6 +8,7 @@ import random
 import time
 import torchvision.transforms.functional as TF
 import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
 class Get_Loader(object):
     def __init__(self, args, dataset, idxs_users):
         self.args = args
@@ -196,7 +197,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         x = TF.to_tensor(img)
         x.unsqueeze_(0)
         print(x.shape)
-
+        plt.imshow(x[0])
         m = nn.AdaptiveMaxPool2d(32)
         # print(img)
         # print("sb")
