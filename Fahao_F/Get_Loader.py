@@ -194,25 +194,25 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # print(fn,label)
         img = Image.open(fn).convert('RGB')
 
-        x = TF.to_tensor(img)
-        x.unsqueeze_(0)
-        print(x.shape)
+        # x = TF.to_tensor(img)
+        # x.unsqueeze_(0)
+        # print(x.shape)
         # plt.imshow(x[0])
-        m = nn.AdaptiveMaxPool2d(32)
+        # m = nn.AdaptiveMaxPool2d(32)
         # print(img)
         # print("sb")
-        x = m(x)
+        # x = m(x)
         # print("sb")
-        print(x.shape)
+        # print(x.shape)
         # x = x.squeeze(dim=0)
-        image = transforms.ToPILImage()(x).convert('RGB')
-        image.show()
-        if self.transform is not None:
-            image = self.transform(image)
-        return image,label
-        # print(img.shape)
+        # image = transforms.ToPILImage()(x).convert('RGB')
+        # image.show()
         # if self.transform is not None:
-        #     img = self.transform(img)
-        # return img,label
+        #     image = self.transform(image)
+        # return image,label
+        print(img.shape)
+        if self.transform is not None:
+            img = self.transform(img)
+        return img,label
     def __len__(self):
         return len(self.imgs)
