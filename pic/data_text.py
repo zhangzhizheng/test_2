@@ -9,12 +9,12 @@ with open(file_name_caltech, 'a') as caltech:
     for i in caltech_class:
         images = os.listdir('/home/caltech/' + i)
         for j in images:
-            caltech.write(j + ' ' + k)
+            caltech.write(j + ' ' + str(k))
         k += 1
 with open(file_name_animals, 'a') as animals:
     k = 0
     for i in animals_class:
         images = os.listdir('/home/animals/' + i)
         for j in images:
-            animals.write(j + ' ' + k)
+            animals.write(j + ' ' + str(k))
         k += 1
