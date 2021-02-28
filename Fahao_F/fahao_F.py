@@ -394,6 +394,7 @@ def run(dataset, client, args):
     X, Y, Z = [], [], []
     Y1,Y2,Z1,Z2 = [], [], [], []
     if(args.iid == 1):
+        print(dataset)
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
     else:
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
