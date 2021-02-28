@@ -19,7 +19,7 @@ class Get_Loader(object):
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=False)
-            print(train_loader)
+            # print(train_loader)
         if(args.iid == 0):
             groups = self.cifar_noniid()
             # print(len(groups), len(groups[0]))
@@ -192,6 +192,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         img = Image.open(fn).convert('RGB')
         m = nn.AdaptiveMaxPool2d(32)
         img = m(img)
+        print(img)
         if self.transform is not None:
             img = self.transform(img)
         return img,label
