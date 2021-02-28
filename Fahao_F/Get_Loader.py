@@ -19,7 +19,7 @@ class Get_Loader(object):
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
             train_loader = torch.utils.data.DataLoader(dataset, batch_size=128, shuffle=False)
-            
+            print(train_loader)
         if(args.iid == 0):
             groups = self.cifar_noniid()
             # print(len(groups), len(groups[0]))
@@ -181,7 +181,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
             words = line.split()
             imgs.append((words[0],int(words[1])))
         random.shuffle(imgs)
-        print(imgs)
+        # print(imgs)
         self.imgs = imgs
         self.transform = transform
         self.target_transform = target_transform
