@@ -6,6 +6,8 @@ from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 import random
 import time
+import torchvision.transforms.functional as TF
+
 class Get_Loader(object):
     def __init__(self, args, dataset, idxs_users):
         self.args = args
@@ -190,15 +192,20 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         fn, label = self.imgs[index]
         # print(fn,label)
         img = Image.open(fn).convert('RGB')
+
+        x = TF.to_tensor(img)
+        x.unsqueeze_(0)
+        print(x.shape)
+
         m = nn.AdaptiveMaxPool2d(32)
-        print(img)
+        # print(img)
         # print("sb")
-        img = m(img)
+        x = m(x)
         # print("sb")
-        print(img)
+        print(x)
         if self.transform is not None:
-            img = self.transform(img)
-        return img,label
+            x = self.transform(x)
+        return x,label
  
     def __len__(self):
         return len(self.imgs)
