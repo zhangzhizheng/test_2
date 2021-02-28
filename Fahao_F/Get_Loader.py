@@ -25,12 +25,12 @@ class Get_Loader(object):
         if(args.iid == 0):
             groups = self.cifar_noniid()
             # print(len(groups), len(groups[0]))
-            train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, batchsize = 128, groups[0]),
-                                                    shuffle=False) # test non-IID for one data distribute
+            train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
+                                                    batchsize = 128, shuffle=False) # test non-IID for one data distribute
             print("train_loader", len(train_loader))
         return train_loader
     def get_test_dataloader_iid(self, dataset):
-        test_loader = torch.utils.data.DataLoader(dataset,  batchsize = 128,shuffle=False)
+        test_loader = torch.utils.data.DataLoader(dataset,  batchsize = 128, shuffle=False)
         return test_loader
     def get_test_dataloader_niid(self, dataset): #non-IID dataloader
         groups_d1, groups_d2 = self.cifar_noniid_test()
