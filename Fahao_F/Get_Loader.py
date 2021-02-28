@@ -183,6 +183,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
             line = line.rstrip()
             words = line.split()
             imgs.append((words[0],int(words[1])))
+        print("sb")
         self.imgs = imgs
         self.transform = transform
         self.target_transform = target_transform
