@@ -174,10 +174,10 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
-    elif dataset == '101':
+    elif dataset == 'caltecth':
         #['brain', 'camera', 'lobster', 'ferry', 'lotus', 'flamingo']
         print('stupid')
-    elif dataset == 'cat':
+    elif dataset == 'animals':
         # ['panda','dogs', 'cats']
         print('==> Preparing data..')
         transform_train = transforms.Compose([
