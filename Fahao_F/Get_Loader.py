@@ -177,6 +177,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         print("sb")
         fh = open(path, 'r')
         imgs = []
+        print(fh)
         for line in fh:
             line = line.rstrip()
             words = line.split()
