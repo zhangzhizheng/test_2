@@ -58,7 +58,7 @@ class MobileNet(nn.Module):
     def forward(self, x):
         # m = nn.AdaptiveMaxPool2d(32)
         # x = m(x)
-        print(x.shape)
+        # print(x.shape)
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.layers(out)
         out = F.avg_pool2d(out, 2)
