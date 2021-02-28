@@ -186,7 +186,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
  
     def __getitem__(self, index):
         fn, label = self.imgs[index]
-        print(fn,label)
+        # print(fn,label)
         img = Image.open(fn).convert('RGB')
  
         if self.transform is not None:
