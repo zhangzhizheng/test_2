@@ -204,7 +204,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         x = m(x)
         # print("sb")
         print(x.shape)
-        x = x.squeeze(dim=0)
+        # x = x.squeeze(dim=0)
         image = transforms.ToPILImage()(x).convert('RGB')
         image.show()
         if self.transform is not None:
