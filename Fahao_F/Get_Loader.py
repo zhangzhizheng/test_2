@@ -179,6 +179,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         imgs = []
         print(fh)
         for line in fh:
+            print(line)
             line = line.rstrip()
             words = line.split()
             imgs.append((words[0],int(words[1])))
