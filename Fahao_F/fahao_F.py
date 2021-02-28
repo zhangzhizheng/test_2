@@ -194,6 +194,7 @@ def Set_dataset(dataset):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
         ])
         trainset=MyDataset(path = '/home/animals/data_list', transform=transform_train)
+        print('done')
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
