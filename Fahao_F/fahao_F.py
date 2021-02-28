@@ -176,7 +176,47 @@ def Set_dataset(dataset):
         # return args, trainloader, testloader
     elif dataset == 'caltecth':
         #['brain', 'camera', 'lobster', 'ferry', 'lotus', 'flamingo']
-        print('stupid')
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            # transforms.RandomCrop(32, padding=4),
+            transforms.Resize((32,32)),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+        trainset=MyDataset(path = '/home/caltech/data_list', transform=transform_train)
+        # print('done')
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            # print(train_class)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
+
+        testset = MyDataset(path = '/home/caltech/data_list', transform=transform_train)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            # testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader, testloader, testloader
+        else:
+            # testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader, testloader, testloader
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
+
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
+
+        # return args, trainloader, testloader
     elif dataset == 'animals':
         # ['panda','dogs', 'cats']
         print('==> Preparing data..')
