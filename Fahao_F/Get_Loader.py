@@ -191,9 +191,10 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # print(fn,label)
         img = Image.open(fn).convert('RGB')
         m = nn.AdaptiveMaxPool2d(32)
-        print("sb")
+        print(img)
+        # print("sb")
         img = m(img)
-        print("sb")
+        # print("sb")
         print(img)
         if self.transform is not None:
             img = self.transform(img)
