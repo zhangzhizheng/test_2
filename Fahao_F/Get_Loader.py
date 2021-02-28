@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
+from PIL import Image
 
 import time
 class Get_Loader(object):
@@ -153,9 +154,6 @@ class Get_Loader(object):
         return dict_users_1, dict_users_2
 
 class DatasetSplit(Dataset):
-    """An abstract Dataset class wrapped around Pytorch Dataset class.
-    """
-
     def __init__(self, dataset, idxs):
         self.dataset = dataset
         self.idxs = [int(i) for i in idxs]
@@ -172,3 +170,27 @@ class DatasetSplit(Dataset):
         return sample
         # image, label = self.dataset[self.idxs[item]]
         # return torch.tensor(image), torch.tensor(label)
+
+class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的torch.utils.data.Dataset
+    def __init__(self, path, transform=None, target_transform=None): #初始化一些需要传入的参数
+        super(MyDataset,self).__init__()
+        fh = open(path, 'r')
+        imgs = []
+        for line in fh:
+            line = line.rstrip()
+            words = line.split()
+            imgs.append((words[0],int(words[1])))
+        self.imgs = imgs
+        self.transform = transform
+        self.target_transform = target_transform
+ 
+    def __getitem__(self, index):
+        fn, label = self.imgs[index]
+        img = Image.open(fn).convert('RGB')
+ 
+        if self.transform is not None:
+            img = self.transform(img)
+        return img,label
+ 
+    def __len__(self):
+        return len(self.imgs)

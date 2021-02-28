@@ -21,7 +21,7 @@ import time
 from tqdm import tqdm, trange
 from models import *
 from models import mobilenet_m2
-from Get_Loader import Get_Loader
+from Get_Loader import Get_Loader, MyDataset
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -174,6 +174,26 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
+    elif dataset == '101':
+        #['brain', 'camera', 'lobster', 'ferry', 'lotus', 'flamingo']
+        print('stupid')
+    elif dataset == 'cat':
+        # ['panda','dogs', 'cats']
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        ])
+        trainset=MyDataset(path = '/home/animals/data_list', transform=transform_train)
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
