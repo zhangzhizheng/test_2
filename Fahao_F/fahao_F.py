@@ -27,7 +27,7 @@ from options import args_parser
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def Set_dataset(dataset):
-    print(dataset)
+    # print(dataset)
     if dataset == 'CIFAR10':
         # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
         # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
@@ -176,7 +176,7 @@ def Set_dataset(dataset):
 
         # return args, trainloader, testloader
     elif dataset == 'caltecth':
-        print(dataset)
+        # print(dataset)
         #['brain', 'camera', 'lobster', 'ferry', 'lotus', 'flamingo']
         print('==> Preparing data..')
         transform_train = transforms.Compose([
@@ -396,7 +396,7 @@ def run(dataset, client, args):
     X, Y, Z = [], [], []
     Y1,Y2,Z1,Z2 = [], [], [], []
     if(args.iid == 1):
-        print(dataset)
+        # print(dataset)
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
     else:
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
