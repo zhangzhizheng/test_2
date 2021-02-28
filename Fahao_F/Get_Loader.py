@@ -7,7 +7,7 @@ from PIL import Image
 import random
 import time
 import torchvision.transforms.functional as TF
-
+import torchvision.transforms as transforms
 class Get_Loader(object):
     def __init__(self, args, dataset, idxs_users):
         self.args = args
