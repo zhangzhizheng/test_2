@@ -194,7 +194,31 @@ def Set_dataset(dataset):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
         ])
         trainset=MyDataset(path = '/home/animals/data_list', transform=transform_train)
-        print('done')
+        # print('done')
+        for i in range(args.num_users):
+            train_class = Get_Loader(args, trainset, i+1)
+            print(train_class)
+            trainloader = train_class.get_train_dataloader(trainset, args)
+            # trainloader = torch.utils.data.DataLoader(
+            #     trainset, batch_size=128, shuffle=True, num_workers=2)
+
+        testset = MyDataset(path = '/home/animals/data_list', transform=transform_train)
+        test_class = Get_Loader(args, testset, 1)
+        if(args.iid == 1):
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+        else:
+            testloader_d1, testloader_d2 = test_class.get_test_dataloader_niid(testset)
+            testloader = test_class.get_test_dataloader_iid(testset)
+            return trainloader, testloader_d1, testloader_d2, testloader
+            # testloader = torch.utils.data.DataLoader(
+            #     testset, batch_size=100, shuffle=False, num_workers=2)
+
+        # classes = ('plane', 'car', 'bird', 'cat', 'deer',
+        #         'dog', 'frog', 'horse', 'ship', 'truck')
+
+        # return args, trainloader, testloader
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
