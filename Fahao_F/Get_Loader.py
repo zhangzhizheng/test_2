@@ -210,7 +210,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # if self.transform is not None:
         #     image = self.transform(image)
         # return image,label
-        print(img.shape)
+        # print(img.shape)
         if self.transform is not None:
             img = self.transform(img)
         return img,label
