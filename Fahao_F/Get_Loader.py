@@ -213,6 +213,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # print(img.shape)
         if self.transform is not None:
             img = self.transform(img)
+        print(img)
         return img,label
     def __len__(self):
         return len(self.imgs)
