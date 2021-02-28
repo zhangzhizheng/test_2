@@ -20,26 +20,26 @@ class Get_Loader(object):
         # self.criterion = nn.NLLLoss().to(self.device)
     def get_train_dataloader(self, dataset, args):
         if(args.iid == 1):
-            train_loader = torch.utils.data.DataLoader(dataset,  batchsize = 128,shuffle=False)
+            train_loader = torch.utils.data.DataLoader(dataset,  batch_size = 128,shuffle=False)
             # print(train_loader)
         if(args.iid == 0):
             groups = self.cifar_noniid()
             # print(len(groups), len(groups[0]))
             train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
-                                                    batchsize = 128, shuffle=False) # test non-IID for one data distribute
+                                                    batch_size = 128, shuffle=False) # test non-IID for one data distribute
             print("train_loader", len(train_loader))
         return train_loader
     def get_test_dataloader_iid(self, dataset):
-        test_loader = torch.utils.data.DataLoader(dataset,  batchsize = 128, shuffle=False)
+        test_loader = torch.utils.data.DataLoader(dataset,  batch_size = 128, shuffle=False)
         return test_loader
     def get_test_dataloader_niid(self, dataset): #non-IID dataloader
         groups_d1, groups_d2 = self.cifar_noniid_test()
         # print(groups_d1, groups_d2)
 
         test_loader_d1 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d1[0]),
-                                                    batchsize = 128,shuffle=False)
+                                                    batch_size = 128,shuffle=False)
         test_loader_d2 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d2[0]),
-                                                    batchsize = 128,shuffle=False)
+                                                    batch_size = 128,shuffle=False)
         print("test_loader_d1, test_loader_d2", len(test_loader_d1), len(test_loader_d2))
         return test_loader_d1, test_loader_d2
     def cifar_noniid(self):
