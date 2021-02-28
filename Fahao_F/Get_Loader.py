@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
-
+import random
 import time
 class Get_Loader(object):
     def __init__(self, args, dataset, idxs_users):
@@ -180,6 +180,8 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
             line = line.rstrip()
             words = line.split()
             imgs.append((words[0],int(words[1])))
+        random.shuffle(imgs)
+        print(imgs)
         self.imgs = imgs
         self.transform = transform
         self.target_transform = target_transform
@@ -188,7 +190,8 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         fn, label = self.imgs[index]
         # print(fn,label)
         img = Image.open(fn).convert('RGB')
- 
+        m = nn.AdaptiveMaxPool2d(32)
+        img = m(img)
         if self.transform is not None:
             img = self.transform(img)
         return img,label
