@@ -174,7 +174,6 @@ class DatasetSplit(Dataset):
 class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的torch.utils.data.Dataset
     def __init__(self, path, transform=None, target_transform=None): #初始化一些需要传入的参数
         super(MyDataset,self).__init__()
-        print("sb")
         fh = open(path, 'r')
         imgs = []
         for line in fh:
@@ -182,14 +181,12 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
             words = line.split()
             imgs.append((words[0],int(words[1])))
         self.imgs = imgs
-        print(imgs)
         self.transform = transform
-        print(transform)
         self.target_transform = target_transform
-        print(target_transform)
  
     def __getitem__(self, index):
         fn, label = self.imgs[index]
+        print(fn,label)
         img = Image.open(fn).convert('RGB')
  
         if self.transform is not None:
