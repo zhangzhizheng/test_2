@@ -174,6 +174,7 @@ class DatasetSplit(Dataset):
 class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的torch.utils.data.Dataset
     def __init__(self, path, transform=None, target_transform=None): #初始化一些需要传入的参数
         super(MyDataset,self).__init__()
+        print("sb")
         fh = open(path, 'r')
         imgs = []
         for line in fh:

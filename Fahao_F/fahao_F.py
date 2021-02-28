@@ -330,7 +330,6 @@ def run(dataset, client, args):
     if(args.iid == 1):
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
     else:
-        print(dataset)
         trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
 
     model, global_model, optimizer = Set_model(args.net, client, args)
