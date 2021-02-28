@@ -198,7 +198,7 @@ def Set_dataset(dataset):
         # print('done')
         for i in range(args.num_users):
             train_class = Get_Loader(args, trainset, i+1)
-            print(train_class)
+            # print(train_class)
             trainloader = train_class.get_train_dataloader(trainset, args)
             # trainloader = torch.utils.data.DataLoader(
             #     trainset, batch_size=128, shuffle=True, num_workers=2)
