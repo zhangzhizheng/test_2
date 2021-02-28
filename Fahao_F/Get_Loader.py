@@ -202,7 +202,7 @@ class MyDataset(Dataset): #创建自己的类：MyDataset,这个类是继承的t
         # print("sb")
         x = m(x)
         # print("sb")
-        print(x)
+        print(x.shape)
         if self.transform is not None:
             x = self.transform(x)
         return x,label
