@@ -65,6 +65,7 @@ class MobileNet(nn.Module):
         # print(out.shape)
         out = out.view(out.size(0), -1)
         out = self.dropout(out)
+        print(out.shape)
         out = self.linear(out)
         return out
 
