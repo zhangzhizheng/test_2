@@ -17,17 +17,18 @@ class VGG(nn.Module):
         super(VGG, self).__init__()
         self.features = self._make_layers(cfg[vgg_name])
         self.classifier = nn.Linear(512, 10)
-
+        self.dropout = nn.Dropout(0.5)
     def forward(self, x):
         # print("zhendejiade?")
         out = self.features(x)
         out = out.view(out.size(0), -1)
+        out = self.dropout(out)
         out = self.classifier(out)
         return out
 
     def _make_layers(self, cfg):
         layers = []
-        in_channels = 3
+        in_channels = 1
         for x in cfg:
             if x == 'M':
                 layers += [nn.MaxPool2d(kernel_size=2, stride=2)]
