@@ -22,7 +22,7 @@ from tqdm import tqdm, trange
 from models import *
 from models import mobilenet_m2
 from Get_Loader import Get_Loader, MyDataset
-import Get_Loader.loader_databatch as loader_databatch
+import Get_Loader.load_databatch as load_databatch
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
