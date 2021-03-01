@@ -280,7 +280,7 @@ def Set_dataset(dataset):
         # ])
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
         #   
-        dict_1 = loader_databatch('/home/',1,64)
+        dict_1 = load_databatch('/home/',1,64)
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
