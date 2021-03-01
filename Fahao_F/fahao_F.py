@@ -21,7 +21,8 @@ import time
 from tqdm import tqdm, trange
 from models import *
 from models import mobilenet_m2
-from Get_Loader import Get_Loader, MyDataset, loader_databatch
+from Get_Loader import Get_Loader, MyDataset
+import Get_Loader
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
