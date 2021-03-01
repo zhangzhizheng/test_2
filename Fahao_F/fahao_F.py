@@ -22,7 +22,7 @@ from tqdm import tqdm, trange
 from models import *
 from models import mobilenet_m2
 from Get_Loader import Get_Loader, MyDataset
-import Get_Loader
+import Get_Loader.loader_databatch as loader_databatch
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -281,7 +281,7 @@ def Set_dataset(dataset):
         # ])
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
         #   
-        dict_1 = Get_Loader.loader_databatch('/home/',1,64)
+        dict_1 = loader_databatch('/home/',1,64)
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
