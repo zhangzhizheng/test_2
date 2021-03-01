@@ -19,6 +19,7 @@ class VGG(nn.Module):
         self.dropout = nn.Dropout(0.5)
     def forward(self, x):
         print(x.shape)
+        print("??????")
         out = self.features(x)
         print(out.shape)
         out = out.view(out.size(0), -1)
