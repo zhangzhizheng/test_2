@@ -21,7 +21,7 @@ import time
 from tqdm import tqdm, trange
 from models import *
 from models import mobilenet_m2
-from Get_Loader import Get_Loader, MyDataset
+from Get_Loader import Get_Loader, MyDataset, loader_databatch
 from options import args_parser
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -262,6 +262,25 @@ def Set_dataset(dataset):
         #         'dog', 'frog', 'horse', 'ship', 'truck')
 
         # return args, trainloader, testloader
+    elif dataset == 'imagenet':
+        # print('==> Preparing data..')
+        # transform_train = transforms.Compose([
+        #     # transforms.RandomCrop(32, padding=4),
+        #     transforms.Resize((32,32)),
+        #     transforms.RandomHorizontalFlip(),
+        #     transforms.ToTensor(),
+        #     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        # ])
+
+        # transform_test = transforms.Compose([
+        #     transforms.ToTensor(),
+        #     # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
+        # ])
+        # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
+        #   
+        dict_1 = loader_databatch('/home/',1,64)
 def Set_model(net, client, args):
     print('==> Building model..')
     Model = [None for i in range (client)]
