@@ -290,10 +290,10 @@ def Set_model(net, client, args):
     elif net == 'vgg':
         for i in range (client):
             print('vgg')
-            Model[i] = VGG('VGG19')
+            Model[i] = VGG('VGG11')
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-        global_model = VGG('VGG19')
+        global_model = VGG('VGG11')
         return Model, global_model, Optimizer
     elif net == 'MobileNetM2':
         for i in range (client):
