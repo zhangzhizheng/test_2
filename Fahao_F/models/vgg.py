@@ -18,10 +18,15 @@ class VGG(nn.Module):
         self.classifier = nn.Linear(512, 6)
         self.dropout = nn.Dropout(0.5)
     def forward(self, x):
+        print(x.shape)
         out = self.features(x)
+        print(out.shape)
         out = out.view(out.size(0), -1)
+        print(out.shape)
         out = self.dropout(out)
+        print(out.shape)
         out = self.classifier(out)
+        print(out.shape)
         return out
 
     def _make_layers(self, cfg):
