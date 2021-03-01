@@ -262,7 +262,7 @@ def load_databatch(data_folder, idx, img_size=64):
     y = [i-1 for i in y]
     data_size = x.shape[0]
 
-    # x -= mean_image
+    x -= mean_image
 
     img_size2 = img_size * img_size
 
