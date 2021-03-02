@@ -61,7 +61,7 @@ def Set_dataset(dataset):
         else:
             trainloader, testloader = loader_class.get_dataloader()
             return trainloader, testloader
-            
+
     elif dataset == 'MNIST':  # mnist dataset unuse
         # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
         # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
@@ -427,9 +427,9 @@ def run(dataset, client, args):
     Y1,Y2,Z1,Z2 = [], [], [], []
     if(args.iid == 1):
         # print(dataset)
-        trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
+        trainloader, testloader = Set_dataset(dataset)
     else:
-        trainloader, testloader_d1, testloader_d2, testloader = Set_dataset(dataset)
+        trainloader, testloader = Set_dataset(dataset)
 
     model, global_model, optimizer = Set_model(args.net, client, args)
     pbar = tqdm(range(args.epoch))
@@ -441,41 +441,10 @@ def run(dataset, client, args):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
         # global_model.load_state_dict(Temp[j])
-        if(args.iid == 1):
-            acc, loss = Test(global_model, testloader)
-            acc_list.append(acc)
-            loss_list.append(loss)
-
-            acc_1, loss_1 = Test(global_model, testloader_d1)
-            acc_2, loss_2 = Test(global_model, testloader_d2)
-            print(acc_1, loss_1)
-            print(acc_2, loss_2)
-            # print(acc, loss)
-            acc_list_1.append(acc_1)
-            loss_list_1.append(loss_1)
-            acc_list_2.append(acc_2)
-            loss_list_2.append(loss_2)
-
-            # acc_1, loss_1 = Test(global_model, testloader_d1) #non-IID data test
-            # print(acc, loss, acc_1, loss_1)
-
-            pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
-        else:
-            # acc, loss = Test(global_model, testloader)
-            # acc_list.append(acc)
-            # loss_list.append(loss)
-
-            acc_1, loss_1 = Test(global_model, testloader_d1)
-            acc_2, loss_2 = Test(global_model, testloader_d2)
-            print(acc_1, loss_1)
-            print(acc_2, loss_2)
-            # print(acc, loss)
-            acc_list_1.append(acc_1)
-            loss_list_1.append(loss_1)
-            acc_list_2.append(acc_2)
-            loss_list_2.append(loss_2)
-            # print("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_2, loss_2, start_time))
-            pbar.set_description("Epoch: %d Accuracy_d1: %.3f Loss_d1: %.3f Time: %.3f" %(i, acc_1, loss_1, start_time))
+        acc, loss = Test(global_model, testloader)
+        acc_list.append(acc)
+        loss_list.append(loss)
+        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
         for j in range (client):
             model[j].load_state_dict(global_model.state_dict())
@@ -508,10 +477,7 @@ def run(dataset, client, args):
     file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
 
     with open(file_name, 'wb') as f:
-        if(args.iid == 1):
-            pickle.dump([acc_list, loss_list], f)
-        else:
-            pickle.dump([acc_list_1, loss_list_1, acc_list_2, loss_list_2], f)
+        pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
 
     # # PLOTTING (optional)
