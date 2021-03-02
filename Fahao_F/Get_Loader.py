@@ -69,7 +69,7 @@ class Get_Loader(object):
         labels_list = {i: np.array([]) for i in range(0,10)}
         # labels_list = []
         for i in idxs:
-            labels_list[labels[i]].appen(i)
+            labels_list[labels[i]].append(i)
         print(len(labels_list))
         print(labels_list)
         if(self.args.data_distribution == 1):                    # Non-IID add
