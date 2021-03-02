@@ -71,7 +71,7 @@ class Get_Loader(object):
         # labels_list = []
         for i in idxs:
             print(i, labels[i],labels_list)
-            np.insert(labels_list[labels[i]],1,value = i)
+            np.insert(labels_list[labels[i]],1,i)
         print(len(labels_list))
         print(labels_list)
         if(self.args.data_distribution == 1):                    # Non-IID add
