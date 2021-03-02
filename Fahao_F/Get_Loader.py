@@ -10,40 +10,27 @@ import torchvision.transforms.functional as TF
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 class Get_Loader(object):
-    def __init__(self, args, dataset, idxs_users):
+    def __init__(self, args, train_dataset, test_dataset, idxs_users):
         self.args = args
-        self.dataset = dataset
+        self.train_dataset = train_dataset
+        self.test_dataset = test_dataset
         self.idxs_users = idxs_users
         self.num_users = args.num_users
         # self.dataloader = self.train_val_test(dataset, list(idxs_users))
         # self.device = 'cuda' if args.gpu else 'cpu'
         # Default criterion set to NLL loss function
         # self.criterion = nn.NLLLoss().to(self.device)
-    def get_train_dataloader(self, dataset, args):
-        if(args.iid == 1):
-            # print(dataset)
-            train_loader = torch.utils.data.DataLoader(dataset,  batch_size = 128,shuffle=False)
-            # print(train_loader)
-        if(args.iid == 0):
-            groups = self.cifar_noniid()
-            # print(len(groups), len(groups[0]))
-            train_loader = torch.utils.data.DataLoader(DatasetSplit(dataset, groups[0]),
+    def get_dataloader(self):
+        if(self.args.iid == 1):
+            train_loader = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 128,shuffle=False)
+            test_loader = torch.utils.data.DataLoader(self.test_dataset,  batch_size = 128, shuffle=False)
+        if(self.args.iid == 0):
+            train, test = self.cifar_noniid()
+            train_loader = torch.utils.data.DataLoader(DatasetSplit(self.train_dataset, train[0]),
                                                     batch_size = 128, shuffle=False) # test non-IID for one data distribute
-            # print("train_loader", len(train_loader))
-        return train_loader
-    def get_test_dataloader_iid(self, dataset):
-        test_loader = torch.utils.data.DataLoader(dataset,  batch_size = 128, shuffle=False)
-        return test_loader
-    def get_test_dataloader_niid(self, dataset): #non-IID dataloader
-        groups_d1, groups_d2 = self.cifar_noniid_test()
-        # print(groups_d1, groups_d2)
-
-        test_loader_d1 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d1[0]),
-                                                    batch_size = 128,shuffle=False)
-        test_loader_d2 = torch.utils.data.DataLoader(DatasetSplit(dataset, groups_d2[0]),
-                                                    batch_size = 128,shuffle=False)
-        print("test_loader_d1, test_loader_d2", len(test_loader_d1), len(test_loader_d2))
-        return test_loader_d1, test_loader_d2
+            test_loader = torch.utils.data.DataLoader(DatasetSplit(self.test_dataset, test[0]),
+                                                    batch_size = 128, shuffle=False) # test non-IID for one data distribute
+        return train_loader, test_loader
     def cifar_noniid(self):
         """
         Sample non-I.I.D client data from CIFAR10 dataset
@@ -52,22 +39,34 @@ class Get_Loader(object):
         :return:
         """
         # num_shards, num_imgs = 100, 500
-        num_shards, num_imgs = 200, 250
-        idx_shard = [i for i in range(num_shards)]
-        dict_users = {i: np.array([]) for i in range(self.args.num_users)}
-        dict_users_copy = {i: np.array([]) for i in range(self.args.num_users)}
-        idxs = np.arange(num_shards*num_imgs)
-        labels = np.array(self.dataset.targets)
+        num_train, num_test = 50000, 10000
+        dic_train = {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
+
+        dic_test = {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}
+
+        idxs_train = np.arange(num_train)
+        train_labels = np.array(self.train_dataset.targets)
+
+        idxs_test = np.arange(num_test)
+        test_labels = np.array(self.test_dataset.targets)
 
         # sort labels
-        idxs_labels = np.vstack((idxs, labels))
-        idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
-        idxs = idxs_labels[0, :]
-        labels_list = [[], [], [], [], [], [], [], [], [], []]
+        idxs_labels_train = np.vstack((idxs_train, train_labels))
+        idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
+        idxs_train = idxs_labels_train[0, :]
+        labels_list_train = [[], [], [], [], [], [], [], [], [], []]
 
-        for i in idxs:
-            # print(labels[i])
-            labels_list[labels[i]].append(i)
+        idxs_labels_test = np.vstack((idxs_test, test_labels))
+        idxs_labels_test = idxs_labels_test[:, idxs_labels_test[1, :].argsort()]
+        idxs_test = idxs_labels_test[0, :]
+        labels_list_test = [[], [], [], [], [], [], [], [], [], []]
+
+        for i in idxs_train:
+            labels_list_train[train_labels[i]].append(i)
+        for i in idxs_test:
+            labels_list_test[test_labels[i]].append(i)
         distribution_data = [[144,94,1561,133,1099,1466,0,0,0,0],
                             [327,28,264,16,354,2,100,20,200,3],
                             [6,6,641,1,255,4,1,2,106,1723],
@@ -87,49 +86,23 @@ class Get_Loader(object):
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
         users_list = np.random.randint(0,10,size=self.num_users)
-        # print(users_list)
-        # if(self.args.data_distribution == 1):                    # Non-IID add
-        #     rand_set_all = [0, 20 , 40, 60, 80, 100]
-        #     k = [2, 4, 6, 10,20, 10]
-        #     # k = [100]
-        #     # rand_set_all = [0]
-            
-
-        # if(self.args.data_distribution == 2):
-        #     rand_set_all = [180, 160, 140 ,120, 100, 80]
-        #     k = [10, 20, 10, 6, 4, 2]
-        #     # k = [100]
-        #     # rand_set_all = [100]
-        #     # print("distribution", 2)
-        # if(self.args.data_distribution == 3):
-        #     rand_set_all = [0]
-        #     k = [200]
-        # if(self.args.data_distribution == 4): # the double models train together
-        #     rand_set_all = [{180, 160, 140, 120 ,100, 80, 60}, {1, 20 ,40 ,60 ,80 , 100, 120}]
-        #     k = [10, 20, 10, 5 ,3 ,1, 1]
-        #     # divide and assign
-        #     for i in range(self.args.num_users):
-        #         rand_set = set(rand_set_all[i]) # 10 client static datasets
-        #         for rand, j in zip(rand_set, k):
-        #             dict_users[i] = np.concatenate(
-        #                 (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
-        #         return dict_users
-
         for i in range(self.args.num_users):
             ad = 0
-            # print(users_list[i])
             for j in distribution_data[users_list[i]]:
-                for k in np.random.randint(0,len(labels_list[ad])-1,j):
-                    # print(k)
-                    # print(dict_users[i])
-                    dict_users[i] = np.insert(dict_users[i], 0, labels_list[ad][k])
-                    # print(dict_users[i])
+                for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
+                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
                 ad += 1
-            y = np.argsort(dict_users[i])
-            dict_users_copy[i] = dict_users[i][y]
-        print(dict_users)
-        print(dict_users_copy)
-        return dict_users_copy
+            y = np.argsort(dic_train[i])
+            dic_train_copy[i] = dic_train[i][y]
+        for i in range(self.args.num_users):
+            ad = 0
+            for j in distribution_data[users_list[i]]:
+                for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
+                    dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
+                ad += 1
+            y = np.argsort(dic_test[i])
+            dic_test_copy[i] = dic_test[i][y]
+        return dic_train_copy, dic_test_copy
 
     def cifar_noniid_test(self):
         """
