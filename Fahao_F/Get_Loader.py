@@ -66,7 +66,7 @@ class Get_Loader(object):
         # for idx in idxs:
         #     print(labels[idx])
         #     time.sleep(1)
-        labels_list = {[] for i in range(0,10)}
+        labels_list = [[], [], [], [], [], [], [], [], [], []]
         # print(labels_list[0])
         # labels_list = []
         for i in idxs:
