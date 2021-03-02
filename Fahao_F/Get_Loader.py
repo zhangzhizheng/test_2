@@ -63,12 +63,8 @@ class Get_Loader(object):
         idxs_labels = np.vstack((idxs, labels))
         idxs_labels = idxs_labels[:, idxs_labels[1, :].argsort()]
         idxs = idxs_labels[0, :]
-        # for idx in idxs:
-        #     print(labels[idx])
-        #     time.sleep(1)
         labels_list = [[], [], [], [], [], [], [], [], [], []]
-        # print(labels_list[0])
-        # labels_list = []
+
         for i in idxs:
             # print(labels[i])
             labels_list[labels[i]].append(i)
@@ -91,47 +87,41 @@ class Get_Loader(object):
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
         users_list = np.random.randint(0,10,size=[1,self.num_users])
-        print("users",users_list)
-        if(self.args.data_distribution == 1):                    # Non-IID add
-            rand_set_all = [0, 20 , 40, 60, 80, 100]
-            k = [2, 4, 6, 10,20, 10]
-            # k = [100]
-            # rand_set_all = [0]
+        # if(self.args.data_distribution == 1):                    # Non-IID add
+        #     rand_set_all = [0, 20 , 40, 60, 80, 100]
+        #     k = [2, 4, 6, 10,20, 10]
+        #     # k = [100]
+        #     # rand_set_all = [0]
             
 
-        if(self.args.data_distribution == 2):
-            rand_set_all = [180, 160, 140 ,120, 100, 80]
-            k = [10, 20, 10, 6, 4, 2]
-            # k = [100]
-            # rand_set_all = [100]
-            # print("distribution", 2)
-        if(self.args.data_distribution == 3):
-            rand_set_all = [0]
-            k = [200]
-        if(self.args.data_distribution == 4): # the double models train together
-            rand_set_all = [{180, 160, 140, 120 ,100, 80, 60}, {1, 20 ,40 ,60 ,80 , 100, 120}]
-            k = [10, 20, 10, 5 ,3 ,1, 1]
-            # divide and assign
-            for i in range(self.args.num_users):
-                rand_set = set(rand_set_all[i]) # 10 client static datasets
-                for rand, j in zip(rand_set, k):
-                    dict_users[i] = np.concatenate(
-                        (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
-                return dict_users
+        # if(self.args.data_distribution == 2):
+        #     rand_set_all = [180, 160, 140 ,120, 100, 80]
+        #     k = [10, 20, 10, 6, 4, 2]
+        #     # k = [100]
+        #     # rand_set_all = [100]
+        #     # print("distribution", 2)
+        # if(self.args.data_distribution == 3):
+        #     rand_set_all = [0]
+        #     k = [200]
+        # if(self.args.data_distribution == 4): # the double models train together
+        #     rand_set_all = [{180, 160, 140, 120 ,100, 80, 60}, {1, 20 ,40 ,60 ,80 , 100, 120}]
+        #     k = [10, 20, 10, 5 ,3 ,1, 1]
+        #     # divide and assign
+        #     for i in range(self.args.num_users):
+        #         rand_set = set(rand_set_all[i]) # 10 client static datasets
+        #         for rand, j in zip(rand_set, k):
+        #             dict_users[i] = np.concatenate(
+        #                 (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
+        #         return dict_users
 
         for i in range(self.args.num_users):
-
-            for rand, j in zip(rand_set_all, k):
-                dict_users[i] = np.concatenate(
-                    (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
-        # print(len(dict_users), len(dict_users[0]))
-        y = np.argsort(dict_users[0])
-        # print(int(dict_users[0][y]))
-        dict_users_copy[0] = dict_users[0][y]
-        # for idx in dict_users[0]:
-        #     idx = int(idx)
-        #     print(labels[idx])
-        #     time.sleep(0.01)
+            ad = 0
+            for j in distribution_data[users_list[i]]:
+                for k in np.random.randint(0,len(labels_list[ad])-1,(1,len(j))):
+                    np.insert(dict_users[i], 0, labels_list[ad][k])
+                ad += 1
+            y = np.argsort(dict_users[i])
+            dict_users_copy[i] = dict_users[i][y]
         return dict_users_copy
 
     def cifar_noniid_test(self):
