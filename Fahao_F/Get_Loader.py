@@ -70,10 +70,27 @@ class Get_Loader(object):
         # print(labels_list[0])
         # labels_list = []
         for i in idxs:
-            print(i, labels[i],labels_list)
             labels_list[labels[i]].append(i)
-        print(len(labels_list))
-        print(labels_list)
+        distribution_data = [[144,94,1561,133,1099,1466,0,0,0,0],
+                            [327,28,264,16,354,2,100,20,200,3],
+                            [6,6,641,1,255,4,1,2,106,1723],
+                            [176,792,100,28,76,508,991,416,215,0],
+                            [84,1926,1,408,133,24,771,0,0,0],
+                            [84,1926,1,408,133,24,771,0,0,0],
+                            [41,46,377,541,7,235,54,1687,666,0],
+                            [134,181,505,720,123,210,44,58,663,221],
+                            [87,2,131,1325,1117,704,0,0,0,0],
+                            [178,101,5,32,1553,10,163,9,437,131],
+                            [94,125,0,147,287,100,23,217,608,279],
+                            [379,649,106,90,35,119,807,819,3,85],
+                            [1306,55,681,227,202,34,0,648,0,0],
+                            [1045,13,53,6,77,70,482,7,761,494],
+                            [731,883,15,161,387,552,4,1051,0,0],
+                            [4,97,467,899,0,407,50,64,1098,797],
+                            [264,2,93,266,412,142,806,2,243,1267]
+                            ]
+        users_list = np.random.randint(0,10,size=[1,self.num_users])
+        print(users_list)
         if(self.args.data_distribution == 1):                    # Non-IID add
             rand_set_all = [0, 20 , 40, 60, 80, 100]
             k = [2, 4, 6, 10,20, 10]
@@ -100,7 +117,9 @@ class Get_Loader(object):
                     dict_users[i] = np.concatenate(
                         (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
                 return dict_users
+
         for i in range(self.args.num_users):
+
             for rand, j in zip(rand_set_all, k):
                 dict_users[i] = np.concatenate(
                     (dict_users[i], idxs[rand*num_imgs:(rand+j)*num_imgs]), axis=0)
