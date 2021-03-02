@@ -121,7 +121,9 @@ class Get_Loader(object):
             for j in distribution_data[users_list[i]]:
                 for k in np.random.randint(0,len(labels_list[ad])-1,j):
                     # print(k)
+                    print(dict_users[i])
                     np.insert(dict_users[i], 0, labels_list[ad][k])
+                    print(dict_users[i])
                 ad += 1
             y = np.argsort(dict_users[i])
             dict_users_copy[i] = dict_users[i][y]
