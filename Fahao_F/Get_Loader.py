@@ -86,7 +86,7 @@ class Get_Loader(object):
                             [4,97,467,899,0,407,50,64,1098,797],
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
-        users_list = np.random.randint(0,10,size=[1,self.num_users])
+        users_list = np.random.randint(0,10,size=self.num_users)
         print(users_list)
         # if(self.args.data_distribution == 1):                    # Non-IID add
         #     rand_set_all = [0, 20 , 40, 60, 80, 100]
