@@ -70,7 +70,7 @@ class Get_Loader(object):
         # print(labels_list[0])
         # labels_list = []
         for i in idxs:
-            # print(i, labels[i])
+            print(i, labels[i],labels_list)
             np.append(labels_list[labels[i]],i)
         print(len(labels_list))
         print(labels_list)
