@@ -66,6 +66,11 @@ class Get_Loader(object):
         # for idx in idxs:
         #     print(labels[idx])
         #     time.sleep(1)
+        labels_list = []
+        for i in idxs:
+            labels_list[labels[i]].appen(i)
+        print(len(labels_list))
+        print(labels_list)
         if(self.args.data_distribution == 1):                    # Non-IID add
             rand_set_all = [0, 20 , 40, 60, 80, 100]
             k = [2, 4, 6, 10,20, 10]
