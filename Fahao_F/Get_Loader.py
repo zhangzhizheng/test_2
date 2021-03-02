@@ -266,6 +266,8 @@ def load_databatch(data_folder, idx, img_size=64):
 
     img_size2 = img_size * img_size
 
+    x = np.dstack((x[:, :img_size2/2], x[:, img_size2/2:2*img_size2/2], x[:, 2*img_size2/2:]))
+
     x = np.dstack((x[:, :img_size2], x[:, img_size2:2*img_size2], x[:, 2*img_size2:]))
     x = x.reshape((x.shape[0], img_size, img_size, 3)).transpose(0, 3, 1, 2)
 
