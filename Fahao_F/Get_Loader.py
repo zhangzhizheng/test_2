@@ -87,7 +87,7 @@ class Get_Loader(object):
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
         users_list = np.random.randint(0,10,size=self.num_users)
-        print(users_list)
+        # print(users_list)
         # if(self.args.data_distribution == 1):                    # Non-IID add
         #     rand_set_all = [0, 20 , 40, 60, 80, 100]
         #     k = [2, 4, 6, 10,20, 10]
@@ -117,9 +117,10 @@ class Get_Loader(object):
 
         for i in range(self.args.num_users):
             ad = 0
-            print(users_list[i])
+            # print(users_list[i])
             for j in distribution_data[users_list[i]]:
-                for k in np.random.randint(0,len(labels_list[ad])-1,(1,len(j))):
+                for k in np.random.randint(0,len(labels_list[ad])-1,(1,len(distribution_data[users_list[i]]))):
+                    print(k)
                     np.insert(dict_users[i], 0, labels_list[ad][k])
                 ad += 1
             y = np.argsort(dict_users[i])
