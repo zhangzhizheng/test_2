@@ -70,6 +70,7 @@ class Get_Loader(object):
         # print(labels_list[0])
         # labels_list = []
         for i in idxs:
+            print(labels_list[i])
             labels_list[labels[i]].append(i)
         distribution_data = [[144,94,1561,133,1099,1466,0,0,0,0],
                             [327,28,264,16,354,2,100,20,200,3],
