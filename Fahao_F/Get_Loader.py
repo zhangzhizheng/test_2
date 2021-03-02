@@ -67,6 +67,7 @@ class Get_Loader(object):
         #     print(labels[idx])
         #     time.sleep(1)
         labels_list = {i: np.array([]) for i in range(0,10)}
+        print(labels_list[0])
         # labels_list = []
         for i in idxs:
             print(i, labels[i])
