@@ -127,6 +127,7 @@ class Get_Loader(object):
                 ad += 1
             y = np.argsort(dict_users[i])
             dict_users_copy[i] = dict_users[i][y]
+        print(dict_users)
         print(dict_users_copy)
         return dict_users_copy
 
