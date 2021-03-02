@@ -38,7 +38,7 @@ class Get_Loader(object):
         :param num_users:
         :return:
         """
-        # num_shards, num_imgs = 100, 500
+        # num_shards, num_imgs = 100, 500， 初始化一些变量
         num_train, num_test = 50000, 10000
         dic_train = {i: np.array([]) for i in range(self.args.num_users)}
         dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
@@ -52,7 +52,7 @@ class Get_Loader(object):
         idxs_test = np.arange(num_test)
         test_labels = np.array(self.test_dataset.targets)
 
-        # sort labels
+        # sort labels 排序label，没啥必要
         idxs_labels_train = np.vstack((idxs_train, train_labels))
         idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
         idxs_train = idxs_labels_train[0, :]
@@ -85,10 +85,11 @@ class Get_Loader(object):
                             [4,97,467,899,0,407,50,64,1098,797],
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
-        users_list = np.random.randint(0,10,size=self.num_users)
+        # users_list = np.random.randint(0,14,size=self.num_users) #each user gets the randomly data distribution
+        users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
         for i in range(self.args.num_users):
             ad = 0
-            for j in distribution_data[users_list[i]]:
+            for j in distribution_data[users_list[0]]:   #0 -> i, 每个client随机
                 for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
                 ad += 1
@@ -96,7 +97,7 @@ class Get_Loader(object):
             dic_train_copy[i] = dic_train[i][y]
         for i in range(self.args.num_users):
             ad = 0
-            for j in distribution_data[users_list[i]]:
+            for j in distribution_data[users_list[0]]:  #0 -> i, 每个client随机
                 for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
                     dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
                 ad += 1
