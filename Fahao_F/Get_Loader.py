@@ -119,7 +119,7 @@ class Get_Loader(object):
             ad = 0
             # print(users_list[i])
             for j in distribution_data[users_list[i]]:
-                for k in np.random.randint(0,len(labels_list[ad])-1,(1,j)):
+                for k in np.random.randint(0,len(labels_list[ad])-1,j):
                     print(k)
                     np.insert(dict_users[i], 0, labels_list[ad][k])
                 ad += 1
