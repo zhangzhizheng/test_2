@@ -20,7 +20,7 @@ import time
 # from utils import progress_bar
 from tqdm import tqdm, trange
 from models import *
-from models import mobilenet_m2
+from models import mobilenet_m2,mobilenetTune
 from Get_Loader import Get_Loader, MyDataset, load_databatch, ImagenetDataset
 from options import args_parser
 
@@ -315,6 +315,13 @@ def Set_model(net, client, args):
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
         global_model = MobileNetV2()
+        return Model, global_model, Optimizer
+    elif net == 'MobileNetTune':
+        for i in range (client):
+            Model[i] = MobileNetTune()
+            Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
+                        momentum=0.9, weight_decay=5e-4)
+        global_model = MobileNetTune()
         return Model, global_model, Optimizer
     elif net == 'vgg19':
         for i in range (client):

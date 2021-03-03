@@ -72,7 +72,6 @@ class Get_Loader(object):
                             [6,6,641,1,255,4,1,2,106,1723],
                             [176,792,100,28,76,508,991,416,215,0],
                             [84,1926,1,408,133,24,771,0,0,0],
-                            [84,1926,1,408,133,24,771,0,0,0],
                             [41,46,377,541,7,235,54,1687,666,0],
                             [134,181,505,720,123,210,44,58,663,221],
                             [87,2,131,1325,1117,704,0,0,0,0],
@@ -85,11 +84,11 @@ class Get_Loader(object):
                             [4,97,467,899,0,407,50,64,1098,797],
                             [264,2,93,266,412,142,806,2,243,1267]
                             ]
-        # users_list = np.random.randint(0,14,size=self.num_users) #each user gets the randomly data distribution
-        users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
+        users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
+        # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
         for i in range(self.args.num_users):
             ad = 0
-            for j in distribution_data[users_list[0]]:   #0 -> i, 每个client随机
+            for j in distribution_data[users_list[i]]:   #0 -> i, 每个client随机  , 0->i ,改固定
                 for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
                 ad += 1
@@ -97,7 +96,7 @@ class Get_Loader(object):
             dic_train_copy[i] = dic_train[i][y]
         for i in range(self.args.num_users):
             ad = 0
-            for j in distribution_data[users_list[0]]:  #0 -> i, 每个client随机
+            for j in distribution_data[users_list[i]]:  #0 -> i, 每个client随机
                 for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
                     dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
                 ad += 1
