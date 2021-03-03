@@ -56,12 +56,33 @@ class Get_Loader(object):
         idxs_labels_train = np.vstack((idxs_train, train_labels))
         idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
         idxs_train = idxs_labels_train[0, :]
-        labels_list_train = [[], [], [], [], [], [], [], [], [], []]
-
+        # labels_list_train = [[], [], [], [], [], [], [], [], [], []] # 10
+        labels_list_train = [[], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], []
+                            ]
         idxs_labels_test = np.vstack((idxs_test, test_labels))
         idxs_labels_test = idxs_labels_test[:, idxs_labels_test[1, :].argsort()]
         idxs_test = idxs_labels_test[0, :]
-        labels_list_test = [[], [], [], [], [], [], [], [], [], []]
+        #labels_list_test = [[], [], [], [], [], [], [], [], [], []]  # 10
+        labels_list_test = [[], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], [],
+        [], [], [], [], [], [], [], [], [], []
+        ]
 
         for i in idxs_train:
             labels_list_train[train_labels[i]].append(i)
