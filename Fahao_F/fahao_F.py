@@ -266,7 +266,7 @@ def Set_dataset(dataset):
         ])
         # trainset=torch.utils.data.Dataset(path = '/home/', transform=transform_train) 
           
-        trainset = load_databatch('/home/', 1)
+        trainset = load_databatch('/home/Imagenet32', 1)
         # ImagenetDataset(path = '/home/', transform=transform_train)
         # for i in range(args.num_users):
         #     train_class = Get_Loader(args, trainset, i+1)

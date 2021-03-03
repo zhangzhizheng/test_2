@@ -245,7 +245,7 @@ class ImagenetDataset(Dataset): #创建自己的类：MyDataset,这个类是继�
     def __len__(self):
         return len(self.data['data'])
 
-def load_databatch(data_folder, idx, img_size=64):
+def load_databatch(data_folder, idx, img_size=32):
     data_file = os.path.join(data_folder, 'train_data_batch_')
     fh = open(data_file + str(idx), 'rb')
     d = pickle.load(fh)
@@ -264,7 +264,7 @@ def load_databatch(data_folder, idx, img_size=64):
 
     img_size2 = img_size * img_size
 
-    x = np.dstack((x[:, :int(img_size2/2)], x[:, int(img_size2/2):int(2*img_size2/2)], x[:, int(2*img_size2/2):]))
+    x = np.dstack((x[:, :int(img_size2)], x[:, int(img_size2):int(2*img_size2)], x[:, int(2*img_size2):]))
     print("sb")
     x = np.dstack((x[:, :img_size2], x[:, img_size2:2*img_size2], x[:, 2*img_size2:]))
     x = x.reshape((x.shape[0], img_size, img_size, 3)).transpose(0, 3, 1, 2)
