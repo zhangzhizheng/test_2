@@ -11,5 +11,7 @@ for i in list:
         for j in range(len(os.listdir(filePath + i))):
                 iamge_label.append(k)
         k += 1
+print(len(file_name_list))
+print(len(iamge_label))
 dataframe = pd.DataFrame({'FileName':file_name_list,',Labels':iamge_label})
 dataframe.to_csv("/home/animals/labels.csv",index=False,sep=',')
