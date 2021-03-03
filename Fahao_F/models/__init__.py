@@ -16,3 +16,4 @@ from .mobilenet_m2 import *
 from .efficientnet import *
 from .regnet import *
 from .mnistnet import *
+from .mobilenetTune import *
