@@ -46,7 +46,7 @@ if __name__ == "__main__":
     new_dataset_dir = input_dir + "_formatted" + "/" + os.path.basename(input_dir)
     datanames = data_io.inventory_data(new_dataset_dir)
     basename = datanames[0]
-    print(datanames)
+    print(datanames, basename)
     print("train_path: ", os.path.join(new_dataset_dir, basename, "train"))
 
     D_train = AutoDLDataset(os.path.join(new_dataset_dir, basename, "train"))
