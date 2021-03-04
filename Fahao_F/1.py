@@ -51,10 +51,10 @@ if __name__ == "__main__":
 
     D_train = AutoDLDataset(os.path.join(new_dataset_dir, basename, "train"))
     D_test = AutoDLDataset(os.path.join(new_dataset_dir, basename, "test"))
-    print(D_train, D_test)
     max_epoch = 50
     time_budget = 1200
 
     model = ImageModel(D_train.get_metadata())
-
+    print('D_train.get_metadata(), D_test.get_dataset(),D_train.get_metadata()', D_test.get_dataset())
+    print('model',model)
     run_single_model(model, new_dataset_dir, basename, time_budget, max_epoch)
