@@ -23,7 +23,7 @@ def run_single_model(model, dataset_dir, basename, time_budget=1200, max_epoch=5
     for i in range(max_epoch):
         remaining_time_budget = start_time + time_budget - int(time.time())
         model.fit(D_train.get_dataset(), remaining_time_budget=remaining_time_budget)
-        print(model)
+        print('model', model)
         remaining_time_budget = start_time + time_budget - int(time.time())
         y_pred = model.predict(D_test.get_dataset(), remaining_time_budget=remaining_time_budget)
         # print(y_pred)
