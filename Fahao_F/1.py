@@ -23,7 +23,7 @@ def run_single_model(model, dataset_dir, basename, time_budget=1200, max_epoch=5
     for i in range(max_epoch):
         remaining_time_budget = start_time + time_budget - int(time.time())
         model.fit(D_train.get_dataset(), remaining_time_budget=remaining_time_budget)
-        print('model', model)
+        # print('model', model)
         remaining_time_budget = start_time + time_budget - int(time.time())
         y_pred = model.predict(D_test.get_dataset(), remaining_time_budget=remaining_time_budget)
         # print(y_pred)
@@ -46,12 +46,12 @@ if __name__ == "__main__":
     new_dataset_dir = input_dir + "_formatted" + "/" + os.path.basename(input_dir)
     datanames = data_io.inventory_data(new_dataset_dir)
     basename = datanames[0]
-    print(datanames, basename)
+    # print(datanames, basename)
     print("train_path: ", os.path.join(new_dataset_dir, basename, "train"))
 
     D_train = AutoDLDataset(os.path.join(new_dataset_dir, basename, "train"))
     D_test = AutoDLDataset(os.path.join(new_dataset_dir, basename, "test"))
-
+    print(D_train, D_test)
     max_epoch = 50
     time_budget = 1200
 
