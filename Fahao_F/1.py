@@ -26,7 +26,7 @@ def run_single_model(model, dataset_dir, basename, time_budget=1200, max_epoch=5
 
         remaining_time_budget = start_time + time_budget - int(time.time())
         y_pred = model.predict(D_test.get_dataset(), remaining_time_budget=remaining_time_budget)
-
+        print(y_pred)
         # Evaluation.
         nauc_score = autodl_auc(solution=solution, prediction=y_pred)
         acc_score = accuracy(solution=solution, prediction=y_pred)
