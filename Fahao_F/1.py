@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="tabular example arguments")
     parser.add_argument("--input_data_path", type=str, help="path of input data")
     args = parser.parse_args()
-
+    
     input_dir = os.path.dirname(args.input_data_path)
 
     autoimage_2_autodl_format(input_dir=input_dir)
