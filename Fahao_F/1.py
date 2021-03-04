@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     input_dir = os.path.dirname(args.input_data_path)
 
-    autodl.convertor.image_to_tfrecords.autoimage_2_autodl_format(input_dir=input_dir)
+    autoimage_2_autodl_format(input_dir=input_dir)
 
     new_dataset_dir = input_dir + "_formatted" + "/" + os.path.basename(input_dir)
     datanames = data_io.inventory_data(new_dataset_dir)
