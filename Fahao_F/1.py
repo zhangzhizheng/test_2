@@ -1,6 +1,7 @@
 import os
 import time
-import argparse,autodl
+import argparse
+import autodl.convertor.image_to_tfrecords as a
 
 from autodl.auto_ingestion import data_io
 from autodl.utils.util import get_solution
@@ -40,7 +41,7 @@ if __name__ == "__main__":
 
     input_dir = os.path.dirname(args.input_data_path)
 
-    autoimage_2_autodl_format(input_dir=input_dir)
+    a.autoimage_2_autodl_format(input_dir=input_dir)
 
     new_dataset_dir = input_dir + "_formatted" + "/" + os.path.basename(input_dir)
     datanames = data_io.inventory_data(new_dataset_dir)
