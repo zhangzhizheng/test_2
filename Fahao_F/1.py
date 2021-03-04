@@ -1,6 +1,6 @@
 import os
 import time
-import argparse
+import argparse,autodl
 
 from autodl.auto_ingestion import data_io
 from autodl.utils.util import get_solution
