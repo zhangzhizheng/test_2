@@ -55,6 +55,6 @@ if __name__ == "__main__":
     time_budget = 1200
 
     model = ImageModel(D_train.get_metadata())
-    print('D_train.get_metadata(), D_test.get_dataset(),D_train.get_metadata()', D_test.get_dataset())
+    print('D_train.get_metadata(), D_test.get_dataset()',D_train.get_metadata(), D_test.get_dataset())
     print('model',model)
     run_single_model(model, new_dataset_dir, basename, time_budget, max_epoch)
