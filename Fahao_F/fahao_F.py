@@ -52,8 +52,8 @@ def Set_dataset(dataset):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
         ])
 
-        trainset = torchvision.datasets.CIFAR100(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
-        testset = torchvision.datasets.CIFAR100( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
+        trainset = torchvision.datasets.CIFAR10(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
+        testset = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
         loader_class = Get_Loader(args, trainset, testset, 1)
         if(args.iid == 1):
             trainloader, testloader = loader_class.get_dataloader()
