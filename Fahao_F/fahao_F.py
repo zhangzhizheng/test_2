@@ -450,7 +450,7 @@ def run(dataset, client, args):
     acc, loss = Test(model[0], testloader)
     acc_list.append(acc)
     loss_list.append(loss)
-    pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+    pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
 
     # for i in range (args.epoch):
     #     # Temp, process_time = Train(model, optimizer, client, trainloader)
