@@ -438,25 +438,35 @@ def run(dataset, client, args):
     else:
         trainloader, testloader = Set_dataset(dataset)
 
-    model, global_model, optimizer = Set_model(args.net, client, args)
+    # model, global_model, optimizer = Set_model(args.net, client, args)
+
+    model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
+    model.eval()
+    # global_model = model
     pbar = tqdm(range(args.epoch))
     start_time = 0
-    for i in range (args.epoch):
-        Temp, process_time = Train(model, optimizer, client, trainloader)
-        # Temp, process_time = Train(global_model, optimizer, client, trainloader)
-        for j in range (client):
-            model[j].load_state_dict(Temp[j])
-        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-        # global_model.load_state_dict(Temp[j])
-        acc, loss = Test(global_model, testloader)
-        acc_list.append(acc)
-        loss_list.append(loss)
-        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
-        for j in range (client):
-            model[j].load_state_dict(global_model.state_dict())
+    acc, loss = Test(model, testloader)
+    acc_list.append(acc)
+    loss_list.append(loss)
+    pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
-        start_time += process_time
+    # for i in range (args.epoch):
+    #     # Temp, process_time = Train(model, optimizer, client, trainloader)
+    #     # Temp, process_time = Train(global_model, optimizer, client, trainloader)
+    #     for j in range (client):
+    #         model[j].load_state_dict(Temp[j])
+    #     global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+    #     # global_model.load_state_dict(Temp[j])
+    #     acc, loss = Test(global_model, testloader)
+    #     acc_list.append(acc)
+    #     loss_list.append(loss)
+    #     pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+
+    #     for j in range (client):
+    #         model[j].load_state_dict(global_model.state_dict())
+
+    #     start_time += process_time
 
         # X.append(start_time)
 
