@@ -25,6 +25,10 @@ from Get_Loader import Get_Loader, MyDataset, ImagenetDataset
 from options import args_parser
 
 from evaluation.model import NetworkCIFAR as Network
+from search_space import utils
+
+# don't remove this import
+import search_space.genotypes
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
