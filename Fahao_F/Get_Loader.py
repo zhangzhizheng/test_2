@@ -8,7 +8,7 @@ import random
 import time, os, pickle
 import torchvision.transforms.functional as TF
 import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 class Get_Loader(object):
     def __init__(self, args, train_dataset, test_dataset, idxs_users):
         self.args = args
