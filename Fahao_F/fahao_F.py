@@ -24,6 +24,8 @@ from models import mobilenet_m2,mobilenetTune
 from Get_Loader import Get_Loader, MyDataset, ImagenetDataset
 from options import args_parser
 
+from evaluation.model import NetworkCIFAR as Network
+
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def Set_dataset(dataset):
@@ -438,16 +440,18 @@ def run(dataset, client, args):
     else:
         trainloader, testloader = Set_dataset(dataset)
 
-    model, global_model, optimizer = Set_model(args.net, client, args)
+    genotype = eval("search_space.genotypes.%s" % args.arch)
+    model = Network(36, 10, 4, False, genotype)
+    # model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
-    model1 = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
-    print('model1',type(model1))
-    # model.eval()
+    model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
+    # print('model1',type(model1))
+    model.eval()
     # global_model = model
     pbar = tqdm(range(args.epoch))
     start_time = 0
 
-    acc, loss = Test(model[0], testloader)
+    acc, loss = Test(model, testloader)
     acc_list.append(acc)
     loss_list.append(loss)
     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
