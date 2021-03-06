@@ -438,9 +438,10 @@ def run(dataset, client, args):
     else:
         trainloader, testloader = Set_dataset(dataset)
 
-    # model, global_model, optimizer = Set_model(args.net, client, args)
-
-    model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
+    model, global_model, optimizer = Set_model(args.net, client, args)
+    print('model', model)
+    model1 = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
+    print('model',model1)
     # model.eval()
     # global_model = model
     pbar = tqdm(range(args.epoch))
