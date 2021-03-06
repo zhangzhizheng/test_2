@@ -440,7 +440,7 @@ def run(dataset, client, args):
     else:
         trainloader, testloader = Set_dataset(dataset)
 
-    genotype = eval("search_space.genotypes.%s" % args.arch)
+    genotype = eval("search_space.genotypes.%s" % 'GDAS_MIXED_LEVEL2')
     model = Network(36, 10, 4, False, genotype)
     # model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
