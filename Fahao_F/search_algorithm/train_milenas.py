@@ -13,7 +13,7 @@ import torch.nn.functional as F
 import torch.utils
 import torchvision.datasets as dset
 import wandb
-
+import torchvision
 sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "./")))
 
 from search_algorithm.architect import Architect
@@ -22,8 +22,11 @@ from search_space.model_search import Network
 from search_space.model_search_gumbel_softmax import Network_GumbelSoftmax
 # don't remove this import
 import search_space.genotypes
-
+from Get_Loader import Get_Loader, MyDataset, load_databatch, ImagenetDataset
 parser = argparse.ArgumentParser("cifar")
+parser.add_argument('--num_users', type=int, default=1,help="number of users: K")
+parser.add_argument('--iid', type=int, default=0,help='Default set to IID. Set to 0 for non-IID.')
+
 parser.add_argument('--run_id', type=int, default=0, help='running id')
 parser.add_argument('--data', type=str, default='../data', help='location of the data corpus')
 parser.add_argument('--batch_size', type=int, default=64, help='batch size')
@@ -148,21 +151,28 @@ def main():
     train_transform, valid_transform = utils._data_transforms_cifar10(args)
 
     # will cost time to download the data
-    train_data = dset.CIFAR10(root=args.data, train=True, download=True, transform=train_transform)
 
-    num_train = len(train_data)
-    indices = list(range(num_train))
-    split = int(np.floor(args.train_portion * num_train))  # split index
+    train_data = torchvision.datasets.CIFAR10(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=train_transform)
+    valid_data = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=valid_transform)
+    loader_class = Get_Loader(args, train_data, valid_data, 1)
+    train_queue, valid_queue = loader_class.get_dataloader()
 
-    train_queue = torch.utils.data.DataLoader(
-        train_data, batch_size=args.batch_size * len(gpus),
-        sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-        pin_memory=True, num_workers=2)
+    # train_data = dset.CIFAR10(root=args.data, train=True, download=True, transform=train_transform)
 
-    valid_queue = torch.utils.data.DataLoader(
-        train_data, batch_size=args.batch_size * len(gpus),
-        sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:num_train]),
-        pin_memory=True, num_workers=2)
+    # num_train = len(train_data)
+    # indices = list(range(num_train))
+    # split = int(np.floor(args.train_portion * num_train))  # split index
+
+    # train_queue = torch.utils.data.DataLoader(
+    #     train_data, batch_size=args.batch_size * len(gpus),
+    #     sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
+    #     pin_memory=True, num_workers=2)
+
+    # valid_queue = torch.utils.data.DataLoader(
+    #     train_data, batch_size=args.batch_size * len(gpus),
+    #     sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:num_train]),
+    #     pin_memory=True, num_workers=2)
+
 
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         optimizer, float(args.epochs), eta_min=args.learning_rate_min)
