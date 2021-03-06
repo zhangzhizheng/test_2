@@ -445,7 +445,7 @@ def run(dataset, client, args):
         trainloader, testloader = Set_dataset(dataset)
 
     genotype = eval("search_space.genotypes.%s" % 'DARTS')
-    model = Network(36, 10, 4, False, genotype)
+    model = Network(16, 10, 4, False, genotype)
     # model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
