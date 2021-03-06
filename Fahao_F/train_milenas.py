@@ -22,7 +22,7 @@ from search_space.model_search import Network
 from search_space.model_search_gumbel_softmax import Network_GumbelSoftmax
 # don't remove this import
 import search_space.genotypes
-from Get_Loader import Get_Loader, MyDataset, load_databatch, ImagenetDataset
+from Get_Loader import Get_Loader, MyDataset
 parser = argparse.ArgumentParser("cifar")
 parser.add_argument('--num_users', type=int, default=1,help="number of users: K")
 parser.add_argument('--iid', type=int, default=0,help='Default set to IID. Set to 0 for non-IID.')
