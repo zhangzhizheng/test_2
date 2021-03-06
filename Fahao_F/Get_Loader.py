@@ -34,7 +34,7 @@ class Get_Loader(object):
                                                     sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
                                                     batch_size = 128, shuffle=False) # test non-IID for one data distribute
             num_vaild = len(self.test_dataset)
-            indices = list(rangenum_vaild))
+            indices = list(range(num_vaild))
             split = int(np.floor(0.5 * num_train))  # split index
             test_loader = torch.utils.data.DataLoader(DatasetSplit(self.test_dataset, test[0]),
                                                     sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
