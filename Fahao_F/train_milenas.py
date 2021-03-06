@@ -156,7 +156,7 @@ def main():
     valid_data = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=valid_transform)
     loader_class = Get_Loader(args, train_data, valid_data, 1)
     train_queue, valid_queue = loader_class.get_dataloader()
-    print(train_queue, valid_queue)
+    # print(train_queue, valid_queue)
 
     # train_data = dset.CIFAR10(root=args.data, train=True, download=True, transform=train_transform)
 
