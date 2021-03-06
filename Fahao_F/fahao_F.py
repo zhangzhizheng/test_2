@@ -14,7 +14,7 @@ import copy
 import numpy as np
 import queue
 import math
-import networkx as nx
+# import networkx as nx
 import argparse
 import time
 # from utils import progress_bar
