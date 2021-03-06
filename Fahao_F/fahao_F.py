@@ -18,7 +18,7 @@ import math
 import argparse
 import time
 # from utils import progress_bar
-from tqdm import tqdm, trange
+from tqdm import tqdm
 from models import *
 from models import mobilenet_m2,mobilenetTune
 from Get_Loader import Get_Loader, MyDataset, load_databatch, ImagenetDataset
