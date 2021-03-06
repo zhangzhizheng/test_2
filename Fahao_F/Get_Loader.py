@@ -31,14 +31,14 @@ class Get_Loader(object):
             indices = list(range(num_train))
             split = int(np.floor(0.5 * num_train))  # split index
             train_loader = torch.utils.data.DataLoader(DatasetSplit(self.train_dataset, train[0]),
-                                                    sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-                                                    batch_size = 128, shuffle=False) # test non-IID for one data distribute
+                                                    # sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
+                                                    batch_size = 64, shuffle=False) # test non-IID for one data distribute
             num_vaild = len(self.test_dataset)
             indices = list(range(num_vaild))
             split = int(np.floor(0.5 * num_train))  # split index
             test_loader = torch.utils.data.DataLoader(DatasetSplit(self.test_dataset, test[0]),
-                                                    sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-                                                    batch_size = 128, shuffle=False) # test non-IID for one data distribute
+                                                    # sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
+                                                    batch_size = 64, shuffle=False) # test non-IID for one data distribute
         return train_loader, test_loader
     def cifar_noniid(self):
         """
