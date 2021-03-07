@@ -452,8 +452,8 @@ def run(dataset, client, args):
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
     Optimizer = [None for i in range (client)]
-    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
-    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4
+    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5
     # print('model1',type(model1))
     # model.eval()
     global_model = model[0]
