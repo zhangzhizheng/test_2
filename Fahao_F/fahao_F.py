@@ -452,7 +452,8 @@ def run(dataset, client, args):
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
     Optimizer = [None for i in range (client)]
-    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
+    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')
     # print('model1',type(model1))
     # model.eval()
     global_model = model[0]
@@ -485,8 +486,9 @@ def run(dataset, client, args):
 
         start_time += process_time
 
-    # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
-    file_name = '/home/test_2/cifar-gcn-drl/4_layer_train_0.pkl'
+    # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
+    # args.iid, args.epoch, args.net, args.dataset) # 4 layer
+    file_name = '/home/test_2/cifar-gcn-drl/5_layer_train_0.pkl'
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
