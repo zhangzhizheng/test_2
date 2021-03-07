@@ -136,7 +136,7 @@ class Get_Loader(object):
         for i in range(self.args.num_users):
             ad = 0
             # users_list = np.random.randint(0,15,10) # cifar100
-            for j in distribution_data[2]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配
+            for j in distribution_data[0]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配
                 for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
                 ad += 1
@@ -144,7 +144,7 @@ class Get_Loader(object):
             dic_train_copy[i] = dic_train[i][y]
         for i in range(self.args.num_users):
             ad = 0
-            for j in distribution_data[2]:  #0 -> i, 每个client随机
+            for j in distribution_data[0]:  #0 -> i, 每个client随机
                 for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
                     dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
                 ad += 1
