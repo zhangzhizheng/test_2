@@ -468,6 +468,7 @@ def run(dataset, client, args):
 
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
+        start_time = 0
         pbar = tqdm(range(args.epoch))
         Temp, process_time = Train(model, client, trainloader)
         for j in range (client):
