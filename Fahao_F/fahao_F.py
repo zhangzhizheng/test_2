@@ -503,7 +503,7 @@ def run(dataset, client, args):
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
-    file_name = '/home/test_2/cifar-gcn-drl/4_layer_1.pkl'
+    file_name = '/home/test_2/cifar-gcn-drl/4_layer_0.pkl'
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
