@@ -452,43 +452,44 @@ def run(dataset, client, args):
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
     Optimizer = [None for i in range (client)]
-    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4
-    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4 dataset 0
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5 dataset 1
+    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_112719-251bnz32/files/weights.pt')  # 5, dataset 2
     # print('model1',type(model1))
     # model.eval()
     global_model = model[0]
-    # for i in range (args.epoch):
-    #     pbar = tqdm(range(args.epoch))
-    #     start_time = 0
-
-    #     acc, loss = Test(model, testloader)
-    #     acc_list.append(acc)
-    #     loss_list.append(loss)
-    #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
-    for i in range (client):
-        Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
     for i in range (args.epoch):
-        # Temp, process_time = Train(model, optimizer, client, trainloader)
-        start_time = 0
         pbar = tqdm(range(args.epoch))
-        Temp, process_time = Train(model, Optimizer, client, trainloader)
-        for j in range (client):
-            model[j].load_state_dict(Temp[j])
-        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-        # global_model.load_state_dict(Temp[j])
-        acc, loss = Test(global_model, testloader)
+        start_time = 0
+
+        acc, loss = Test(model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
-        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+        pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
+    # for i in range (client):
+    #     Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    # for i in range (args.epoch):
+    #     # Temp, process_time = Train(model, optimizer, client, trainloader)
+    #     start_time = 0
+    #     pbar = tqdm(range(args.epoch))
+    #     Temp, process_time = Train(model, Optimizer, client, trainloader)
+    #     for j in range (client):
+    #         model[j].load_state_dict(Temp[j])
+    #     global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+    #     # global_model.load_state_dict(Temp[j])
+    #     acc, loss = Test(global_model, testloader)
+    #     acc_list.append(acc)
+    #     loss_list.append(loss)
+    #     pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
-        for j in range (client):
-            model[j].load_state_dict(global_model.state_dict())
+    #     for j in range (client):
+    #         model[j].load_state_dict(global_model.state_dict())
 
-        start_time += process_time
+    #     start_time += process_time
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/5_layer_train_1.pkl'
+    file_name = '/home/test_2/cifar-gcn-drl/5(2)_layer_2.pkl'
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
