@@ -324,6 +324,11 @@ def train(epoch, train_queue, valid_queue, model, architect, criterion, optimize
 
         # torch.cuda.empty_cache()
 
+        input = input.cpu()
+        target = target.cpu()
+        input_search = input_search.cpu()
+        target_search = target_search.cpu()
+
         if step % args.report_freq == 0:
             logging.info('train %03d %e %f %f', step, objs.avg, top1.avg, top5.avg)
 
