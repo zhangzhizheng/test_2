@@ -449,13 +449,14 @@ def run(dataset, client, args):
     # model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
-    global_model = [None for i in range (args.num_users)]
+    # global_model = [None for i in range (args.num_users)]
+    model = [None for i in range (args.num_users)]
     # Optimizer = [None for i in range (client)]
 
-    model = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
+    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
     # print('model1',type(model1))
     # model.eval()
-    global_model[0] = model
+    global_model = model[0]
     # for i in range (args.epoch):
     #     pbar = tqdm(range(args.epoch))
     #     start_time = 0
@@ -468,7 +469,7 @@ def run(dataset, client, args):
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         pbar = tqdm(range(args.epoch))
-        Temp, process_time = Train(global_model, client, trainloader)
+        Temp, process_time = Train(model, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
