@@ -462,7 +462,7 @@ def run(dataset, client, args):
         pbar = tqdm(range(args.epoch))
         start_time = 0
 
-        acc, loss = Test(model, testloader)
+        acc, loss = Test(global_model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
         pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
