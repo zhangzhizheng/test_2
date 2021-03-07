@@ -24,10 +24,10 @@ import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 # Saving the objects train_loss and train_accuracy:
-file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_0.pkl'
-file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_1.pkl'
-file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_0.pkl'
-file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_1.pkl'
+file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_0.pkl'
+file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_1.pkl'
+file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_train_0.pkl'
+file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_train_1.pkl'
 # file_name_5 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_vgg_CIFAR10.pkl'
 # # file_name_6 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\2_0_50_vgg_CIFAR10.pkl'
 
@@ -172,10 +172,10 @@ with open(file_name_4, 'rb') as f4:
 # # Plot Average Accuracy vs Communication rounds
 plt.figure()
 plt.title('Average Accuracy vs Communication rounds')
-plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "4_layer_0")
-plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "5_layer_0")
-plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4_layer_1")
-plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_1")
+plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "4_layer_train_0")
+plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "5_layer_train_0")
+plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4_layer_train_1")
+plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_train_1")
 # plt.plot(range(len(list_acc_5)), list_acc_5, "-", label = "m2_2")
 # plt.plot(range(len(list_acc_8)), list_acc_8, "-", label = "vgg19_2")
 # # # # plt.plot(range(len(list_acc_6)), list_acc_6, "-", label = "VGG_2")
@@ -192,4 +192,4 @@ plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_1")
 plt.legend()
 plt.ylabel('Average Accuracy')
 plt.xlabel('Communication Rounds')
-plt.savefig('cifar10_noniid_acc_2_v2.png')
+plt.savefig('Experiment_2nd.png')
