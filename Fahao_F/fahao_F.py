@@ -452,7 +452,8 @@ def run(dataset, client, args):
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
     # Optimizer = [None for i in range (client)]
-
+    # Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
+    #             momentum=0.9, weight_decay=5e-4)
     model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
     # print('model1',type(model1))
     # model.eval()
