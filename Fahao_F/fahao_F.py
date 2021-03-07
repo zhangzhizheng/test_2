@@ -357,7 +357,7 @@ def Set_model(net, client, args):
         for i in range (client):
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-def Train(model, optimizer, client, trainloader):
+def Train(model, client, trainloader):
     criterion = nn.CrossEntropyLoss().to(device)
     # cpu ? gpu
     for i in range(client):
@@ -377,13 +377,13 @@ def Train(model, optimizer, client, trainloader):
         idx = (batch_idx % client)
         model[idx].train()
         inputs, targets = inputs.to(device), targets.to(device)
-        optimizer[idx].zero_grad()
+        # optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
         # print(outputs[0], targets)
         # print(targets-4)
         Loss[idx] = criterion(outputs, targets)
         Loss[idx].backward()
-        optimizer[idx].step()
+        # optimizer[idx].step()
         train_loss[idx] += Loss[idx].item()
         _, predicted = outputs.max(1)
         total[idx] += targets.size(0)
@@ -449,35 +449,39 @@ def run(dataset, client, args):
     # model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
+    global_model = [None for i in range (args.num_users)]
+    # Optimizer = [None for i in range (client)]
+
     model = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
     # print('model1',type(model1))
-    model.eval()
-    # global_model = model
-    for i in range (args.epoch):
-        pbar = tqdm(range(args.epoch))
-        start_time = 0
-
-        acc, loss = Test(model, testloader)
-        acc_list.append(acc)
-        loss_list.append(loss)
-        pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
-
+    # model.eval()
+    global_model[0] = model
     # for i in range (args.epoch):
-    #     # Temp, process_time = Train(model, optimizer, client, trainloader)
-    #     # Temp, process_time = Train(global_model, optimizer, client, trainloader)
-    #     for j in range (client):
-    #         model[j].load_state_dict(Temp[j])
-    #     global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-    #     # global_model.load_state_dict(Temp[j])
-    #     acc, loss = Test(global_model, testloader)
+    #     pbar = tqdm(range(args.epoch))
+    #     start_time = 0
+
+    #     acc, loss = Test(model, testloader)
     #     acc_list.append(acc)
     #     loss_list.append(loss)
-    #     pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+    #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
 
-    #     for j in range (client):
-    #         model[j].load_state_dict(global_model.state_dict())
+    for i in range (args.epoch):
+        # Temp, process_time = Train(model, optimizer, client, trainloader)
+        pbar = tqdm(range(args.epoch))
+        Temp, process_time = Train(global_model, client, trainloader)
+        for j in range (client):
+            model[j].load_state_dict(Temp[j])
+        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
+        # global_model.load_state_dict(Temp[j])
+        acc, loss = Test(global_model, testloader)
+        acc_list.append(acc)
+        loss_list.append(loss)
+        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
-    #     start_time += process_time
+        for j in range (client):
+            model[j].load_state_dict(global_model.state_dict())
+
+        start_time += process_time
 
         # X.append(start_time)
 
@@ -503,7 +507,7 @@ def run(dataset, client, args):
         #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
-    file_name = '/home/test_2/cifar-gcn-drl/4_layer_0.pkl'
+    file_name = '/home/test_2/cifar-gcn-drl/4_layer_train_0.pkl'
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
