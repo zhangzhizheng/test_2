@@ -21,7 +21,7 @@ python3 ./search_algorithm/train_milenas.py \
 --arch_search_method DARTS \
 --lambda_train_regularizer 1 \
 --lambda_valid_regularizer $LAMBDA_VALID \
---batch_size 64 \
+--batch_size 32 \
 --epochs $EPOCH \
 --layers $LAYER_NUM \
 --model_path $MODEL_FILE \
