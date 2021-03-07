@@ -357,7 +357,7 @@ def Set_model(net, client, args):
         for i in range (client):
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-def Train(model, client, trainloader):
+def Train(model, optimizer, client, trainloader):
     criterion = nn.CrossEntropyLoss().to(device)
     # cpu ? gpu
     for i in range(client):
@@ -377,13 +377,13 @@ def Train(model, client, trainloader):
         idx = (batch_idx % client)
         model[idx].train()
         inputs, targets = inputs.to(device), targets.to(device)
-        # optimizer[idx].zero_grad()
+        optimizer[idx].zero_grad()
         outputs = model[idx](inputs)
         # print(outputs[0], targets)
         # print(targets-4)
         Loss[idx] = criterion(outputs, targets)
         Loss[idx].backward()
-        # optimizer[idx].step()
+        optimizer[idx].step()
         train_loss[idx] += Loss[idx].item()
         _, predicted = outputs.max(1)
         total[idx] += targets.size(0)
@@ -451,9 +451,7 @@ def run(dataset, client, args):
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
-    # Optimizer = [None for i in range (client)]
-    # Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
-    #             momentum=0.9, weight_decay=5e-4)
+    Optimizer = [None for i in range (client)]
     model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')
     # print('model1',type(model1))
     # model.eval()
@@ -466,12 +464,13 @@ def run(dataset, client, args):
     #     acc_list.append(acc)
     #     loss_list.append(loss)
     #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
-
+    for i in range (client):
+        Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
         pbar = tqdm(range(args.epoch))
-        Temp, process_time = Train(model, client, trainloader)
+        Temp, process_time = Train(model, Optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
@@ -485,29 +484,6 @@ def run(dataset, client, args):
             model[j].load_state_dict(global_model.state_dict())
 
         start_time += process_time
-
-        # X.append(start_time)
-
-        # if(args.idd == 1):
-        #     Y.append(acc)
-        #     Z.append(loss)
-        #     location = '/home/test_2/cifar-gcn-drl/Test_data/FedAVG_iid.csv'
-        #     dataframe = pd.DataFrame(X, columns=['X'])
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y,columns=['Y'])],axis=1)
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z,columns=['Z'])],axis=1)
-        #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
-        # else:
-        #     Y1.append(acc_1)
-        #     Y2.append(acc_2)
-        #     Z1.append(loss_1)
-        #     Z2.append(loss_2)
-        #     location = '/home/test_2/cifar-gcn-drl/Test_data/FedAVG_niid.csv'
-        #     dataframe = pd.DataFrame(X, columns=['X'])
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y1,columns=['Y1'])],axis=1)
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Y2,columns=['Y2'])],axis=1)
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z1'])],axis=1)
-        #     dataframe = pd.concat([dataframe, pd.DataFrame(Z1,columns=['Z2'])],axis=1)
-        #     dataframe.to_csv(location,mode = 'w', header = False,index=False,sep=',')
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, args.iid, args.epoch, args.net, args.dataset)
     file_name = '/home/test_2/cifar-gcn-drl/4_layer_train_1.pkl'
