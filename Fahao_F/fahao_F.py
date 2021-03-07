@@ -453,13 +453,14 @@ def run(dataset, client, args):
     # print('model1',type(model1))
     model.eval()
     # global_model = model
-    pbar = tqdm(range(args.epoch))
-    start_time = 0
+    for i in range (args.epoch):
+        pbar = tqdm(range(args.epoch))
+        start_time = 0
 
-    acc, loss = Test(model, testloader)
-    acc_list.append(acc)
-    loss_list.append(loss)
-    pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
+        acc, loss = Test(model, testloader)
+        acc_list.append(acc)
+        loss_list.append(loss)
+        pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
 
     # for i in range (args.epoch):
     #     # Temp, process_time = Train(model, optimizer, client, trainloader)
