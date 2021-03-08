@@ -75,7 +75,7 @@ fh = logging.FileHandler(os.path.join(args.save, 'log.txt'))
 fh.setFormatter(logging.Formatter(log_format))
 logging.getLogger().addHandler(fh)
 
-CIFAR_CLASSES = 10
+CIFAR_CLASSES = 100
 
 lambda_train_regularizer = args.lambda_train_regularizer
 lambda_valid_regularizer = args.lambda_valid_regularizer
@@ -152,8 +152,8 @@ def main():
 
     # will cost time to download the data
 
-    train_data = torchvision.datasets.CIFAR10(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=train_transform)
-    valid_data = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=valid_transform)
+    train_data = torchvision.datasets.CIFAR100(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=train_transform)
+    valid_data = torchvision.datasets.CIFAR100( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=valid_transform)
     loader_class = Get_Loader(args, train_data, valid_data, 1)
     train_queue, valid_queue = loader_class.get_dataloader()
     # print(train_queue, valid_queue)

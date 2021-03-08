@@ -34,7 +34,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def Set_dataset(dataset):
     # print(dataset)
-    if dataset == 'CIFAR10':
+    if dataset == 'CIFAR100':
         # parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
         # parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
         # parser.add_argument('--resume', '-r', action='store_true',
@@ -58,8 +58,8 @@ def Set_dataset(dataset):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.5, 0.5, 0.5)),
         ])
 
-        trainset = torchvision.datasets.CIFAR10(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
-        testset = torchvision.datasets.CIFAR10( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
+        trainset = torchvision.datasets.CIFAR100(root='/home/test_2/cifar-10-batches-py/', train=True, download=True, transform=transform_train)
+        testset = torchvision.datasets.CIFAR100( root='/home/test_2/cifar-10-batches-py/', train=False, download=True, transform=transform_test)
         loader_class = Get_Loader(args, trainset, testset, 1)
         if(args.iid == 1):
             trainloader, testloader = loader_class.get_dataloader()
