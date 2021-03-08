@@ -452,8 +452,8 @@ def run(dataset, client, args):
     # global_model = [None for i in range (args.num_users)]
     model = [None for i in range (args.num_users)]
     Optimizer = [None for i in range (client)]
-    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4 dataset 0
-    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_001408-2e23sb4e/files/weights.pt')  # 4 dataset 14
+    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4 dataset 0
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_001408-2e23sb4e/files/weights.pt')  # 4 dataset 14
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5 dataset 1
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_112719-251bnz32/files/weights.pt')  # 5, dataset 2
     # print('model1',type(model1))
@@ -489,7 +489,7 @@ def run(dataset, client, args):
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/4_layer_train_{}.pkl'.format(args.data_distribution)
+    file_name = '/home/test_2/cifar-gcn-drl/4(0)_layer_train_{}.pkl'.format(args.data_distribution)
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
