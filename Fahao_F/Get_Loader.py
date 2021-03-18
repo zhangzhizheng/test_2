@@ -259,6 +259,10 @@ class Get_Loader(object):
         y = np.argsort(dic_train[i])
         dic_train_copy[i] = dic_train[i][y]
         np.random.shuffle(dic_train_copy)
+        np.random.shuffle(dic_train_copy)
+        np.random.shuffle(dic_train_copy)
+        np.random.shuffle(dic_train_copy)
+        np.random.shuffle(dic_train_copy)
         # print(np.random.shuffle(dic_train_copy))
         for i in range(0,self.args.num_users):
             ad = 0
@@ -268,6 +272,10 @@ class Get_Loader(object):
                 # print(dic_test)
         y = np.argsort(dic_test[i])
         dic_test_copy[i] = dic_test[i][y]
+        np.random.shuffle(dic_test_copy)
+        np.random.shuffle(dic_test_copy)
+        np.random.shuffle(dic_test_copy)
+        np.random.shuffle(dic_test_copy)
         np.random.shuffle(dic_test_copy)
         return dic_train_copy, dic_test_copy
 
