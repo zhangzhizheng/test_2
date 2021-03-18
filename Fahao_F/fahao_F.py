@@ -375,7 +375,7 @@ def Train(model, optimizer, client, trainloader):
         for inputs, targets in trainloader[i]:
             # for i in targets:
             #     labels_check[i] += 1
-            # print(targets)
+            print(targets)
             # idx = (batch_idx % client)
             model[i].train()
             inputs, targets = inputs.to(device), targets.to(device)
