@@ -489,7 +489,7 @@ def run(dataset, client, args):
         # if(a == global_model): print("woshi shabi")
         a = global_model.state_dict()
         # print(a)
-        acc, loss = Test(global_model, testloader)
+        acc, loss = Test(model[0], testloader)
         acc_list.append(acc)
         loss_list.append(loss)
         start_time += process_time
