@@ -390,8 +390,8 @@ def Train(model, optimizer, client, trainloader):
             _, predicted = outputs.max(1)
             total[i] += targets.size(0)
             correct[i] += predicted.eq(targets).sum().item()
-        print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
-        print(correct[i] / len(trainloader[i].dataset))
+        # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
+        # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
     if device == 'cuda':
         for i in range (client):
@@ -424,7 +424,7 @@ def Test(model, testloader):
     accuracy = float(correct / len(testloader.dataset))
     if device == 'cuda':
         model.cpu()
-    # print(accuracy, test_loss.item())
+    print(accuracy, test_loss.item())
     return accuracy, test_loss.item()
 def Aggregate(model, client):
     P = []
