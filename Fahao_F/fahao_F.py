@@ -525,4 +525,4 @@ def run(dataset, client, args):
 if __name__ == '__main__':
     args = args_parser()
     # print(args.dataset) args.dataset
-    run(dataset = 'CIFAR10', client = args.num_users, args = args)
+    run(dataset = args.dataset, client = args.num_users, args = args)
