@@ -408,10 +408,12 @@ def Test(model, testloader):
     model = model.to(device)
     # P = model.state_dict()
     model.eval()
-    test_loss = 0
-    correct = 0
+
     l = 0
+    a = 0
     for i in range(0,args.num_users):
+        test_loss = 0
+        correct = 0
         for data, target in testloader[i]:
             # print(target)
             indx_target = target.clone()
@@ -423,8 +425,9 @@ def Test(model, testloader):
             pred = output.data.max(1)[1]  # get the index of the max log-probability
             correct += pred.cpu().eq(indx_target).sum()
         l += test_loss / len(testloader[i])
+        a += correct / len(testloader[i].dataset)
     test_loss = l / len(testloader) # average over number of mini-batch
-    accuracy = float(correct / len(testloader.dataset))
+    accuracy = float(a / len(testloader))
     if device == 'cuda':
         model.cpu()
     print(accuracy, test_loss.item())
