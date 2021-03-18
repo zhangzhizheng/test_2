@@ -420,6 +420,7 @@ def Test(model, testloader):
     accuracy = float(correct / len(testloader.dataset))
     if device == 'cuda':
         model.cpu()
+    print(accuracy, test_loss.item())
     return accuracy, test_loss.item()
 def Aggregate(model, client):
     P = []
@@ -489,10 +490,9 @@ def run(dataset, client, args):
 
         for j in range (client):
             model[j].load_state_dict(global_model.state_dict())
-
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_b.pkl'.format(args.data_distribution)
+    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}.pkl'.format(args.status)
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
