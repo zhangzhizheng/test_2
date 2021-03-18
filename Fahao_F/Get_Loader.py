@@ -27,7 +27,7 @@ class Get_Loader(object):
         if(self.args.iid == 0):
             train, test = self.cifar_noniid()
             train_loader = {i: np.array([]) for i in range(self.args.num_users)}
-            # test_loader = {i: np.array([]) for i in range(self.args.num_users)}
+            test_loader = {i: np.array([]) for i in range(self.args.num_users)}
             # num_train = len(self.train_dataset)
             # indices = list(range(num_train))
             # split = int(np.floor(0.5 * num_train))  # split index
