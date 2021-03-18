@@ -524,5 +524,5 @@ def run(dataset, client, args):
     # plt.savefig('/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_acc.png'.format(args.data_distribution, args.iid, args.epoch, args.net))
 if __name__ == '__main__':
     args = args_parser()
-    print(args.dataset)
-    run(dataset = args.dataset, client = args.num_users, args = args)
+    # print(args.dataset) args.dataset
+    run(dataset = 'CIFAR10', client = args.num_users, args = args)
