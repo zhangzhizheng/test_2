@@ -214,10 +214,10 @@ class Get_Loader(object):
         """
         # num_shards, num_imgs = 100, 500， 初始化一些变量
         num_train, num_test = 50000, 10000
-        dic_train = np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_train_copy = np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test = np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test_copy = np.ones([self.args.num_users,self.args.num_classes]) #{i: np.array([]) for i in range(self.args.num_users)}
+        dic_train = {i: np.array([]) for i in range(self.args.num_users)} # np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}#np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test = {i: np.array([]) for i in range(self.args.num_users)}#np.ones([self.args.num_users,self.args.num_classes]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}#np.ones([self.args.num_users,self.args.num_classes]) #{i: np.array([]) for i in range(self.args.num_users)}
 
         idxs_train = np.arange(num_train)
         train_labels = np.array(self.train_dataset.targets)
