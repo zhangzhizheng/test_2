@@ -250,7 +250,7 @@ class Get_Loader(object):
             # dic_train = np.insert(dic_train[i], 0, [])
             # users_list = np.random.randint(0,15,10) # cifar100
             for m in range(0,self.args.num_classes):
-                dic_train[i][m] = np.insert(dic_train[i][m], 0, labels_list_train[m][ad:ad + int(distribution_data[m][i])])
+                dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][ad:ad + int(distribution_data[m][i])])
                 ad += int(distribution_data[m][i])
                 print(dic_train)
         y = np.argsort(dic_train[i])
