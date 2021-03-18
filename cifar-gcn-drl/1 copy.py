@@ -25,15 +25,17 @@ matplotlib.use('Agg')
 
 # Saving the objects train_loss and train_accuracy:
 file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_0.pkl'
-file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_1.pkl'
-file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_train_0.pkl'
-file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_train_1.pkl'
-# file_name_5 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_vgg_CIFAR10.pkl'
-# # file_name_6 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\2_0_50_vgg_CIFAR10.pkl'
+file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_14.pkl'
+file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4(0)_layer_train_0.pkl'
+file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4(0)_layer_train_14.pkl'
 
-# file_name_7 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_MobileNet_animals.pkl'
-# file_name_8 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_MobileNet_caltecth.pkl'
-# file_name_9 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_MobileNetV2_animals.pkl'
+# file_name_5 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_2.pkl'
+# file_name_6 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_2.pkl'
+
+# file_name_7 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5(2)_layer_0.pkl'
+# file_name_8 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5(2)_layer_1.pkl'
+# file_name_9 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5(2)_layer_2.pkl'
+
 # file_name_10 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_MobileNetV2_caltecth.pkl'
 # file_name_11 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_vgg_animals.pkl'
 # file_name_12 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\1_1_50_vgg_caltecth.pkl'
@@ -128,14 +130,14 @@ with open(file_name_4, 'rb') as f4:
 #     # [list_acc, list_loss] = pickle.load(f1)
 #     [list_acc_5, list_loss_5] = pickle.load(f5)
 #     # print(list_acc_2_2, list_loss_2_2)
-# # with open(file_name_6, 'rb') as f6:
-# #     [list_acc_6, list_loss_6] = pickle.load(f6)
+# with open(file_name_6, 'rb') as f6:
+#     [list_acc_6, list_loss_6] = pickle.load(f6)
 # with open(file_name_7, 'rb') as f7:
 #     [list_acc_7, list_loss_7] = pickle.load(f7)
 # with open(file_name_8, 'rb') as f8:
 #     [list_acc_8, list_loss_8] = pickle.load(f8)
-# with open(file_name_7, 'rb') as f7:
-#     [list_acc_7, list_loss_7] = pickle.load(f7)
+# with open(file_name_9, 'rb') as f9:
+#     [list_acc_9, list_loss_9] = pickle.load(f9)
 # with open(file_name_8, 'rb') as f8:
 #     [list_acc_8, list_loss_8] = pickle.load(f8)
 # with open(file_name_9, 'rb') as f9:
@@ -172,10 +174,13 @@ with open(file_name_4, 'rb') as f4:
 # # Plot Average Accuracy vs Communication rounds
 plt.figure()
 plt.title('Average Accuracy vs Communication rounds')
-plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "4_layer_train_0")
-plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "5_layer_train_0")
-plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4_layer_train_1")
-plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_train_1")
+plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "4(0)_layer_train_0")
+plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "4(14)_layer_train_0")
+plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4(0)_layer_train_14")
+plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "4(14)_layer_train_14")
+# plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4_layer_train_1")
+# plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_train_1")
+
 # plt.plot(range(len(list_acc_5)), list_acc_5, "-", label = "m2_2")
 # plt.plot(range(len(list_acc_8)), list_acc_8, "-", label = "vgg19_2")
 # # # # plt.plot(range(len(list_acc_6)), list_acc_6, "-", label = "VGG_2")
@@ -192,4 +197,4 @@ plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_train_1")
 plt.legend()
 plt.ylabel('Average Accuracy')
 plt.xlabel('Communication Rounds')
-plt.savefig('Experiment_2nd.png')
+plt.savefig('Experiment_2nd_v(14).png')

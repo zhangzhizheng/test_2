@@ -40,119 +40,119 @@ class Get_Loader(object):
                                                     # sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
                                                     batch_size = 64, shuffle=False) # test non-IID for one data distribute
         return train_loader, test_loader
-    def cifar_noniid(self):
-        """
-        Sample non-I.I.D client data from CIFAR10 dataset
-        :param dataset:
-        :param num_users:
-        :return:
-        """
-        # num_shards, num_imgs = 100, 500， 初始化一些变量
-        num_train, num_test = 50000, 10000
-        dic_train = {i: np.array([]) for i in range(self.args.num_users)}
-        dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
+        # def cifar_noniid(self):
+        #     """
+        #     Sample non-I.I.D client data from CIFAR10 dataset
+        #     :param dataset:
+        #     :param num_users:
+        #     :return:
+        #     """
+        #     # num_shards, num_imgs = 100, 500， 初始化一些变量
+        #     num_train, num_test = 50000, 10000
+        #     dic_train = {i: np.array([]) for i in range(self.args.num_users)}
+        #     dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
 
-        dic_test = {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}
+        #     dic_test = {i: np.array([]) for i in range(self.args.num_users)}
+        #     dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}
 
-        idxs_train = np.arange(num_train)
-        train_labels = np.array(self.train_dataset.targets)
+        #     idxs_train = np.arange(num_train)
+        #     train_labels = np.array(self.train_dataset.targets)
 
-        idxs_test = np.arange(num_test)
-        test_labels = np.array(self.test_dataset.targets)
+        #     idxs_test = np.arange(num_test)
+        #     test_labels = np.array(self.test_dataset.targets)
 
-        # sort labels 排序label，没啥必要
-        idxs_labels_train = np.vstack((idxs_train, train_labels))
-        idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
-        idxs_train = idxs_labels_train[0, :]
-        # labels_list_train = [[], [], [], [], [], [], [], [], [], []] # 10
-        labels_list_train = [[], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], []
-                            ]
-        idxs_labels_test = np.vstack((idxs_test, test_labels))
-        idxs_labels_test = idxs_labels_test[:, idxs_labels_test[1, :].argsort()]
-        idxs_test = idxs_labels_test[0, :]
-        # labels_list_test = [[], [], [], [], [], [], [], [], [], []]  # 10
-        labels_list_test = [[], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], [],
-        [], [], [], [], [], [], [], [], [], []
-        ]
+        #     # sort labels 排序label，没啥必要
+        #     idxs_labels_train = np.vstack((idxs_train, train_labels))
+        #     idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
+        #     idxs_train = idxs_labels_train[0, :]
+        #     labels_list_train = [[], [], [], [], [], [], [], [], [], []] # 10
+        #     # labels_list_train = [[], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], []
+        #     #                     ]
+        #     idxs_labels_test = np.vstack((idxs_test, test_labels))
+        #     idxs_labels_test = idxs_labels_test[:, idxs_labels_test[1, :].argsort()]
+        #     idxs_test = idxs_labels_test[0, :]
+        #     labels_list_test = [[], [], [], [], [], [], [], [], [], []]  # 10
+        #     # labels_list_test = [[], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], [],
+        #     # [], [], [], [], [], [], [], [], [], []
+        #     # ]
 
-        for i in idxs_train:
-            labels_list_train[train_labels[i]].append(i)
-        for i in idxs_test:
-            labels_list_test[test_labels[i]].append(i)
-        # distribution_data = [[144,94,1561,133,1099,1466,0,0,0,0],
-        #                     [327,28,264,16,354,2,100,20,200,3],
-        #                     [6,6,641,1,255,4,1,2,106,1723],
-        #                     [176,792,100,28,76,508,991,416,215,0],
-        #                     [84,1926,1,408,133,24,771,0,0,0],
-        #                     [41,46,377,541,7,235,54,1687,666,0],
-        #                     [134,181,505,720,123,210,44,58,663,221],
-        #                     [87,2,131,1325,1117,704,0,0,0,0],
-        #                     [178,101,5,32,1553,10,163,9,437,131],
-        #                     [94,125,0,147,287,100,23,217,608,279],
-        #                     [379,649,106,90,35,119,807,819,3,85],
-        #                     [1306,55,681,227,202,34,0,648,0,0],
-        #                     [1045,13,53,6,77,70,482,7,761,494],
-        #                     [731,883,15,161,387,552,4,1051,0,0],
-        #                     [4,97,467,5,0,407,50,1000,1098,797],
-        #                     [264,2,93,266,412,142,806,2,243,1267]
-        #                     ]
-        distribution_data = [[144,94,156,133,109,146,0,0,0,0],
-                            [327,28,264,16,354,2,100,20,200,3],
-                            [6,6,641,1,255,4,1,2,106,172],
-                            [176,92,100,28,76,8,91,16,15,0],
-                            [84,26,1,8,133,24,71,0,0,0],
-                            [41,46,77,41,7,35,54,87,66,0],
-                            [134,181,5,20,23,210,44,58,63,21],
-                            [87,2,131,325,117,4,0,0,0,0],
-                            [178,101,5,32,53,10,163,9,37,131],
-                            [94,125,0,147,87,100,23,217,8,79],
-                            [9,9,106,90,35,119,7,19,3,85],
-                            [6,55,1,27,2,34,0,8,0,0],
-                            [45,13,53,6,77,70,2,7,61,94],
-                            [1,3,15,1,7,2,4,51,0,0],
-                            [4,97,67,9,0,7,50,64,98,97],
-                            [4,2,93,6,12,42,6,2,43,67]
-                            ]
-        # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
-        # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
-        for i in range(self.args.num_users):
-            ad = 0
-            # users_list = np.random.randint(0,15,10) # cifar100
-            for m in range(0,10):
-                for j in distribution_data[m]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配 self.args.data_distribution
-                    for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
-                        dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
-                    ad += 1
-                y = np.argsort(dic_train[i])
-                dic_train_copy[i] = dic_train[i][y]
-        for i in range(self.args.num_users):
-            ad = 0
-            for m in range(0,10):
-                for j in distribution_data[m]:  #0 -> i, 每个client随机
-                    for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
-                        dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
-                    ad += 1
-                y = np.argsort(dic_test[i])
-                dic_test_copy[i] = dic_test[i][y]
-        return dic_train_copy, dic_test_copy
+        #     for i in idxs_train:
+        #         labels_list_train[train_labels[i]].append(i)
+        #     for i in idxs_test:
+        #         labels_list_test[test_labels[i]].append(i)
+        #     distribution_data = [[144,94,1561,133,1099,1466,0,0,0,0],
+        #                         [327,28,264,16,354,2,100,20,200,3],
+        #                         [6,6,641,1,255,4,1,2,106,1723],
+        #                         [176,792,100,28,76,508,991,416,215,0],
+        #                         [84,1926,1,408,133,24,771,0,0,0],
+        #                         [41,46,377,541,7,235,54,1687,666,0],
+        #                         [134,181,505,720,123,210,44,58,663,221],
+        #                         [87,2,131,1325,1117,704,0,0,0,0],
+        #                         [178,101,5,32,1553,10,163,9,437,131],
+        #                         [94,125,0,147,287,100,23,217,608,279],
+        #                         [379,649,106,90,35,119,807,819,3,85],
+        #                         [1306,55,681,227,202,34,0,648,0,0],
+        #                         [1045,13,53,6,77,70,482,7,761,494],
+        #                         [731,883,15,161,387,552,4,1051,0,0],
+        #                         [4,97,467,5,0,407,50,1000,1098,797],
+        #                         [264,2,93,266,412,142,806,2,243,1267]
+        #                         ]
+        #     # distribution_data = [[144,94,156,133,109,146,0,0,0,0],
+        #     #                     [327,28,264,16,354,2,100,20,200,3],
+        #     #                     [6,6,641,1,255,4,1,2,106,172],
+        #     #                     [176,92,100,28,76,8,91,16,15,0],
+        #     #                     [84,26,1,8,133,24,71,0,0,0],
+        #     #                     [41,46,77,41,7,35,54,87,66,0],
+        #     #                     [134,181,5,20,23,210,44,58,63,21],
+        #     #                     [87,2,131,325,117,4,0,0,0,0],
+        #     #                     [178,101,5,32,53,10,163,9,37,131],
+        #     #                     [94,125,0,147,87,100,23,217,8,79],
+        #     #                     [9,9,106,90,35,119,7,19,3,85],
+        #     #                     [6,55,1,27,2,34,0,8,0,0],
+        #     #                     [45,13,53,6,77,70,2,7,61,94],
+        #     #                     [1,3,15,1,7,2,4,51,0,0],
+        #     #                     [4,97,67,9,0,7,50,64,98,97],
+        #     #                     [4,2,93,6,12,42,6,2,43,67]
+        #     #                     ]
+        #     # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
+        #     # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
+        #     for i in range(self.args.num_users):
+        #         ad = 0
+        #         # users_list = np.random.randint(0,15,10) # cifar100
+        #         for m in range(0,10):
+        #             for j in distribution_data[m]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配 self.args.data_distribution
+        #                 for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
+        #                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
+        #                 ad += 1
+        #             y = np.argsort(dic_train[i])
+        #             dic_train_copy[i] = dic_train[i][y]
+        #     for i in range(self.args.num_users):
+        #         ad = 0
+        #         for m in range(0,10):
+        #             for j in distribution_data[m]:  #0 -> i, 每个client随机
+        #                 for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
+        #                     dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
+        #                 ad += 1
+        #             y = np.argsort(dic_test[i])
+        #             dic_test_copy[i] = dic_test[i][y]
+        #     return dic_train_copy, dic_test_copy
 
     def cifar_noniid_test(self):
         """
@@ -204,6 +204,67 @@ class Get_Loader(object):
         #     print(labels[idx])
         #     time.sleep(0.01)
         return dict_users_1, dict_users_2
+
+    def cifar_noniid(self):
+        """
+        Sample non-I.I.D client data from CIFAR10 dataset
+        :param dataset:
+        :param num_users:
+        :return:
+        """
+        # num_shards, num_imgs = 100, 500， 初始化一些变量
+        num_train, num_test = 50000, 10000
+        dic_train = {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
+
+        dic_test = {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}
+
+        idxs_train = np.arange(num_train)
+        train_labels = np.array(self.train_dataset.targets)
+
+        idxs_test = np.arange(num_test)
+        test_labels = np.array(self.test_dataset.targets)
+
+        # sort labels 排序label，没啥必要
+        idxs_labels_train = np.vstack((idxs_train, train_labels))
+        idxs_labels_train = idxs_labels_train[:, idxs_labels_train[1, :].argsort()]
+        idxs_train = idxs_labels_train[0, :]
+        labels_list_train = [[], [], [], [], [], [], [], [], [], []] # 10
+
+        idxs_labels_test = np.vstack((idxs_test, test_labels))
+        idxs_labels_test = idxs_labels_test[:, idxs_labels_test[1, :].argsort()]
+        idxs_test = idxs_labels_test[0, :]
+        labels_list_test = [[], [], [], [], [], [], [], [], [], []]  # 10
+
+        for i in idxs_train:
+            labels_list_train[train_labels[i]].append(i)
+        for i in idxs_test:
+            labels_list_test[test_labels[i]].append(i)
+        distribution_data = np.loadtxt("before_op.txt",delimiter=',')
+        print(distribution_data)
+        # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
+        # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
+        for i in range(self.args.num_users):
+            ad = 0
+            # users_list = np.random.randint(0,15,10) # cifar100
+            for m in range(0,10):
+                for j in distribution_data[m]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配 self.args.data_distribution
+                    for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
+                        dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
+                    ad += 1
+                y = np.argsort(dic_train[i])
+                dic_train_copy[i] = dic_train[i][y]
+        for i in range(self.args.num_users):
+            ad = 0
+            for m in range(0,10):
+                for j in distribution_data[m]:  #0 -> i, 每个client随机
+                    for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
+                        dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
+                    ad += 1
+                y = np.argsort(dic_test[i])
+                dic_test_copy[i] = dic_test[i][y]
+        return dic_train_copy, dic_test_copy
 
 class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):
