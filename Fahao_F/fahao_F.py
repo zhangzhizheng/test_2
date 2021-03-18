@@ -482,7 +482,7 @@ def run(dataset, client, args):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(model, client))
         a = list(global_model.state_dict())
-        print(a[1:5])
+        print(a[10:15])
         acc, loss = Test(global_model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
