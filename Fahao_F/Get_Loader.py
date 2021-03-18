@@ -245,14 +245,14 @@ class Get_Loader(object):
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
 
-        for i in range(self.args.num_classes):
+        for i in range(0,self.args.num_users):
             ad = 0
             # dic_train = np.insert(dic_train[i], 0, [])
             # users_list = np.random.randint(0,15,10) # cifar100
-            for m in range(0,self.args.num_users):
-                dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[i][ad:int(distribution_data[i][m])])
-                ad += int(distribution_data[i][m])
-                print(dic_train.T)
+            for m in range(0,self.args.num_classes):
+                dic_train[i][m] = np.insert(dic_train[i][m], 0, labels_list_train[m][ad:ad + int(distribution_data[m][i])])
+                ad += int(distribution_data[m][i])
+                print(dic_train)
         y = np.argsort(dic_train[i])
         dic_train_copy[i] = dic_train[i][y]
 
