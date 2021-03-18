@@ -409,39 +409,39 @@ def Test(model, testloader):
     # P = model.state_dict()
     model.eval()
 
-    l = 0
-    a = 0
-    for i in range(0,args.num_users):
-        test_loss = 0
-        correct = 0
-        for data, target in testloader[i]:
-            indx_target = target.clone()
-            data, target = data.to(device), target.to(device)
-            with torch.no_grad():
-                output = model(data)
-            test_loss += F.cross_entropy(output, target).data
-            pred = output.data.max(1)[1]  # get the index of the max log-probability
-            correct += pred.cpu().eq(indx_target).sum()
-        l += test_loss / len(testloader[i])
-        a += correct / len(testloader[i].dataset)
-    test_loss = l / len(testloader) # average over number of mini-batch
-    accuracy = float(a / len(testloader))
-    # test_loss = 0
-    # correct = 0
+    # l = 0
+    # a = 0
+    # for i in range(0,args.num_users):
+    #     test_loss = 0
+    #     correct = 0
+    #     for data, target in testloader[i]:
+    #         indx_target = target.clone()
+    #         data, target = data.to(device), target.to(device)
+    #         with torch.no_grad():
+    #             output = model(data)
+    #         test_loss += F.cross_entropy(output, target).data
+    #         pred = output.data.max(1)[1]  # get the index of the max log-probability
+    #         correct += pred.cpu().eq(indx_target).sum()
+    #     l += test_loss / len(testloader[i])
+    #     a += correct / len(testloader[i].dataset)
+    # test_loss = l / len(testloader) # average over number of mini-batch
+    # accuracy = float(a / len(testloader))
+    test_loss = 0
+    correct = 0
 
-    # for data, target in testloader:
-    #     # print(target)
-    #     indx_target = target.clone()
-    #     data, target = data.to(device), target.to(device)
-    #     with torch.no_grad():
-    #         output = model(data)
-    #     # print(target-4)
-    #     test_loss += F.cross_entropy(output, target).data
-    #     pred = output.data.max(1)[1]  # get the index of the max log-probability
-    #     correct += pred.cpu().eq(indx_target).sum()
+    for data, target in testloader:
+        # print(target)
+        indx_target = target.clone()
+        data, target = data.to(device), target.to(device)
+        with torch.no_grad():
+            output = model(data)
+        # print(target-4)
+        test_loss += F.cross_entropy(output, target).data
+        pred = output.data.max(1)[1]  # get the index of the max log-probability
+        correct += pred.cpu().eq(indx_target).sum()
 
-    # test_loss = test_loss / len(testloader) # average over number of mini-batch
-    # accuracy = float(correct / len(testloader.dataset))
+    test_loss = test_loss / len(testloader) # average over number of mini-batch
+    accuracy = float(correct / len(testloader.dataset))
 
     if device == 'cuda':
         model.cpu()
@@ -521,7 +521,7 @@ def run(dataset, client, args):
             model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}.pkl'.format(args.status)
+    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_S_all_test.pkl'.format(args.status)
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)

@@ -27,7 +27,7 @@ class Get_Loader(object):
         if(self.args.iid == 0):
             train, test = self.cifar_noniid()
             train_loader = {i: np.array([]) for i in range(self.args.num_users)}
-            test_loader = {i: np.array([]) for i in range(self.args.num_users)}
+            # test_loader = {i: np.array([]) for i in range(self.args.num_users)}
             # num_train = len(self.train_dataset)
             # indices = list(range(num_train))
             # split = int(np.floor(0.5 * num_train))  # split index
@@ -38,11 +38,11 @@ class Get_Loader(object):
             # num_vaild = len(self.test_dataset)
             # indices = list(range(num_vaild))
             # split = int(np.floor(0.5 * num_train))  # split index
-            # test_loader = torch.utils.data.DataLoader(self.test_dataset,  batch_size = 128, shuffle=False)
-            for i in range(0,self.num_users):
-                test_loader[i] = torch.utils.data.DataLoader(DatasetSplit(self.test_dataset, test[i]),
-                                                    # sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-                                                    batch_size = 128, shuffle=False) # test non-IID for one data distribute
+            test_loader = torch.utils.data.DataLoader(self.test_dataset,  batch_size = 128, shuffle=False)
+            # for i in range(0,self.num_users):
+            #     test_loader[i] = torch.utils.data.DataLoader(DatasetSplit(self.test_dataset, test[i]),
+            #                                         # sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
+            #                                         batch_size = 128, shuffle=False) # test non-IID for one data distribute
         return train_loader, test_loader
         # def cifar_noniid(self):
         #     """
@@ -244,8 +244,8 @@ class Get_Loader(object):
             labels_list_train[train_labels[i]].append(i)
         for i in idxs_test:
             labels_list_test[test_labels[i]].append(i)
-        if(self.args.status == 'b'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/before_op.txt",delimiter=',')
-        elif(self.args.status == 'a'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_op.txt",delimiter=',')
+        if(self.args.status == 'b'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/before_op_S.txt",delimiter=',')
+        elif(self.args.status == 'a'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_op_S.txt",delimiter=',')
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
