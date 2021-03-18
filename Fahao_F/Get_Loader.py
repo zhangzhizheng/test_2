@@ -247,8 +247,6 @@ class Get_Loader(object):
 
         for i in range(0,self.args.num_users):
             ad = 0
-            # dic_train = np.insert(dic_train[i], 0, [])
-            # users_list = np.random.randint(0,15,10) # cifar100
             for m in range(0,self.args.num_classes):
                 dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][ad:ad + int(distribution_data[m][i])])
                 ad += int(distribution_data[m][i])
@@ -256,15 +254,14 @@ class Get_Loader(object):
         y = np.argsort(dic_train[i])
         dic_train_copy[i] = dic_train[i][y]
 
-        for i in range(self.args.num_users):
+        for i in range(0,self.args.num_users):
             ad = 0
-            for m in range(0,10):
-                for j in distribution_data[m]:  #0 -> i, 每个client随机
-                    for k in np.random.randint(0,len(labels_list_test[ad])-1, int(j/5)):
-                        dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[ad][k])
-                    ad += 1
-                y = np.argsort(dic_test[i])
-                dic_test_copy[i] = dic_test[i][y]
+            for m in range(0,self.args.num_classes):
+                dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][ad/5:(ad + int(distribution_data[m][i]))/5])
+                ad += int(distribution_data[m][i])
+                print(dic_test)
+        y = np.argsort(dic_test[i])
+        dic_test_copy[i] = dic_test[i][y]
         return dic_train_copy, dic_test_copy
 
 class DatasetSplit(Dataset):
