@@ -390,12 +390,16 @@ def Train(model, optimizer, client, trainloader):
             _, predicted = outputs.max(1)
             total[i] += targets.size(0)
             correct[i] += predicted.eq(targets).sum().item()
+        print(Loss / len(trainloader[i])) # average over number of mini-batch
+        print(correct / len(trainloader.dataset))
     time_end = time.time()
     if device == 'cuda':
         for i in range (client):
             model[i].cpu()
     for i in range (client):
         P[i] = copy.deepcopy(model[i].state_dict())
+
+
     # print(labels_check)
     # time.sleep(10)
     return P, (time_end-time_start)
@@ -482,7 +486,7 @@ def run(dataset, client, args):
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(model, client))
-        if(a == global_model): print("woshi shabi")
+        # if(a == global_model): print("woshi shabi")
         a = global_model.state_dict()
         # print(a)
         acc, loss = Test(global_model, testloader)
