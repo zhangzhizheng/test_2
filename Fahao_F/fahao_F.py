@@ -372,24 +372,24 @@ def Train(model, optimizer, client, trainloader):
     time_start = time.time()
     for i in range(0,client):
         # print(trainloader[i][0])
-        for batch_idx, (inputs, targets) in enumerate(trainloader[i]):
+        for inputs, targets in trainloader[i]:
             # for i in targets:
             #     labels_check[i] += 1
             # print(targets)
-            idx = (batch_idx % client)
-            model[idx].train()
+            # idx = (batch_idx % client)
+            model[i].train()
             inputs, targets = inputs.to(device), targets.to(device)
-            optimizer[idx].zero_grad()
-            outputs = model[idx](inputs)
+            optimizer[i].zero_grad()
+            outputs = model[i](inputs)
             # print(outputs[0], targets)
             # print(targets-4)
-            Loss[idx] = criterion(outputs, targets)
-            Loss[idx].backward()
-            optimizer[idx].step()
-            train_loss[idx] += Loss[idx].item()
+            Loss[i] = criterion(outputs, targets)
+            Loss[i].backward()
+            optimizer[i].step()
+            train_loss[i] += Loss[i].item()
             _, predicted = outputs.max(1)
-            total[idx] += targets.size(0)
-            correct[idx] += predicted.eq(targets).sum().item()
+            total[i] += targets.size(0)
+            correct[i] += predicted.eq(targets).sum().item()
     time_end = time.time()
     if device == 'cuda':
         for i in range (client):
@@ -399,7 +399,6 @@ def Train(model, optimizer, client, trainloader):
     # print(labels_check)
     # time.sleep(10)
     return P, (time_end-time_start)
-
 def Test(model, testloader):
     # cpu ? gpu
     model = model.to(device)
@@ -422,7 +421,6 @@ def Test(model, testloader):
     if device == 'cuda':
         model.cpu()
     return accuracy, test_loss.item()
-
 def Aggregate(model, client):
     P = []
     for i in range (client):
@@ -472,13 +470,13 @@ def run(dataset, client, args):
     #     acc_list.append(acc)
     #     loss_list.append(loss)
     #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
-    for i in range (client):
-        Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    # for i in range (client):
+    #     Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
         pbar = tqdm(range(args.epoch))
-        Temp, process_time = Train(model, Optimizer, client, trainloader)
+        Temp, process_time = Train(model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
