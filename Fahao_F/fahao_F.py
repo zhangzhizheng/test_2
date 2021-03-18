@@ -409,28 +409,45 @@ def Test(model, testloader):
     # P = model.state_dict()
     model.eval()
 
-    l = 0
-    a = 0
-    for i in range(0,args.num_users):
-        test_loss = 0
-        correct = 0
-        for data, target in testloader[i]:
-            # print(target)
-            indx_target = target.clone()
-            data, target = data.to(device), target.to(device)
-            with torch.no_grad():
-                output = model(data)
-            # print(target-4)
-            test_loss += F.cross_entropy(output, target).data
-            pred = output.data.max(1)[1]  # get the index of the max log-probability
-            correct += pred.cpu().eq(indx_target).sum()
-        l += test_loss / len(testloader[i])
-        a += correct / len(testloader[i].dataset)
-    test_loss = l / len(testloader) # average over number of mini-batch
-    accuracy = float(a / len(testloader))
+    # l = 0
+    # a = 0
+    # for i in range(0,args.num_users):
+    #     test_loss = 0
+    #     correct = 0
+    #     for data, target in testloader[i]:
+    #         # print(target)
+    #         indx_target = target.clone()
+    #         data, target = data.to(device), target.to(device)
+    #         with torch.no_grad():
+    #             output = model(data)
+    #         # print(target-4)
+    #         test_loss += F.cross_entropy(output, target).data
+    #         pred = output.data.max(1)[1]  # get the index of the max log-probability
+    #         correct += pred.cpu().eq(indx_target).sum()
+    #     l += test_loss / len(testloader[i])
+    #     a += correct / len(testloader[i].dataset)
+    # test_loss = l / len(testloader) # average over number of mini-batch
+    # accuracy = float(a / len(testloader))
+    test_loss = 0
+    correct = 0
+
+    for data, target in testloader[i]:
+        # print(target)
+        indx_target = target.clone()
+        data, target = data.to(device), target.to(device)
+        with torch.no_grad():
+            output = model(data)
+        # print(target-4)
+        test_loss += F.cross_entropy(output, target).data
+        pred = output.data.max(1)[1]  # get the index of the max log-probability
+        correct += pred.cpu().eq(indx_target).sum()
+
+    test_loss = test_loss / len(testloader) # average over number of mini-batch
+    accuracy = float(correct / len(testloader))
+
     if device == 'cuda':
         model.cpu()
-    print(accuracy, test_loss.item())
+    # print(accuracy, test_loss.item())
     return accuracy, test_loss.item()
 def Aggregate(model, client):
     P = []
@@ -484,10 +501,11 @@ def run(dataset, client, args):
     # for i in range (client):
     #     Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
     # a = model[0].state_dict()
-    for i in range (args.epoch):
+    pbar = tqdm(range(args.epoch))
+    for i in pbar:
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
-        pbar = tqdm(range(args.epoch))
+        # pbar = tqdm(range(args.epoch))
         Temp, process_time = Train(model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
