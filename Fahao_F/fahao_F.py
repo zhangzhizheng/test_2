@@ -411,7 +411,7 @@ def Test(model, testloader):
     test_loss = 0
     correct = 0
     for data, target in testloader:
-        # print(target)
+        print(target)
         indx_target = target.clone()
         data, target = data.to(device), target.to(device)
         with torch.no_grad():
@@ -477,7 +477,7 @@ def run(dataset, client, args):
     #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
     # for i in range (client):
     #     Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
-    a = model[0].state_dict()
+    # a = model[0].state_dict()
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
@@ -487,16 +487,16 @@ def run(dataset, client, args):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(model, client))
         # if(a == global_model): print("woshi shabi")
-        a = global_model.state_dict()
+        # a = global_model.state_dict()
         # print(a)
-        acc, loss = Test(model[0], testloader)
+        acc, loss = Test(global_model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
         start_time += process_time
         pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
 
-        for j in range (client):
-            model[j].load_state_dict(global_model.state_dict())
+        for j in range (0, client):
+            model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
     file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}.pkl'.format(args.status)
