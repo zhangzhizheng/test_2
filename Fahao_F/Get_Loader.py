@@ -214,11 +214,10 @@ class Get_Loader(object):
         """
         # num_shards, num_imgs = 100, 500， 初始化一些变量
         num_train, num_test = 50000, 10000
-        dic_train = {i: np.array([]) for i in range(self.args.num_users)}
-        dic_train_copy = {i: np.array([]) for i in range(self.args.num_users)}
-
-        dic_test = {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test_copy = {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train = [] # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train_copy = [] # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test = [] # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test_copy = [] #{i: np.array([]) for i in range(self.args.num_users)}
 
         idxs_train = np.arange(num_train)
         train_labels = np.array(self.train_dataset.targets)
@@ -245,16 +244,18 @@ class Get_Loader(object):
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
-        for i in range(self.args.num_users):
+
+        for i in range(self.args.num_classes):
             ad = 0
+            dic_train.append([])
             # users_list = np.random.randint(0,15,10) # cifar100
-            for m in range(0,10):
-                for j in distribution_data[m]:   #0 -> i, 每个client随机  , i->0 ,改固定, 加上users_list[i]每个分配 self.args.data_distribution
-                    for k in np.random.randint(0,len(labels_list_train[ad])-1,j):
-                        dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[ad][k])
-                    ad += 1
-                y = np.argsort(dic_train[i])
-                dic_train_copy[i] = dic_train[i][y]
+            for m in range(0,self.args.num_users):
+                dic_train[i].append(0)
+                dic_train[i] = np.insert(dic_train[i], len(dic_train[i]), labels_list_train[i][distribution_data[m]])
+                print(dic_train)
+            y = np.argsort(dic_train[i])
+            dic_train_copy[i] = dic_train[i][y]
+
         for i in range(self.args.num_users):
             ad = 0
             for m in range(0,10):
