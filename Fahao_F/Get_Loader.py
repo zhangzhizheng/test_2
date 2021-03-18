@@ -214,10 +214,10 @@ class Get_Loader(object):
         """
         # num_shards, num_imgs = 100, 500， 初始化一些变量
         num_train, num_test = 50000, 10000
-        dic_train = [] # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_train_copy = [] # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test = [] # {i: np.array([]) for i in range(self.args.num_users)}
-        dic_test_copy = [] #{i: np.array([]) for i in range(self.args.num_users)}
+        dic_train = np.array([]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_train_copy = np.array([]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test = np.array([]) # {i: np.array([]) for i in range(self.args.num_users)}
+        dic_test_copy = np.array([]) #{i: np.array([]) for i in range(self.args.num_users)}
 
         idxs_train = np.arange(num_train)
         train_labels = np.array(self.train_dataset.targets)
@@ -247,7 +247,7 @@ class Get_Loader(object):
 
         for i in range(self.args.num_classes):
             ad = 0
-            dic_train.append([])
+            dic_train[i] = np.array([])
             # users_list = np.random.randint(0,15,10) # cifar100
             for m in range(0,self.args.num_users):
                 dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[i][ad:int(distribution_data[i][m])])
