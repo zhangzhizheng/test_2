@@ -431,7 +431,7 @@ def Test(model, testloader):
     test_loss = 0
     correct = 0
 
-    for data, target in testloader[i]:
+    for data, target in testloader:
         # print(target)
         indx_target = target.clone()
         data, target = data.to(device), target.to(device)
