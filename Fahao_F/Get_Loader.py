@@ -267,7 +267,7 @@ class Get_Loader(object):
                 # print(dic_test)
         y = np.argsort(dic_test[i])
         dic_test_copy[i] = dic_test[i][y]
-        return dic_train_copy, dic_test_copy
+        return dic_train, dic_test
 
 class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):
