@@ -257,7 +257,7 @@ class Get_Loader(object):
         for i in range(0,self.args.num_users):
             ad = 0
             for m in range(0,self.args.num_classes):
-                dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][ad/5:(ad + int(distribution_data[m][i]))/5])
+                dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(ad/5):int((ad + int(distribution_data[m][i]))/5)])
                 ad += int(distribution_data[m][i])
                 print(dic_test)
         y = np.argsort(dic_test[i])
