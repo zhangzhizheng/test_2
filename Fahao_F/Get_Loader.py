@@ -247,7 +247,7 @@ class Get_Loader(object):
 
         for i in range(self.args.num_classes):
             ad = 0
-            dic_train[i] = []
+            dic_train[i] = np.insert(dic_train[i], 0, [])
             # users_list = np.random.randint(0,15,10) # cifar100
             for m in range(0,self.args.num_users):
                 dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[i][ad:int(distribution_data[i][m])])
