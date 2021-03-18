@@ -370,24 +370,25 @@ def Train(model, optimizer, client, trainloader):
     total = [0 for i in range (client)]
     Loss = [0 for i in range (client)]
     time_start = time.time()
-    for batch_idx, (inputs, targets) in enumerate(trainloader):
-        # for i in targets:
-        #     labels_check[i] += 1
-        # print(targets)
-        idx = (batch_idx % client)
-        model[idx].train()
-        inputs, targets = inputs.to(device), targets.to(device)
-        optimizer[idx].zero_grad()
-        outputs = model[idx](inputs)
-        # print(outputs[0], targets)
-        # print(targets-4)
-        Loss[idx] = criterion(outputs, targets)
-        Loss[idx].backward()
-        optimizer[idx].step()
-        train_loss[idx] += Loss[idx].item()
-        _, predicted = outputs.max(1)
-        total[idx] += targets.size(0)
-        correct[idx] += predicted.eq(targets).sum().item()
+    for i in range(0,client):
+        for batch_idx, (inputs, targets) in trainloader[i]:
+            # for i in targets:
+            #     labels_check[i] += 1
+            # print(targets)
+            idx = (batch_idx % client)
+            model[idx].train()
+            inputs, targets = inputs.to(device), targets.to(device)
+            optimizer[idx].zero_grad()
+            outputs = model[idx](inputs)
+            # print(outputs[0], targets)
+            # print(targets-4)
+            Loss[idx] = criterion(outputs, targets)
+            Loss[idx].backward()
+            optimizer[idx].step()
+            train_loss[idx] += Loss[idx].item()
+            _, predicted = outputs.max(1)
+            total[idx] += targets.size(0)
+            correct[idx] += predicted.eq(targets).sum().item()
     time_end = time.time()
     if device == 'cuda':
         for i in range (client):
@@ -446,21 +447,22 @@ def run(dataset, client, args):
 
     # genotype = eval("search_space.genotypes.%s" % 'DARTS')
     # model = Network(16, 10, 4, False, genotype)
-    # model, global_model, optimizer = Set_model(args.net, client, args)
+    model, global_model, optimizer = Set_model(args.net, client, args)
     # print('model', model[0])
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
     # global_model = [None for i in range (args.num_users)]
-    model = [None for i in range (args.num_users)]
+    # model = [None for i in range (args.num_users)]
     Optimizer = [None for i in range (client)]
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4 dataset 0
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_001408-2e23sb4e/files/weights.pt')  # 4 dataset 14
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5 dataset 1
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_112719-251bnz32/files/weights.pt')  # 5, dataset 2
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_034554-2a763y5p/files/weights.pt')  # 5, dataset 0-10
-    model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_052228-1onsngtz/files/weights.pt')  # 5, dataset 10-0
+    # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_052228-1onsngtz/files/weights.pt')  # 5, dataset 10-0
     # print('model1',type(model1))
     # model.eval()
-    global_model = model[0]
+    # global_model = model[0]
+    
     # for i in range (args.epoch):
     #     pbar = tqdm(range(args.epoch))
     #     start_time = 0
@@ -491,7 +493,7 @@ def run(dataset, client, args):
 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/5(0-10)_layer_train_{}.pkl'.format(args.data_distribution)
+    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_b.pkl'.format(args.data_distribution)
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
