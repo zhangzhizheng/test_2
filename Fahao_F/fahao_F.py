@@ -473,6 +473,7 @@ def run(dataset, client, args):
     #     pbar.set_description("Epoch: Accuracy: %.3f Loss: %.3f Time: %.3f" %(acc, loss, start_time))
     # for i in range (client):
     #     Optimizer[i] = torch.optim.SGD(model[i].parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    a = model[0].state_dict()
     for i in range (args.epoch):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
@@ -481,8 +482,9 @@ def run(dataset, client, args):
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(model, client))
+        if(a == global_model): print("woshi shabi")
         a = global_model.state_dict()
-        print(a)
+        # print(a)
         acc, loss = Test(global_model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
