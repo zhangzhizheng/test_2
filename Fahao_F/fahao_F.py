@@ -390,7 +390,7 @@ def Train(model, optimizer, client, trainloader):
             _, predicted = outputs.max(1)
             total[i] += targets.size(0)
             correct[i] += predicted.eq(targets).sum().item()
-        print(Loss[i] / len(trainloader[i])) # average over number of mini-batch
+        print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         print(correct[i] / len(trainloader.dataset))
     time_end = time.time()
     if device == 'cuda':
