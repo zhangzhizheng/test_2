@@ -443,7 +443,7 @@ def Test(model, testloader):
         correct += pred.cpu().eq(indx_target).sum()
 
     test_loss = test_loss / len(testloader) # average over number of mini-batch
-    accuracy = float(correct / len(testloader))
+    accuracy = float(correct / len(testloader.dataset))
 
     if device == 'cuda':
         model.cpu()
