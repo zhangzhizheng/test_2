@@ -258,7 +258,8 @@ class Get_Loader(object):
                 # print(dic_train)
         y = np.argsort(dic_train[i])
         dic_train_copy[i] = dic_train[i][y]
-        print(np.random.shuffle(dic_train_copy))
+        np.random.shuffle(dic_train_copy)
+        # print(np.random.shuffle(dic_train_copy))
         for i in range(0,self.args.num_users):
             ad = 0
             for m in range(0,self.args.num_classes):
@@ -267,7 +268,8 @@ class Get_Loader(object):
                 # print(dic_test)
         y = np.argsort(dic_test[i])
         dic_test_copy[i] = dic_test[i][y]
-        return np.random.shuffle(dic_train_copy), np.random.shuffle(dic_test_copy)
+        np.random.shuffle(dic_test_copy)
+        return dic_train_copy, dic_test_copy
 
 class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):
