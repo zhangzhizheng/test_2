@@ -371,6 +371,7 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for i in range(0,client):
+        print(i)
         print(trainloader[i])
         for batch_idx, (inputs, targets) in trainloader[i]:
             # for i in targets:
