@@ -28,6 +28,7 @@ def args_parser():
     parser.add_argument('--personalized', type=int, default=0, help='personalized federated learning')  # personalized
     parser.add_argument('--status', type=str, default='b', help='data status')  # before or after
     parser.add_argument('--net', type=str, default='MobileNet', help='model name')
+    parser.add_argument('--dataset', type=str, default='CIFAR10')
 
     # model arguments
     
