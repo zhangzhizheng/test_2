@@ -241,7 +241,7 @@ class Get_Loader(object):
             labels_list_train[train_labels[i]].append(i)
         for i in idxs_test:
             labels_list_test[test_labels[i]].append(i)
-        distribution_data = np.loadtxt("before_op.txt",delimiter=',')
+        distribution_data = np.loadtxt("./before_op.txt",delimiter=',')
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
