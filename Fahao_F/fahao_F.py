@@ -372,7 +372,7 @@ def Train(model, optimizer, client, trainloader):
     time_start = time.time()
     for i in range(0,client):
         # print(trainloader[i][0])
-        for batch_idx, (inputs, targets) in trainloader[i]:
+        for batch_idx, (inputs, targets) in enumerate(trainloader[i]):
             # for i in targets:
             #     labels_check[i] += 1
             print(targets)
