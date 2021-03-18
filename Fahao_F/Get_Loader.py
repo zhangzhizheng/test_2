@@ -252,7 +252,7 @@ class Get_Loader(object):
             for m in range(0,self.args.num_users):
                 dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[i][ad:int(distribution_data[i][m])])
                 ad += int(distribution_data[i][m])
-                print(dic_train)
+                print(dic_train.T)
         y = np.argsort(dic_train[i])
         dic_train_copy[i] = dic_train[i][y]
 
