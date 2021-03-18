@@ -420,7 +420,7 @@ def Test(model, testloader):
     accuracy = float(correct / len(testloader.dataset))
     if device == 'cuda':
         model.cpu()
-    print(accuracy, test_loss.item())
+    # print(accuracy, test_loss.item())
     return accuracy, test_loss.item()
 def Aggregate(model, client):
     P = []
@@ -452,7 +452,7 @@ def run(dataset, client, args):
     # model = torch.load('/home/test_2/Fahao_F/wandb/offline-run-20210306_060829-33a1zl9i/files/weights.pt')
     # global_model = [None for i in range (args.num_users)]
     # model = [None for i in range (args.num_users)]
-    Optimizer = [None for i in range (client)]
+    # Optimizer = [None for i in range (client)]
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_043033-1l7lt66d/files/weights.pt')  # 4 dataset 0
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210308_001408-2e23sb4e/files/weights.pt')  # 4 dataset 14
     # model[0] = utils.load('/home/test_2/Fahao_F/wandb/offline-run-20210307_045558-1ttkon4t/files/weights.pt')  # 5 dataset 1
@@ -480,8 +480,8 @@ def run(dataset, client, args):
         Temp, process_time = Train(model, optimizer, client, trainloader)
         for j in range (client):
             model[j].load_state_dict(Temp[j])
-        global_model.load_state_dict(Aggregate(copy.deepcopy(model), client))
-        # global_model.load_state_dict(Temp[j])
+        global_model.load_state_dict(Aggregate(model, client))
+        print(global_model,global_model.state_dict())
         acc, loss = Test(global_model, testloader)
         acc_list.append(acc)
         loss_list.append(loss)
