@@ -263,7 +263,7 @@ class Get_Loader(object):
                 # ad += int(distribution_data[m][i])
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
-        print(dic_train)
+            print(len(dic_train))
         for i in range(0,100):
             np.random.shuffle(dic_train_copy)
             np.random.shuffle(dic_train_copy)
