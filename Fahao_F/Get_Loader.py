@@ -258,8 +258,8 @@ class Get_Loader(object):
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])]) 
                     print(int(distribution_data[m][i]))
                 else: 
-                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i-1])):int(distribution_data[m][i])]) 
-                    print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i-1])))
+                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i])):int(distribution_data[m][i])]) 
+                    print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i])))
                 # ad += int(distribution_data[m][i])
                 # print(dic_train)
             y = np.argsort(dic_train[i])
@@ -275,7 +275,7 @@ class Get_Loader(object):
             # ad = 0
             for m in range(0,self.args.num_classes):
                 if(i == 0): dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][0:int(distribution_data[m][i]/5)])
-                else: dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(np.sum(distribution_data[m][:i-1])/5):int(distribution_data[m][i]/5)])
+                else: dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(np.sum(distribution_data[m][:i])/5):int(distribution_data[m][i]/5)])
                 # ad += int(distribution_data[m][i])
                 # print(dic_test)
             y = np.argsort(dic_test[i])
