@@ -254,8 +254,12 @@ class Get_Loader(object):
         for i in range(0,self.args.num_users):
             # ad = 0
             for m in range(0,self.args.num_classes):
-                if(i == 0): dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])])
-                else: dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i-1])):int(distribution_data[m][i])])
+                if(i == 0): 
+                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])]) 
+                    print(int(distribution_data[m][i]))
+                else: 
+                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i-1])):int(distribution_data[m][i])]) 
+                    print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i-1])))
                 # ad += int(distribution_data[m][i])
                 # print(dic_train)
             y = np.argsort(dic_train[i])
