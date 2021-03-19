@@ -521,7 +521,7 @@ def run(dataset, client, args):
             model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_S_all_test.pkl'.format(args.status)
+    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_1'.format(args.status)
     with open(file_name, 'wb') as f:
         pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)

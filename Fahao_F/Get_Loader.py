@@ -245,9 +245,9 @@ class Get_Loader(object):
         for i in idxs_test:
             labels_list_test[test_labels[i]].append(i)
         # print(labels_list_train)
-        if(self.args.status == 'b'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/before.txt",delimiter=',')
-        elif(self.args.status == 'as'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_s.txt",delimiter=',')
-        elif(self.args.status == 'am'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_m.txt",delimiter=',')
+        if(self.args.status == 'b'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/before_1.txt",delimiter=',')
+        elif(self.args.status == 'as'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_s_1.txt",delimiter=',')
+        elif(self.args.status == 'am'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_m_1.txt",delimiter=',')
         # print(distribution_data)
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
