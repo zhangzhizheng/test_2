@@ -250,7 +250,7 @@ class Get_Loader(object):
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
-
+        print(self.args.num_users)
         for i in range(0,self.args.num_users):
             # ad = 0
             for m in range(0,self.args.num_classes):
