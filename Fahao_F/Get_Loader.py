@@ -244,7 +244,7 @@ class Get_Loader(object):
             labels_list_train[train_labels[i]].append(i)
         for i in idxs_test:
             labels_list_test[test_labels[i]].append(i)
-        print(labels_list_train)
+        # print(labels_list_train)
         if(self.args.status == 'b'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/before_op_S.txt",delimiter=',')
         elif(self.args.status == 'a'): distribution_data = np.loadtxt("/home/test_2/Fahao_F/after_op_S.txt",delimiter=',')
         print(distribution_data)
@@ -263,7 +263,7 @@ class Get_Loader(object):
                 # ad += int(distribution_data[m][i])
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
-            print(len(dic_train))
+            print(len(dic_train[i]))
         for i in range(0,100):
             np.random.shuffle(dic_train_copy)
             np.random.shuffle(dic_train_copy)
