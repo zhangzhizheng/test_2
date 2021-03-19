@@ -261,9 +261,9 @@ class Get_Loader(object):
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i])):int(distribution_data[m][i])]) 
                     print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i])))
                 # ad += int(distribution_data[m][i])
-                # print(dic_train)
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
+        print(dic_train)
         for i in range(0,100):
             np.random.shuffle(dic_train_copy)
             np.random.shuffle(dic_train_copy)
