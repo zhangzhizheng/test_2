@@ -250,16 +250,16 @@ class Get_Loader(object):
         print(distribution_data)
         # users_list = np.random.randint(0,15,size=self.num_users) #each user gets the randomly data distribution, 16
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
-        print(self.args.num_users)
+        # print(self.args.num_users)
         for i in range(0,self.args.num_users):
             # ad = 0
             for m in range(0,self.args.num_classes):
                 if(i == 0): 
                     dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])]) 
-                    print(int(distribution_data[m][i]))
+                    # print(int(distribution_data[m][i]))
                 else: 
-                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i])):int(distribution_data[m][i])]) 
-                    print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i])))
+                    dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i])):int(np.sum(distribution_data[m][:i]) + distribution_data[m][i])]) 
+                    # print(int(distribution_data[m][i]), int(np.sum(distribution_data[m][:i])))
                 # ad += int(distribution_data[m][i])
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
@@ -275,7 +275,7 @@ class Get_Loader(object):
             # ad = 0
             for m in range(0,self.args.num_classes):
                 if(i == 0): dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][0:int(distribution_data[m][i]/5)])
-                else: dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(np.sum(distribution_data[m][:i])/5):int(distribution_data[m][i]/5)])
+                else: dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(np.sum(distribution_data[m][:i])/5):int((np.sum(distribution_data[m][:i]) + distribution_data[m][i])/5)])
                 # ad += int(distribution_data[m][i])
                 # print(dic_test)
             y = np.argsort(dic_test[i])
