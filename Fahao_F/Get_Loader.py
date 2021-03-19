@@ -256,7 +256,7 @@ class Get_Loader(object):
                 if(i == 0): dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])])
                 else: dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][int(np.sum(distribution_data[m][:i-1])):int(distribution_data[m][i])])
                 # ad += int(distribution_data[m][i])
-                # print(dic_train)
+                print(dic_train)
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
         for i in range(0,100):
