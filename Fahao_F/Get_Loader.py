@@ -251,10 +251,11 @@ class Get_Loader(object):
         # users_list = [self.args.data_distribution] # each user gets the distribution by the paremeter
 
         for i in range(0,self.args.num_users):
-            ad = 0
+            # ad = 0
             for m in range(0,self.args.num_classes):
-                dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][ad:ad + int(distribution_data[m][i])])
-                ad += int(distribution_data[m][i])
+                if(i == 0): dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][0:int(distribution_data[m][i])])
+                else: dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][np.sum(distribution_data[m][:i-1]):int(distribution_data[m][i])])
+                # ad += int(distribution_data[m][i])
                 # print(dic_train)
             y = np.argsort(dic_train[i])
             dic_train_copy[i] = dic_train[i][y]
@@ -266,10 +267,11 @@ class Get_Loader(object):
             np.random.shuffle(dic_train_copy)
         # print(np.random.shuffle(dic_train_copy))
         for i in range(0,self.args.num_users):
-            ad = 0
+            # ad = 0
             for m in range(0,self.args.num_classes):
-                dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][int(ad/5):int((ad + int(distribution_data[m][i]))/5)])
-                ad += int(distribution_data[m][i])
+                if(i == 0): dic_test[i] = np.insert(dic_test[i], 0, labels_list_test[m][0:int(distribution_data[m][i])/5])
+                else: dic_train[i] = np.insert(dic_train[i], 0, labels_list_train[m][np.sum(distribution_data[m][:i-1])/5:int(distribution_data[m][i])/5])
+                # ad += int(distribution_data[m][i])
                 # print(dic_test)
             y = np.argsort(dic_test[i])
             dic_test_copy[i] = dic_test[i][y]
