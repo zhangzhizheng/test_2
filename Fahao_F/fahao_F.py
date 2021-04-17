@@ -373,7 +373,7 @@ def Train(model, optimizer, client, trainloader):
     time_start = time.time()
     for i in range(0,client):
         # print(i)
-        for idx,(inputs, targets) in trainloader[i]:
+        for idx,(inputs, targets) in enumerate(trainloader[i]):
             print(idx, inputs, targets)
             if(idx == 0):
                 break
