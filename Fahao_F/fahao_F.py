@@ -401,7 +401,7 @@ def Train(model, optimizer, client, trainloader):
             if(idx == 0):
                 break
         time_end_1 = time.time()
-        print("clinet"+i+"):", time_end_1-time_start_1)
+        print("clinet"+str(i)+"):", time_end_1-time_start_1)
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
