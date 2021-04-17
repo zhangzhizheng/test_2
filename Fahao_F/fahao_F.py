@@ -583,7 +583,7 @@ def run(dataset, client, args):
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
     # file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_1'.format(args.status)
 
-    time_file_name = '/home/test_2/time/time_{}_batch_{}'.format(total_time, args.batch)
+    time_file_name = '/home/test_2/time/time_{}_batch_{}.pkl'.format(total_time, args.batch)
 
     # with open(file_name, 'wb') as f:
     #     pickle.dump([acc_list, loss_list], f)
