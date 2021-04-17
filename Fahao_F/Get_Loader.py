@@ -16,6 +16,7 @@ class Get_Loader(object):
         self.test_dataset = test_dataset
         self.idxs_users = idxs_users
         self.num_users = args.num_users
+        self.batch = args.batch
         # self.dataloader = self.train_val_test(dataset, list(idxs_users))
         # self.device = 'cuda' if args.gpu else 'cpu'
         # Default criterion set to NLL loss function
@@ -26,7 +27,7 @@ class Get_Loader(object):
             train_loader = {}
             # train_loader = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 128,shuffle=False)
             for i in range(0,self.num_users):
-                train_loader[i] = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 256,shuffle=False)
+                train_loader[i] = torch.utils.data.DataLoader(self.train_dataset,  batch_size = self.batch,shuffle=False)
             # train_loader_2 = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 256,shuffle=False)
             test_loader = torch.utils.data.DataLoader(self.test_dataset,  batch_size = 128, shuffle=False)
         if(self.args.iid == 0):

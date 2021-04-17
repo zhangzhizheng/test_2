@@ -29,7 +29,7 @@ def args_parser():
     parser.add_argument('--status', type=str, default='b', help='data status')  # before or after
     parser.add_argument('--net', type=str, default='MobileNet', help='model name')
     parser.add_argument('--dataset', type=str, default='CIFAR10')
-
+    parser.add_argument('--batch', type=int, default='128')
     # model arguments
     
     parser.add_argument('--kernel_num', type=int, default=9,
