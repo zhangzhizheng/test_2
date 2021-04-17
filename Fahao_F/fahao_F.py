@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 import torchvision
 import torchvision.transforms as transforms
+import torch.autograd.profiler as profiler
 
 import pickle
 import random
@@ -372,24 +373,33 @@ def Train(model, optimizer, client, trainloader):
     time_start = time.time()
     for i in range(0,client):
         # print(i)
-        for inputs, targets in trainloader[i]:
+        for idx,(inputs, targets) in trainloader[i]:
+            print(idx, inputs, targets)
+            if(idx == 0):
+                break
             # for i in targets:
             #     labels_check[i] += 1
             # print(targets)
             # idx = (batch_idx % client)
-            model[i].train()
-            inputs, targets = inputs.to(device), targets.to(device)
-            optimizer[i].zero_grad()
-            outputs = model[i](inputs)
-            # print(outputs[0], targets)
-            # print(targets-4)
-            Loss[i] = criterion(outputs, targets)
-            Loss[i].backward()
-            optimizer[i].step()
-            train_loss[i] += Loss[i].item()
-            _, predicted = outputs.max(1)
-            total[i] += targets.size(0)
-            correct[i] += predicted.eq(targets).sum().item()
+            for j in range(0,client-i):
+                model[i].train()
+                inputs, targets = inputs.to(device), targets.to(device)
+                optimizer[i].zero_grad()
+
+                # with profiler.profile(record_shapes=True) as prof:
+                #     with profiler.record_function("model_inference"):
+
+                outputs = model[i](inputs)
+
+                # print(outputs[0], targets)
+                # print(targets-4)
+                Loss[i] = criterion(outputs, targets)
+                Loss[i].backward()
+                optimizer[i].step()
+                train_loss[i] += Loss[i].item()
+                _, predicted = outputs.max(1)
+                total[i] += targets.size(0)
+                correct[i] += predicted.eq(targets).sum().item()
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
@@ -505,9 +515,11 @@ def run(dataset, client, args):
         start_time = 0
         # pbar = tqdm(range(args.epoch))
         Temp, process_time = Train(model, optimizer, client, trainloader)
+
         for j in range (client):
             model[j].load_state_dict(Temp[j])
         global_model.load_state_dict(Aggregate(model, client))
+
         # if(a == global_model): print("woshi shabi")
         # a = global_model.state_dict()
         # print(a)

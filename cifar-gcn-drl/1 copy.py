@@ -24,10 +24,10 @@ import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
 # Saving the objects train_loss and train_accuracy:
-file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_0.pkl'
-file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_train_14.pkl'
-file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4(0)_layer_train_0.pkl'
-file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4(0)_layer_train_14.pkl'
+file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\clients_10_labels_10_b_1'
+file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\clients_10_labels_10_am_1'
+file_name_3 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\clients_10_labels_10_as_1'
+# file_name_4 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4(0)_layer_train_14.pkl.pkl'
 
 # file_name_5 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\4_layer_2.pkl'
 # file_name_6 = 'H:\\paper\\P-idea-1\\test_2\\cifar-gcn-drl\\5_layer_2.pkl'
@@ -123,8 +123,8 @@ with open(file_name_3, 'rb') as f3:
     # [list_acc, list_loss] = pickle.load(f1)
     [list_acc_3, list_loss_3] = pickle.load(f3)
     # print(list_acc_2_2, list_loss_2_2)
-with open(file_name_4, 'rb') as f4:
-    [list_acc_4, list_loss_4] = pickle.load(f4)
+# with open(file_name_4, 'rb') as f4:
+#     [list_acc_4, list_loss_4] = pickle.load(f4)
     # print(list_acc_, list_loss_4)
 # with open(file_name_5, 'rb') as f5:
 #     # [list_acc, list_loss] = pickle.load(f1)
@@ -148,36 +148,34 @@ with open(file_name_4, 'rb') as f4:
 #     [list_acc_11, list_loss_11] = pickle.load(f11)
 # with open(file_name_12, 'rb') as f12:
 #     [list_acc_12, list_loss_12] = pickle.load(f12) 
-#Plot Loss curve
-# plt.figure()
-# plt.title('Training Loss vs Communication rounds')
-# plt.plot(range(len(list_loss_1)), list_loss_1, "-", label = "mT_1")
-# plt.plot(range(len(list_loss_2)), list_loss_2, "-", label = "m2_1")
-# # plt.plot(range(len(list_loss_3)), list_loss_3, "-", label = "VGG11_1")
-# plt.plot(range(len(list_loss_7)), list_loss_7, "-", label = "vgg19_1")
-# plt.plot(range(len(list_loss_4)), list_loss_4, "-", label = "mT_2")
-# plt.plot(range(len(list_loss_5)), list_loss_5, "-", label = "m2_2")
-# # plt.plot(range(len(list_loss_6)), list_loss_6, "-", label = "VGG11_2")
-# plt.plot(range(len(list_loss_8)), list_loss_8, "-", label = "vgg19_2")
-# # plt.plot(range(len(list_loss_7)), list_loss_7, "-", label = "mT_animals")
-# # plt.plot(range(len(list_loss_7)), list_loss_7, "-", label = "mT_animals")
-# # plt.plot(range(len(list_loss_9)), list_loss_9, "-", label = "m2_animals")
-# # plt.plot(range(len(list_loss_11)), list_loss_11, "-", label = "vgg_animals")
-# # plt.plot(range(len(list_loss_8)), list_loss_8, "-", label = "mT_caltecth")
-# # plt.plot(range(len(list_loss_10)), list_loss_10, "-", label = "m2_caltecth")
-# # plt.plot(range(len(list_loss_12)), list_loss_12, "-", label = "vgg_caltecth")
-# plt.legend()
-# plt.ylabel('Training loss')
-# plt.xlabel('Communication Rounds')
-# plt.savefig('cifar10_noniid_loss_v2.png')
+# Plot Loss curve
+plt.figure()
+plt.title('Training Loss vs Communication rounds')
+plt.plot(range(len(list_loss_1)), list_loss_1, "-", label = "before")
+plt.plot(range(len(list_loss_2)), list_loss_2, "-", label = "minmax")
+plt.plot(range(len(list_loss_3)), list_loss_3, "-", label = "Variance")
+# plt.plot(range(len(list_loss_7)), list_loss_7, "-", label = "mT_animals")
+# plt.plot(range(len(list_loss_7)), list_loss_7, "-", label = "mT_animals")
+# plt.plot(range(len(list_loss_9)), list_loss_9, "-", label = "m2_animals")
+# plt.plot(range(len(list_loss_11)), list_loss_11, "-", label = "vgg_animals")
+# plt.plot(range(len(list_loss_8)), list_loss_8, "-", label = "mT_caltecth")
+# plt.plot(range(len(list_loss_10)), list_loss_10, "-", label = "m2_caltecth")
+# plt.plot(range(len(list_loss_12)), list_loss_12, "-", label = "vgg_caltecth")
+plt.legend()
+plt.ylabel('Training loss')
+plt.xlabel('Communication Rounds')
+plt.savefig('IID_loss.png')
 
 # # Plot Average Accuracy vs Communication rounds
 plt.figure()
 plt.title('Average Accuracy vs Communication rounds')
-plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "4(0)_layer_train_0")
-plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "4(14)_layer_train_0")
-plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4(0)_layer_train_14")
-plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "4(14)_layer_train_14")
+plt.plot(range(len(list_acc_1)), list_acc_1, "-", label = "before")
+plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "minmax")
+plt.plot(range(len(list_acc_3)), list_acc_3, "-", label = "Variance")
+plt.text(100,0.813,'81.3%',color='r')
+plt.text(100,0.753,'75.3%',color='r')
+plt.text(100, 0.691,'69.1%',color='r')
+# plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "4(14)_layer_train_14")
 # plt.plot(range(len(list_acc_2)), list_acc_2, "-", label = "4_layer_train_1")
 # plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "5_layer_train_1")
 
@@ -197,4 +195,4 @@ plt.plot(range(len(list_acc_4)), list_acc_4, "-", label = "4(14)_layer_train_14"
 plt.legend()
 plt.ylabel('Average Accuracy')
 plt.xlabel('Communication Rounds')
-plt.savefig('Experiment_2nd_v(14).png')
+plt.savefig('IID_accuracy.png')
