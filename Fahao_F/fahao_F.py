@@ -516,7 +516,47 @@ def run(dataset, client, args):
         # pbar = tqdm(range(args.epoch))
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         #without distribution
-        model, process_time = Train(model, optimizer, client, trainloader)
+        # model, process_time = Train(model, optimizer, client, trainloader)
+
+        criterion = nn.CrossEntropyLoss().to(device)
+        # cpu ? gpu
+        for i in range(client):
+            model[i] = model[i].to(device)
+        P = [None for i in range (client)]
+        # labels_check = [0,0,0,0,0,0,0,0,0,0]
+        # share a common dataset
+        train_loss = [0 for i in range (client)]
+        correct = [0 for i in range (client)]
+        total = [0 for i in range (client)]
+        Loss = [0 for i in range (client)]
+        time_start = time.time()
+        for i in range(0,client):
+            for inputs, targets in trainloader[i]:
+                # print(idx, inputs, targets)
+                # for i in targets:
+                #     labels_check[i] += 1
+                # print(targets)
+                # idx = (batch_idx % client)
+
+                model[i].train()
+                inputs, targets = inputs.to(device), targets.to(device)
+                optimizer[i].zero_grad()
+
+                # with profiler.profile(record_shapes=True) as prof:
+                #     with profiler.record_function("model_inference"):
+
+                outputs = model[i](inputs)
+
+                # print(outputs[0], targets)
+                # print(targets-4)
+                Loss[i] = criterion(outputs, targets)
+                Loss[i].backward()
+                optimizer[i].step()
+
+            # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
+            # print(correct[i] / len(trainloader[i].dataset))
+        time_end = time.time()
+
         # for j in range (client):
         #     model[j].load_state_dict(Temp[j])
         # global_model.load_state_dict(Aggregate(model, client))
@@ -529,8 +569,8 @@ def run(dataset, client, args):
         # acc, loss = Test(global_model, testloader)
         # acc_list.append(acc)
         # loss_list.append(loss)
-        start_time += process_time
-        total_time += process_time
+        start_time += time_start - time_end
+        total_time += time_start - time_end
         # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
         time_list.append(start_time)
