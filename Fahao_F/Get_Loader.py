@@ -26,7 +26,7 @@ class Get_Loader(object):
             train_loader = {}
             # train_loader = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 128,shuffle=False)
             for i in range(0,self.num_users):
-                train_loader[i] = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 32*(i+1),shuffle=False)
+                train_loader[i] = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 128,shuffle=False)
             # train_loader_2 = torch.utils.data.DataLoader(self.train_dataset,  batch_size = 256,shuffle=False)
             test_loader = torch.utils.data.DataLoader(self.test_dataset,  batch_size = 128, shuffle=False)
         if(self.args.iid == 0):

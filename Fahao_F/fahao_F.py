@@ -372,36 +372,32 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for i in range(0,client):
-        time_start_1 = time.time()
         for idx,(inputs, targets) in enumerate(trainloader[i]):
             # print(idx, inputs, targets)
             # for i in targets:
             #     labels_check[i] += 1
             # print(targets)
             # idx = (batch_idx % client)
-            for j in range(0,1):
-                model[i].train()
-                inputs, targets = inputs.to(device), targets.to(device)
-                optimizer[i].zero_grad()
 
-                # with profiler.profile(record_shapes=True) as prof:
-                #     with profiler.record_function("model_inference"):
+            model[i].train()
+            inputs, targets = inputs.to(device), targets.to(device)
+            optimizer[i].zero_grad()
 
-                outputs = model[i](inputs)
+            # with profiler.profile(record_shapes=True) as prof:
+            #     with profiler.record_function("model_inference"):
 
-                # print(outputs[0], targets)
-                # print(targets-4)
-                Loss[i] = criterion(outputs, targets)
-                Loss[i].backward()
-                optimizer[i].step()
-                train_loss[i] += Loss[i].item()
-                _, predicted = outputs.max(1)
-                total[i] += targets.size(0)
-                correct[i] += predicted.eq(targets).sum().item()
-            if(idx == 0):
-                break
-        time_end_1 = time.time()
-        print("clinet"+str(i)+"):", time_end_1-time_start_1)
+            outputs = model[i](inputs)
+
+            # print(outputs[0], targets)
+            # print(targets-4)
+            Loss[i] = criterion(outputs, targets)
+            Loss[i].backward()
+            optimizer[i].step()
+            train_loss[i] += Loss[i].item()
+            _, predicted = outputs.max(1)
+            total[i] += targets.size(0)
+            correct[i] += predicted.eq(targets).sum().item()
+
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
