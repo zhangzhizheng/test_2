@@ -372,11 +372,9 @@ def Train(model, optimizer, client, trainloader):
     Loss = [0 for i in range (client)]
     time_start = time.time()
     for i in range(0,client):
-        # print(i)
+        time_start_1 = time.time()
         for idx,(inputs, targets) in enumerate(trainloader[i]):
             print(idx, inputs, targets)
-            if(idx == 0):
-                break
             # for i in targets:
             #     labels_check[i] += 1
             # print(targets)
@@ -400,6 +398,10 @@ def Train(model, optimizer, client, trainloader):
                 _, predicted = outputs.max(1)
                 total[i] += targets.size(0)
                 correct[i] += predicted.eq(targets).sum().item()
+            if(idx == 0):
+                break
+        time_end_1 = time.time()
+        print("clinet"+i+"):", time_end_1-time_start_1)
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()

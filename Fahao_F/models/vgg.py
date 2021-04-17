@@ -19,24 +19,24 @@ class VGG(nn.Module):
         self.dropout = nn.Dropout(0.5)
     def forward(self, x):
         out = self.features(x)
-        print(out.shape)
+        # print(out.shape)
         out = out.view(out.size(0), -1)
-        print(out.shape)
+        # print(out.shape)
         out = self.dropout(out)
-        print(out.shape)
+        # print(out.shape)
         out = self.classifier(out)
-        print(out.shape)
+        # print(out.shape)
         return out
 
     def _make_layers(self, cfg):
         layers = []
         in_channels = 1
-        print(in_channels)
+        # print(in_channels)
         for x in cfg:
             if x == 'M':
                 layers += [nn.MaxPool2d(kernel_size=2, stride=2)]
             else:
-                print(in_channels)
+                # print(in_channels)
                 layers += [nn.Conv2d(in_channels, x, kernel_size=3, padding=1),
                            nn.BatchNorm2d(x),
                            nn.ReLU(inplace=True)]
