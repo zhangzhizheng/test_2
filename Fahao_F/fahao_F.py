@@ -514,34 +514,39 @@ def run(dataset, client, args):
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
         # pbar = tqdm(range(args.epoch))
-        Temp, process_time = Train(model, optimizer, client, trainloader)
-
-        for j in range (client):
-            model[j].load_state_dict(Temp[j])
-        global_model.load_state_dict(Aggregate(model, client))
+        # Temp, process_time = Train(model, optimizer, client, trainloader)
+        #without distribution
+        model, process_time = Train(model, optimizer, client, trainloader)
+        # for j in range (client):
+        #     model[j].load_state_dict(Temp[j])
+        # global_model.load_state_dict(Aggregate(model, client))
 
         # if(a == global_model): print("woshi shabi")
         # a = global_model.state_dict()
         # print(a)
-        acc, loss = Test(global_model, testloader)
-        acc_list.append(acc)
-        loss_list.append(loss)
+
+        #without test
+        # acc, loss = Test(global_model, testloader)
+        # acc_list.append(acc)
+        # loss_list.append(loss)
         start_time += process_time
         total_time += process_time
-        pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
-
+        # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
+        pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
         time_list.append(start_time)
 
-        for j in range (0, client):
-            model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
+        #without distribution
+        # for j in range (0, client):
+        #     model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
+
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
-    file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_1'.format(args.status)
+    # file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_1'.format(args.status)
 
     time_file_name = '/home/test_2/time/time_{}_batch_{}'.format(total_time, args.batch)
 
-    with open(file_name, 'wb') as f:
-        pickle.dump([acc_list, loss_list], f)
+    # with open(file_name, 'wb') as f:
+    #     pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
     with open(file_name, 'wb') as f:
         pickle.dump([time_list], f)
