@@ -588,7 +588,7 @@ def run(dataset, client, args):
     # with open(file_name, 'wb') as f:
     #     pickle.dump([acc_list, loss_list], f)
             # pickle.dump([acc_list_1, loss_list_1], f)
-    with open(file_name, 'wb') as f:
+    with open(time_file_name, 'wb') as f:
         pickle.dump([time_list], f)
     # # PLOTTING (optional)
     # import matplotlib
