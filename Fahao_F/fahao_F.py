@@ -374,12 +374,12 @@ def Train(model, optimizer, client, trainloader):
     for i in range(0,client):
         time_start_1 = time.time()
         for idx,(inputs, targets) in enumerate(trainloader[i]):
-            print(idx, inputs, targets)
+            # print(idx, inputs, targets)
             # for i in targets:
             #     labels_check[i] += 1
             # print(targets)
             # idx = (batch_idx % client)
-            for j in range(0,client-i):
+            for j in range(0,1):
                 model[i].train()
                 inputs, targets = inputs.to(device), targets.to(device)
                 optimizer[i].zero_grad()
