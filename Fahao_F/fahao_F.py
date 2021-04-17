@@ -569,8 +569,8 @@ def run(dataset, client, args):
         # acc, loss = Test(global_model, testloader)
         # acc_list.append(acc)
         # loss_list.append(loss)
-        start_time += time_start - time_end
-        total_time += time_start - time_end
+        start_time += time_end - time_start
+        total_time += time_end - time_start
         # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
         time_list.append(start_time)
