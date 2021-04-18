@@ -466,6 +466,11 @@ def Aggregate(model, client):
         P[0][key] = torch.true_divide(P[0][key],client)
     return P[0]
 
+activation = {}
+def get_activation(name):
+    def hook(model, input, output):
+        activation[name] = output.detach()
+    return hook
 
 def run(dataset, client, args):
     acc_list, loss_list = [], []
@@ -537,7 +542,7 @@ def run(dataset, client, args):
                 #     labels_check[i] += 1
                 # print(targets)
                 # idx = (batch_idx % client)
-
+                model[i].features.register_forward_hook(get_activation('features'))
                 model[i].train()
                 inputs, targets = inputs.to(device), targets.to(device)
                 optimizer[i].zero_grad()
@@ -556,7 +561,11 @@ def run(dataset, client, args):
             # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
             # print(correct[i] / len(trainloader[i].dataset))
         time_end = time.time()
-
+        
+        print(activation['fc2'])
+        
+        # x = torch.randn(1, 25)
+        # output = model(x)
         # for j in range (client):
         #     model[j].load_state_dict(Temp[j])
         # global_model.load_state_dict(Aggregate(model, client))
