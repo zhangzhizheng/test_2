@@ -539,27 +539,30 @@ def run(dataset, client, args):
         idx_1 = 0
         for i in range(0,client):
             for idx,(inputs, targets) in enumerate(trainloader[i]):
-                # print(idx, inputs, targets)
-                # for i in targets:
-                #     labels_check[i] += 1
-                # print(targets)
-                # idx = (batch_idx % client)
-                # model[i].features.register_forward_hook(get_activation('features'))
-                model[i].train()
-                inputs, targets = inputs.to(device), targets.to(device)
-                optimizer[i].zero_grad()
+                with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
+                    # print(idx, inputs, targets)
+                    # for i in targets:
+                    #     labels_check[i] += 1
+                    # print(targets)
+                    # idx = (batch_idx % client)
+                    # model[i].features.register_forward_hook(get_activation('features'))
+                    model[i].train()
+                    inputs, targets = inputs.to(device), targets.to(device)
+                    optimizer[i].zero_grad()
 
-                # with profiler.profile(record_shapes=True) as prof:
-                #     with profiler.record_function("model_inference"):
+                    # with profiler.profile(record_shapes=True) as prof:
+                    #     with profiler.record_function("model_inference"):
 
-                outputs = model[i](inputs)
+                    outputs = model[i](inputs)
 
-                # print(outputs[0], targets)
-                # print(targets-4)
-                Loss[i] = criterion(outputs, targets)
-                Loss[i].backward()
-                optimizer[i].step()
-                idx_1 = idx
+                    # print(outputs[0], targets)
+                    # print(targets-4)
+                    Loss[i] = criterion(outputs, targets)
+                    Loss[i].backward()
+                    optimizer[i].step()
+                    idx_1 = idx
+                print(prof)
+                # prof.export_chrome_trace('profiles')
             # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
             # print(correct[i] / len(trainloader[i].dataset))
         time_end = time.time()
