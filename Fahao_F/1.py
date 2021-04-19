@@ -1,60 +1,65 @@
-import os
-import time
-import argparse
-import autodl.convertor.image_to_tfrecords as a
-
-from autodl.auto_ingestion import data_io
-from autodl.utils.util import get_solution
-from autodl.metrics import autodl_auc
-from autodl.auto_ingestion.dataset import AutoDLDataset
-from autodl.auto_models.auto_image.model import Model as ImageModel
-
-from autodl import AutoDLDataset
-from autodl.utils.util import get_solution
-from autodl.metrics import autodl_auc, accuracy
-
-
-def run_single_model(model, dataset_dir, basename, time_budget=1200, max_epoch=50):
-    D_train = AutoDLDataset(os.path.join(dataset_dir, basename, "train"))
-    D_test = AutoDLDataset(os.path.join(dataset_dir, basename, "test"))
-    solution = get_solution(solution_dir=dataset_dir)
-
-    start_time = int(time.time())
-    for i in range(max_epoch):
-        remaining_time_budget = start_time + time_budget - int(time.time())
-        model.fit(D_train.get_dataset(), remaining_time_budget=remaining_time_budget)
-        # print('model', model)
-        remaining_time_budget = start_time + time_budget - int(time.time())
-        y_pred = model.predict(D_test.get_dataset(), remaining_time_budget=remaining_time_budget)
-        # print(y_pred)
-        # Evaluation.
-        nauc_score = autodl_auc(solution=solution, prediction=y_pred)
-        acc_score = accuracy(solution=solution, prediction=y_pred)
-
-        print("Epoch={}, evaluation: nauc_score={}, acc_score={}".format(i, nauc_score, acc_score))
+import torch.nn as nn
+import torch
+import torch.nn.functional as F
+import pickle
+class MyModel(nn.Module):
+    def __init__(self):
+        super(MyModel, self).__init__()
+        self.cl1 = nn.Linear(25, 60)
+        self.cl2 = nn.Linear(60, 16)
+        self.fc1 = nn.Linear(16, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+        
+    def forward(self, x):
+        x = F.relu(self.cl1(x))
+        x = F.relu(self.cl2(x))
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.log_softmax(self.fc3(x), dim=1)
+        return x
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="tabular example arguments")
-    parser.add_argument("--input_data_path", type=str, help="path of input data")
-    args = parser.parse_args()
+activation = {}
+def get_activation(name):
+    def hook(model, input, output):
+        activation[name] = output.detach()
+    return hook
 
-    input_dir = os.path.dirname(args.input_data_path)
 
-    a.autoimage_2_autodl_format(input_dir=input_dir)
+model = MyModel()
+model.fc3.register_forward_hook(get_activation('fc3'))
+model.cl2.register_forward_hook(get_activation('cl2'))
+x = torch.randn(0,2)
+time_file_name = 'H:\\paper\\P-idea-1\\test_2\\time\\x.pkl'
+with open(time_file_name, 'wb') as f:
+    #x = pickle.load(f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+    pickle.dump(x, f)
+# with open(time_file_name, 'rb') as f:
+#     [x] = pickle.load(f)
+output = model(x)
 
-    new_dataset_dir = input_dir + "_formatted" + "/" + os.path.basename(input_dir)
-    datanames = data_io.inventory_data(new_dataset_dir)
-    basename = datanames[0]
-    # print(datanames, basename)
-    print("train_path: ", os.path.join(new_dataset_dir, basename, "train"))
 
-    D_train = AutoDLDataset(os.path.join(new_dataset_dir, basename, "train"))
-    D_test = AutoDLDataset(os.path.join(new_dataset_dir, basename, "test"))
-    max_epoch = 50
-    time_budget = 1200
-
-    model = ImageModel(D_train.get_metadata())
-    print('D_train.get_metadata(), D_test.get_dataset()',D_train.get_metadata(), D_test.get_dataset())
-    print('model',model)
-    run_single_model(model, new_dataset_dir, basename, time_budget, max_epoch)
+# with open(file_name, 'wb') as f:
+#     pickle.dump([acc_list, loss_list], f)
+        # pickle.dump([acc_list_1, loss_list_1], f)
+time_file_name_1 = 'H:\\paper\\P-idea-1\\test_2\\time\\1.pkl'
+time_file_name_2 = 'H:\\paper\\P-idea-1\\test_2\\time\\2.pkl'
+with open(time_file_name_1, 'wb') as f1:
+    pickle.dump([activation['cl2']], f1)
+    pickle.dump([activation['cl2']], f1)
+with open(time_file_name_2, 'wb') as f2:
+    pickle.dump([activation['fc3']], f2)
+print(activation['cl2'])
+print(activation['fc3'])
