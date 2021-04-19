@@ -371,6 +371,7 @@ def Train(model, optimizer, client, trainloader):
     total = [0 for i in range (client)]
     Loss = [0 for i in range (client)]
     time_start = time.time()
+    idx_1 = 0
     for i in range(0,client):
         for idx,(inputs, targets) in enumerate(trainloader[i]):
             # print(idx, inputs, targets)
@@ -397,7 +398,7 @@ def Train(model, optimizer, client, trainloader):
             _, predicted = outputs.max(1)
             total[i] += targets.size(0)
             correct[i] += predicted.eq(targets).sum().item()
-
+            idx_1 = idx
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
@@ -410,7 +411,7 @@ def Train(model, optimizer, client, trainloader):
 
     # print(labels_check)
     # time.sleep(10)
-    return P, (time_end-time_start)
+    return P, (time_end-time_start)/idx_1
 def Test(model, testloader):
     # cpu ? gpu
     model = model.to(device)
@@ -466,6 +467,11 @@ def Aggregate(model, client):
         P[0][key] = torch.true_divide(P[0][key],client)
     return P[0]
 
+activation = {}
+def get_activation(name):
+    def hook(model, input, output):
+        activation[name] = output.detach()
+    return hook
 
 def run(dataset, client, args):
     acc_list, loss_list = [], []
@@ -530,14 +536,15 @@ def run(dataset, client, args):
         total = [0 for i in range (client)]
         Loss = [0 for i in range (client)]
         time_start = time.time()
+        idx_1 = 0
         for i in range(0,client):
-            for inputs, targets in trainloader[i]:
+            for idx,(inputs, targets) in enumerate(trainloader[i]):
                 # print(idx, inputs, targets)
                 # for i in targets:
                 #     labels_check[i] += 1
                 # print(targets)
                 # idx = (batch_idx % client)
-
+                # model[i].features.register_forward_hook(get_activation('features'))
                 model[i].train()
                 inputs, targets = inputs.to(device), targets.to(device)
                 optimizer[i].zero_grad()
@@ -552,11 +559,15 @@ def run(dataset, client, args):
                 Loss[i] = criterion(outputs, targets)
                 Loss[i].backward()
                 optimizer[i].step()
-
+                idx_1 = idx
             # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
             # print(correct[i] / len(trainloader[i].dataset))
         time_end = time.time()
+        
+        # print(activation['fc2'])
 
+        # x = torch.randn(1, 25)
+        # output = model(x)
         # for j in range (client):
         #     model[j].load_state_dict(Temp[j])
         # global_model.load_state_dict(Aggregate(model, client))
@@ -570,20 +581,20 @@ def run(dataset, client, args):
         # acc_list.append(acc)
         # loss_list.append(loss)
         start_time += time_end - time_start
-        total_time += time_end - time_start
+        total_time += (time_end - time_start)/idx_1
         # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
-        time_list.append(start_time)
+        
 
         #without distribution
         # for j in range (0, client):
         #     model[j].load_state_dict(copy.deepcopy(global_model.state_dict()))
-
+    time_list.append(total_time/args.epoch) 
     # file_name = '/home/test_2/cifar-gcn-drl/{}_{}_{}_{}_{}.pkl'.format(args.data_distribution, 
     # args.iid, args.epoch, args.net, args.dataset) # 4 layer
     # file_name = '/home/test_2/cifar-gcn-drl/clients_10_labels_10_{}_1'.format(args.status)
 
-    time_file_name = '/home/test_2/time/time_{}_batch_{}.pkl'.format(total_time, args.batch)
+    time_file_name = '/home/test_2/time/time_batch_{}.pkl'.format(args.batch)
 
     # with open(file_name, 'wb') as f:
     #     pickle.dump([acc_list, loss_list], f)
