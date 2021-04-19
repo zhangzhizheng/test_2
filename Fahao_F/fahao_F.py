@@ -563,7 +563,8 @@ def run(dataset, client, args):
                 with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
                     outputs = model[i](inputs)
                 print(prof)
-                # prof.export_chrome_trace('profiles')
+                prof.export_chrome_trace('/home/test_2/{}.json'.format(args.batch))
+                if(idx == 0):break
             # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
             # print(correct[i] / len(trainloader[i].dataset))
         time_end = time.time()
