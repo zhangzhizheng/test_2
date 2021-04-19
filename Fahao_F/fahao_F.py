@@ -358,6 +358,13 @@ def Set_model(net, client, args):
         for i in range (client):
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
+    elif net == 'lenet':
+        for i in range (client):
+            Model[i] = LeNet()
+            Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
+                        momentum=0.9, weight_decay=5e-4)
+        global_model = LeNet()
+        return Model, global_model, Optimizer
 def Train(model, optimizer, client, trainloader):
     criterion = nn.CrossEntropyLoss().to(device)
     # cpu ? gpu
