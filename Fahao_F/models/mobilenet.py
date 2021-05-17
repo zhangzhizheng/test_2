@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import pickle
 
 class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
@@ -13,8 +13,14 @@ class Block(nn.Module):
         self.bn2 = nn.BatchNorm2d(out_planes)
 
     def forward(self, x):
-        out = F.relu(self.bn1(self.conv1(x)))
-        out = F.relu(self.bn2(self.conv2(out)))
+        conv_1 = self.conv1(x)
+        with open('/home/test_2/time/conv_1.pkl', 'wb') as f:
+            pickle.dump([conv_1], f)
+        out = F.relu(self.bn1(conv_1))
+        conv_2 = self.conv2(out)
+        with open('/home/test_2/time/conv_2.pkl', 'wb') as f:
+            pickle.dump([conv_2], f)
+        out = F.relu(self.bn2(conv_2))
         return out
 
 

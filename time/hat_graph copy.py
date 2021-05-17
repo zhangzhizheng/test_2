@@ -14,17 +14,13 @@ import matplotlib.pyplot as plt
 
 
 category_names = ['convolution_1', 'convolution_2', 'convolution_3', 'convolution_4', 'convolution_5', 'convolution_6', 'convolution_7', 'convolution_8']
-a = 0.195+ 0.179+ 0.142+0.183+ 0.221+ 0.357+0.312+0.311
-b = 0.228+0.178+0.166+0.24+0.245+0.359+0.330+0.329
-c = 0.3+0.6+0.2+0.3+0.24+0.38+0.37+0.37
-d = 0.529+1.196+0.381+0.545+0.373+0.597+0.571+0.575
-e = 0.96+1.106+1.7+1.03+0.631+1.001+0.953+0.954
+# c = 1.564+0.124+0.137+0.105+0.305+0.126+0.473+0.068+0.089+0.074+0.136+0.045+0.078+0.045+0.118+0.046+0.216+0.064+0.214+0.065+0.215+0.066+0.214+0.047+1.337+2.459
+# results = {
+#     'MobileNet': [1.564/c,0.124/c+0.137/c+0.105/c+0.305/c+0.126/c,0.473/c,0.068/c+0.089/c+0.074/c+0.136/c+0.045/c+0.078/c+0.045/c+0.118/c+0.046/c+0.216/c+0.064/c+0.214/c+0.065/c,0.215/c,0.066/c+0.214/c+0.047/c,1.337/c,2.459/c]
+# }
+c = 93+66.509+21.456+3.0+3.0+3.0+3.0+3.0
 results = {
-    'Batch size 32': [0.195/a, 0.179/a, 0.142/a, 0.183/a, 0.221/a, 0.357/a,0.312/a,0.311/a],
-    'Batch size 64': [0.228/b,0.178/b,0.166/b,0.24/b,0.245/b,0.359/b,0.330/b,0.329/b],
-    'Batch size 128': [0.3/c,0.6/c,0.2/c,0.3/c,0.24/c,0.38/c,0.37/c,0.37/c],
-    'Batch size 256': [0.529/d,1.196/d,0.381/d,0.545/d,0.373/d,0.597/d,0.571/d,0.575/d],
-    'Batch size 512': [0.96/e,1.106/e,1.7/e,1.03/e,0.631/e,1.001/e,0.953/e,0.954/e]
+    'ResNet18': [93/c,66.509/c,21.456/c,3.0/c,3.0/c,3.0/c,3.0/c,3.0/c]
 }
 # print(np.array(list(results.values())))
 # data_cum = np.array(list(results.values())).cumsum()
@@ -46,7 +42,7 @@ def survey(results, category_names):
     category_colors = plt.get_cmap('RdYlGn')(
         np.linspace(0.15, 0.85, data.shape[1]))
 
-    fig, ax = plt.subplots(figsize=(9.2, 8))
+    fig, ax = plt.subplots(figsize=(9.2, 27))
     ax.invert_yaxis()
     ax.xaxis.set_visible(False)
     ax.set_xlim(0, np.sum(data, axis=1).max())
@@ -54,7 +50,6 @@ def survey(results, category_names):
     for i, (colname, color) in enumerate(zip(category_names, category_colors)):
         widths = data[:, i]
         starts = data_cum[:, i] - widths
-        # print(widths)
         rects = ax.barh(labels, widths, left=starts, height=0.5,
                         label=colname, color=color)
 

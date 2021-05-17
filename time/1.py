@@ -49,27 +49,46 @@ with open(file_name_5, 'rb') as f5:
 #     [list_acc_3, list_loss_3, list_acc_4, list_loss_4] = pickle.load(f4)
 
 
-xlabels = [64-32, 128-64, 256-128, 512-256]
-# min_b = np.array([min(time_1), min(time_2), min(time_3), min(time_4), min(time_5)])
-# max_b = np.array([max(time_1), max(time_2), max(time_3), max(time_4), max(time_5)])
-ylabels = [(time_2[0] - time_1[0])/(64-32),(time_3[0] - time_2[0])/(128-64),(time_4[0] - time_3[0])/(256-128),(time_5[0] - time_4[0])/(512-256)]
+xlabels = [32,64, 128, 256, 512]
+# # min_b = np.array([min(time_1), min(time_2), min(time_3), min(time_4), min(time_5)])
+# # max_b = np.array([max(time_1), max(time_2), max(time_3), max(time_4), max(time_5)])
+ylabels = [time_1[0]*16, time_2[0]*8,time_3[0]*4,time_4[0]*2,time_5[0]]
 
-print(ylabels)
+# xlabels = [32, 64, 128, 256]
+# # min_b = np.array([min(time_1), min(time_2), min(time_3), min(time_4), min(time_5)])
+# # max_b = np.array([max(time_1), max(time_2), max(time_3), max(time_4), max(time_5)])
+# ylabels_1 = [0.127,0.131,0.161,0.222,0.339]
+# ylabels = [(0.131-0.127)/(64-32),(0.161-0.131)/(128-64),(0.222-0.161)/(256-128),(0.339-0.222)/(512-256)]
+# ylabels_2 = [0.103,0.142,0.097,0.088,0.090]
+
+# print(ylabels)
 plt.figure()
 
-plt.title('Training Loss vs Communication rounds')
+plt.title('average time on each batch')
+plt.vlines(xlabels, 0.12, ylabels, linestyle="dashed")
+# plt.hlines(ylabels, 0.12, xlabels, linestyle="dashed")
+#plt.scatter(xlabels, ylabels, zorder=2)
 plt.plot(xlabels, ylabels, marker='o', mec='r', mfc='w', label = "batch")
+#plt.plot(xlabels, ylabels_2, marker='+', mec='r', mfc='w', label = "batch_layer_2")
 # plt.plot(range(len(time_2)), time_2, "-", label = "batch_64")
 # plt.plot(range(len(time_3)), time_3, "-", label = "batch_128")
 # plt.plot(range(len(time_4)), time_4, "-", label = "batch_256")
 # plt.plot(range(len(time_5)), time_5, "-", label = "batch_512")
+# plt.scatter(x[0],[-0.25],s=25,c='r') # 标注最小值
+# plt.scatter([1.5],[-0.25],s=25,c='r') # 标注最小值
+# plt.xlim(0,None)
+plt.ylim(0.12,None)
 for a, b in zip(xlabels, ylabels):
     print(b)
-    plt.text(a,b,a, ha='center', va='bottom', fontsize=10)
+    plt.text(a,b,b, ha='center', va='bottom', fontsize=10)
+    plt.text(a,0.12,a, ha='center', va='bottom', fontsize=10)
+# for a, b in zip(xlabels, ylabels_2):
+#     print(b)
+#     plt.text(a,b,a, ha='center', va='bottom', fontsize=10)
 plt.legend()
 plt.ylabel('time(one batch in each epoch')
 plt.xlabel('batch size')
-plt.savefig('H:\\paper\\P-idea-1\\test_2\\time\\time_slope.png')
+plt.savefig('H:\\paper\\P-idea-1\\test_2\\time\\time_test.png')
 
 
 
