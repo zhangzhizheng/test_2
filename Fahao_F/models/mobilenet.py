@@ -15,6 +15,7 @@ class Block(nn.Module):
     def forward(self, x):
         conv_1 = self.conv1(x)
         with open('/home/test_2/time/conv_1.pkl', 'wb') as f:
+            print('a')
             pickle.dump([conv_1], f)
         out = F.relu(self.bn1(conv_1))
         conv_2 = self.conv2(out)
