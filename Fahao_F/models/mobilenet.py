@@ -13,14 +13,17 @@ class Block(nn.Module):
         self.bn2 = nn.BatchNorm2d(out_planes)
 
     def forward(self, x):
+        with open('/home/test_2/time/conv_0.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(x, f)
         conv_1 = self.conv1(x)
-        with open('/home/test_2/time/conv_1.pkl', 'wb') as f:
-            print('a')
-            pickle.dump([conv_1], f)
+        with open('/home/test_2/time/conv_1.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
         conv_2 = self.conv2(out)
-        with open('/home/test_2/time/conv_2.pkl', 'wb') as f:
-            pickle.dump([conv_2], f)
+        with open('/home/test_2/time/conv_2.pkl', 'ab') as f:
+            pickle.dump(conv_2, f)
         out = F.relu(self.bn2(conv_2))
         return out
 
