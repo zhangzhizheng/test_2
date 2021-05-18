@@ -5,24 +5,25 @@ import pickle
 
 class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
-    def __init__(self, in_planes, out_planes, stride=1):
+    def __init__(self, in_planes, out_planes, stride=1, num=0):
         super(Block, self).__init__()
         self.conv1 = nn.Conv2d(in_planes, in_planes, kernel_size=3, stride=stride, padding=1, groups=in_planes, bias=False)
         self.bn1 = nn.BatchNorm2d(in_planes)
         self.conv2 = nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm2d(out_planes)
+        self.num = num
 
     def forward(self, x):
-        with open('/home/test_2/time/conv_0.pkl', 'ab') as f:
+        with open('/home/test_2/time/conv_0_'+str(self.num)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(x, f)
         conv_1 = self.conv1(x)
-        with open('/home/test_2/time/conv_1.pkl', 'ab') as f:
+        with open('/home/test_2/time/conv_0_'+str(self.num)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
         conv_2 = self.conv2(out)
-        with open('/home/test_2/time/conv_2.pkl', 'ab') as f:
+        with open('/home/test_2/time/conv_0_'+str(self.num)+'.pkl', 'ab') as f:
             pickle.dump(conv_2, f)
         out = F.relu(self.bn2(conv_2))
         return out
@@ -41,11 +42,13 @@ class MobileNet(nn.Module):
 
     def _make_layers(self, in_planes):
         layers = []
+        num = 0
         for x in self.cfg:
             out_planes = x if isinstance(x, int) else x[0]
             stride = 1 if isinstance(x, int) else x[1]
-            layers.append(Block(in_planes, out_planes, stride))
+            layers.append(Block(in_planes, out_planes, stride, num))
             in_planes = out_planes
+            num += 1
         return nn.Sequential(*layers)
 
     def forward(self, x):
