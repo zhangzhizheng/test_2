@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import pickle
-
+import time
 class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
     def __init__(self, in_planes, out_planes, stride=1, num=0):
@@ -14,18 +14,25 @@ class Block(nn.Module):
         self.num = num
 
     def forward(self, x):
-        if(self.num == 0):
-            with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
-                #print('a')
-                pickle.dump(x, f)
+        time_start = time.time()
+
+        # if(self.num == 0):
+        #     with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
+        #         #print('a')
+        #         pickle.dump(x, f)
         conv_1 = self.conv1(x)
-        with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
-            #print('a')
-            pickle.dump(conv_1, f)
+        time_stop = time.time()
+        print("convo_1_"+str(self.num)+":", time_stop-time_start)
+        # with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
+        #     #print('a')
+        #     pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
+        time_start = time.time()
         conv_2 = self.conv2(out)
-        with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
-            pickle.dump(conv_2, f)
+        time_stop = time.time()
+        print("convo_2_"+str(self.num)+":", time_stop-time_start)
+        # with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
+        #     pickle.dump(conv_2, f)
         out = F.relu(self.bn2(conv_2))
         return out
 
