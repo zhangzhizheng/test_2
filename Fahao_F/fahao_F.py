@@ -593,7 +593,7 @@ def run(dataset, client, args):
         # acc_list.append(acc)
         # loss_list.append(loss)
         start_time += time_end - time_start
-        total_time += (time_end - time_start)/idx_1
+        #total_time += (time_end - time_start)/idx_1
         # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
         pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
         
