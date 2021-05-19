@@ -22,7 +22,7 @@ class Block(nn.Module):
         #         pickle.dump(x, f)
         conv_1 = self.conv1(x)
         time_stop = time.time()
-        print("convo_1_"+str(self.num)+":", time_stop-time_start)
+        #print("convo_1_"+str(self.num)+":", time_stop-time_start)
         # with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
         #     #print('a')
         #     pickle.dump(conv_1, f)
@@ -30,7 +30,7 @@ class Block(nn.Module):
         time_start = time.time()
         conv_2 = self.conv2(out)
         time_stop = time.time()
-        print("convo_2_"+str(self.num)+":", time_stop-time_start)
+        #print("convo_2_"+str(self.num)+":", time_stop-time_start)
         # with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
         #     pickle.dump(conv_2, f)
         out = F.relu(self.bn2(conv_2))
