@@ -523,7 +523,7 @@ def run(dataset, client, args):
     pbar = tqdm(range(args.epoch))
     total_time = 0
     time_list = []
-    for i in pbar:
+    for j in pbar:
         # Temp, process_time = Train(model, optimizer, client, trainloader)
         start_time = 0
         # pbar = tqdm(range(args.epoch))
@@ -593,9 +593,9 @@ def run(dataset, client, args):
         # acc_list.append(acc)
         # loss_list.append(loss)
         start_time += time_end - time_start
-        #total_time += (time_end - time_start)/idx_1
+        # total_time += time_end - time_start
         # pbar.set_description("Epoch: %d Accuracy: %.3f Loss: %.3f Time: %.3f" %(i, acc, loss, start_time))
-        pbar.set_description("Epoch: %d  Time: %.3f" %(i, start_time))
+        pbar.set_description("Epoch: %d  Time: %.3f" %(j, start_time))
         
 
         #without distribution
