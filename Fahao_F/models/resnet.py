@@ -9,15 +9,22 @@ Reference:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import pickle
 
 class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1,num = 0):
         super(BasicBlock, self).__init__()
+        self.num = num
+        with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         self.conv1 = nn.Conv2d(
             in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
+        with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3,
                                stride=1, padding=1, bias=False)
@@ -32,8 +39,20 @@ class BasicBlock(nn.Module):
             )
 
     def forward(self, x):
-        out = F.relu(self.bn1(self.conv1(x)))
-        out = self.bn2(self.conv2(out))
+        if num == 0:
+            with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
+                #print('a')
+                pickle.dump(x, f)
+        conv_1 = self.conv1(x)
+        with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
+        out = F.relu(self.bn1(conv_1))
+        conv_2 = self.conv2(out)
+        with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_2, f)
+        out = self.bn2(conv_2)
         out += self.shortcut(x)
         out = F.relu(out)
         return out
@@ -87,9 +106,11 @@ class ResNet(nn.Module):
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
+        num = 0
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
+            layers.append(block(self.in_planes, planes, stride, num))
             self.in_planes = planes * block.expansion
+            num += 1
         return nn.Sequential(*layers)
 
     def forward(self, x):
