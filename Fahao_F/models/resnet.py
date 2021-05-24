@@ -37,16 +37,16 @@ class BasicBlock(nn.Module):
         time_start = time.time()
         conv_1 = self.conv1(x)
         time_stop = time.time()
-        print("convo_1_"+self.in_planes/64+":", time_stop-time_start)
-        with open('/home/test_2/time/convo_1_'+self.in_planes/64+'.pkl', 'ab') as f:
+        print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
+        with open('/home/test_2/time/convo_1_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
         time_start = time.time()
         conv_2 = self.conv2(out)
         time_stop = time.time()
-        print("convo_2_"+self.in_planes/64+":", time_stop-time_start)
-        with open('/home/test_2/time/convo_2_'+self.in_planes/64+'.pkl', 'ab') as f:
+        print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
+        with open('/home/test_2/time/convo_2_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(conv_2, f)
         out = self.bn2(conv_2)
