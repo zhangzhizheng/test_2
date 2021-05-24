@@ -33,7 +33,7 @@ class BasicBlock(nn.Module):
             )
 
     def forward(self, x):
-        if num == 0:
+        if self.num == 0:
             with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
                 #print('a')
                 pickle.dump(x, f)
