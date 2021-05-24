@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import pickle
-
+import time
 class BasicBlock(nn.Module):
     expansion = 1
 
@@ -43,12 +43,18 @@ class BasicBlock(nn.Module):
             with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
                 #print('a')
                 pickle.dump(x, f)
+        time_start = time.time()
         conv_1 = self.conv1(x)
+        time_stop = time.time()
+        print("convo_1_"+str(self.num)+":", time_stop-time_start)
         with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
+        time_start = time.time()
         conv_2 = self.conv2(out)
+        time_stop = time.time()
+        print("convo_2_"+str(self.num)+":", time_stop-time_start)
         with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
             #print('a')
             pickle.dump(conv_2, f)
