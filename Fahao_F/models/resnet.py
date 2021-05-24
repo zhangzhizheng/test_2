@@ -17,14 +17,8 @@ class BasicBlock(nn.Module):
     def __init__(self, in_planes, planes, stride=1,num = 0):
         super(BasicBlock, self).__init__()
         self.num = num
-        with open('/home/test_2/time/convo_0_'+str(self.num)+'.pkl', 'ab') as f:
-            #print('a')
-            pickle.dump(conv_1, f)
         self.conv1 = nn.Conv2d(
             in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
-        with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
-            #print('a')
-            pickle.dump(conv_1, f)
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3,
                                stride=1, padding=1, bias=False)
