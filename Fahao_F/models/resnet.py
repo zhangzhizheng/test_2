@@ -110,14 +110,14 @@ class ResNet(nn.Module):
 
     def forward(self, x):
 
-        with open('/home/test_2/time/convo_0_'+str(0)+'.pkl', 'ab') as f:
+        with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
                 #print('a')
                 pickle.dump(x, f)
         time_start = time.time()
         conv1 = self.conv1(x)
         time_stop = time.time()
-        print("convo_1_"+str(0)+":", time_stop-time_start)
-        with open('/home/test_2/time/convo_0_'+str(0)+'.pkl', 'ab') as f:
+        print("convo_1_0:", time_stop-time_start)
+        with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
                 #print('a')
                 pickle.dump(conv1, f)
         out = F.relu(self.bn1(conv1))
