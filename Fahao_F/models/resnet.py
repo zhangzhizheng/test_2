@@ -37,7 +37,7 @@ class BasicBlock(nn.Module):
         time_start = time.time()
         conv_1 = self.conv1(x)
         time_stop = time.time()
-        print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
+        #print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
         # with open('/home/test_2/time/convo_1_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
         #     #print('a')
         #     pickle.dump(conv_1, f)
@@ -45,7 +45,7 @@ class BasicBlock(nn.Module):
         time_start = time.time()
         conv_2 = self.conv2(out)
         time_stop = time.time()
-        print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
+        #print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
         # with open('/home/test_2/time/convo_2_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
         #     #print('a')
         #     pickle.dump(conv_2, f)
@@ -116,7 +116,7 @@ class ResNet(nn.Module):
         time_start = time.time()
         conv1 = self.conv1(x)
         time_stop = time.time()
-        print("convo_1_0:", time_stop-time_start)
+        #print("convo_1_0:", time_stop-time_start)
         # with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
         #         #print('a')
         #         pickle.dump(conv1, f)
