@@ -49,7 +49,7 @@ class BasicBlock(nn.Module):
         conv_2 = self.conv2(out)
         time_stop = time.time()
         # print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
-        print(self.a)
+        # print(self.a)
         with open('/home/test_2/time/convo_2_'+str(self.in_planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
             #print('a')
             pickle.dump(conv_2, f)
@@ -106,7 +106,7 @@ class ResNet(nn.Module):
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
-        print(strides)
+        # print(strides)
         a = 0
         layers = []
         for stride in strides:
