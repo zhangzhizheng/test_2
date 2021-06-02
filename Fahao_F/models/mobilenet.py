@@ -22,17 +22,18 @@ class Block(nn.Module):
         #         pickle.dump(x, f)
         conv_1 = self.conv1(x)
         time_stop = time.time()
-        #print("convo_1_"+str(self.num)+":", time_stop-time_start)
-        # with open('/home/test_2/time/convo_1_'+str(self.num)+'.pkl', 'ab') as f:
-        #     #print('a')
-        #     pickle.dump(conv_1, f)
+        print('convo_1_'+str(self.num)+':', time_stop-time_start)
+        with open('/home/test_2/time/m_convo_1_'+str(self.num)+'.pkl', 'wb') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
         time_start = time.time()
         conv_2 = self.conv2(out)
         time_stop = time.time()
-        #print("convo_2_"+str(self.num)+":", time_stop-time_start)
-        # with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'ab') as f:
-        #     pickle.dump(conv_2, f)
+        print('convo_2_'+str(self.num)+':', time_stop-time_start)
+        with open('/home/test_2/time/convo_2_'+str(self.num)+'.pkl', 'wb') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         out = F.relu(self.bn2(conv_2))
         return out
 
@@ -60,7 +61,17 @@ class MobileNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        out = F.relu(self.bn1(self.conv1(x)))
+        with open('/home/test_2/time/convo_0_0.pkl', 'wb') as f:
+            #print('a')
+            pickle.dump(x, f)
+        time_start = time.time()
+        conv_1 = self.conv1(x)
+        time_stop = time.time()
+        with open('/home/test_2/time/convo_0_1.pkl', 'wb') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
+        print('convo_0_0:', time_stop-time_start)
+        out = F.relu(self.bn1(conv_1))
         out = self.layers(out)
         out = F.avg_pool2d(out, 2)
         out = out.view(out.size(0), -1)
