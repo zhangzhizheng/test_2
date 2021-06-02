@@ -109,6 +109,8 @@ class ResNet(nn.Module):
         # print(strides)
         a = 0
         layers = []
+        if(self.in_planes/64 == 8): 
+            print(self.a)
         for stride in strides:
             layers.append(block(self.in_planes, planes, stride, a))
             a = 1
