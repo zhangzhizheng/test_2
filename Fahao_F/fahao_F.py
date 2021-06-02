@@ -352,12 +352,12 @@ def Set_model(net, client, args):
                         momentum=0.9, weight_decay=5e-4)
         global_model = ResNet18()
         return Model, global_model, Optimizer
-    elif net == 'ResNet152':
+    elif net == 'ResNet50':
         for i in range (client):
-            Model[i] = ResNet34()
+            Model[i] = ResNet50()
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-        global_model = ResNet34()
+        global_model = ResNet50()
         return Model, global_model, Optimizer
     elif net == 'Federated':
         Model[0] = MobileNet()
@@ -578,9 +578,9 @@ def run(dataset, client, args):
                 P = copy.deepcopy(model[i].state_dict())
                 for name in P:
                     print(name)
-                    with open('/home/test_2/time/'+name+'.pkl', 'wb') as f:
+                    with open('/home/test_2/time/'+args.net+'.pkl', 'wb') as f:
                         #print('a')
-                        pickle.dump(P[name], f)
+                        pickle.dump(P, f)
                 with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
                     outputs = model[i](inputs)
                 # print(prof)
