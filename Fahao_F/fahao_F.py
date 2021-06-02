@@ -354,10 +354,10 @@ def Set_model(net, client, args):
         return Model, global_model, Optimizer
     elif net == 'ResNet101':
         for i in range (client):
-            Model[i] = ResNet101()
+            Model[i] = ResNet152()
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-        global_model = ResNet101()
+        global_model = ResNet152()
         return Model, global_model, Optimizer
     elif net == 'Federated':
         Model[0] = MobileNet()
