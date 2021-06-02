@@ -359,12 +359,12 @@ def Set_model(net, client, args):
                         momentum=0.9, weight_decay=5e-4)
         global_model = ResNet152()
         return Model, global_model, Optimizer
-    elif net == 'ResNet32':
+    elif net == 'ResNet34':
         for i in range (client):
-            Model[i] = ResNet32()
+            Model[i] = ResNet34()
             Optimizer[i] = torch.optim.SGD(Model[i].parameters(), lr=args.lr,
                         momentum=0.9, weight_decay=5e-4)
-        global_model = ResNet32()
+        global_model = ResNet34()
         return Model, global_model, Optimizer
     elif net == 'ResNet101':
         for i in range (client):
