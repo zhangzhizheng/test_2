@@ -578,6 +578,9 @@ def run(dataset, client, args):
                 P = copy.deepcopy(model[i].state_dict())
                 for name in P:
                     print(name)
+                    with open('/home/test_2/time/'+name+'.pkl', 'wb') as f:
+                        #print('a')
+                        pickle.dump(model.state_dict()[name], f)
                 with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
                     outputs = model[i](inputs)
                 # print(prof)
