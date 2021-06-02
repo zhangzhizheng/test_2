@@ -16,6 +16,7 @@ class BasicBlock(nn.Module):
 
     def __init__(self, in_planes, planes, stride=1, a = 0):
         self.a = a
+        self.planes = planes
         super(BasicBlock, self).__init__()
         self.conv1 = nn.Conv2d(
             in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
@@ -39,9 +40,9 @@ class BasicBlock(nn.Module):
         conv_1 = self.conv1(x)
         time_stop = time.time()
         #print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
-        if(self.in_planes == 512): 
+        if(self.planes == 512): 
             print(self.a)
-        with open('/home/test_2/time/convo_1_'+str(self.in_planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
+        with open('/home/test_2/time/convo_1_'+str(self.planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
             #print('a')
             pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
@@ -50,7 +51,7 @@ class BasicBlock(nn.Module):
         time_stop = time.time()
         # print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
         # print(self.a)
-        with open('/home/test_2/time/convo_2_'+str(self.in_planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
+        with open('/home/test_2/time/convo_2_'+str(self.planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
             #print('a')
             pickle.dump(conv_2, f)
         out = self.bn2(conv_2)
