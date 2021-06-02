@@ -580,7 +580,7 @@ def run(dataset, client, args):
                     print(name)
                     with open('/home/test_2/time/'+name+'.pkl', 'wb') as f:
                         #print('a')
-                        pickle.dump(model.state_dict()[name], f)
+                        pickle.dump(P[name], f)
                 with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
                     outputs = model[i](inputs)
                 # print(prof)
