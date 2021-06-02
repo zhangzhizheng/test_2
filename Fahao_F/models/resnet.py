@@ -39,7 +39,7 @@ class BasicBlock(nn.Module):
         conv_1 = self.conv1(x)
         time_stop = time.time()
         #print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
-        if(planes == 512): 
+        if(self.in_planes == 512): 
             print(self.a)
         with open('/home/test_2/time/convo_1_'+str(self.in_planes/64)+'_'+str(self.a)+'.pkl', 'wb') as f:
             #print('a')
