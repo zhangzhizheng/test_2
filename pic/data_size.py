@@ -23,10 +23,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
-name_list = ['ResNet18','MobileNet']
+name_list = ['ResNet18','ResNet34','VGG20','MobileNetv2']
 
-num_list = [0.8869, 0.3987]
-num_list1 = [1,0.4598]
+num_list = [499.061, 498.519, 301.692, 483.942]
+num_list1 = [566.461, 749.055, 329.823, 551.939]
 x =list(range(len(num_list)))
 total_width, n = 0.5, 2
 width = total_width / n
@@ -37,8 +37,9 @@ for i in range(len(x)):
 plt.bar(x, num_list, width=width, label='GTX3080', color='blue')
 for i in range(len(x)):
     x[i] = x[i] + width
-plt.plot(name_list,[0,0])
+plt.plot(name_list,[0,0,0,0])
 plt.bar(x, num_list1, width=width, label='GTX2080', color='green')
+plt.ylabel('latency (s)')
 plt.legend()
 #plt.ylabel('time')
 #plt.xlabel('models')
