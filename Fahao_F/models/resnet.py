@@ -103,7 +103,7 @@ class ResNet(nn.Module):
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
-        # print(strides)
+        print(strides)
         a = 0
         layers = []
         for stride in strides:

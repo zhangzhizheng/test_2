@@ -413,6 +413,7 @@ def Train(model, optimizer, client, trainloader):
             total[i] += targets.size(0)
             correct[i] += predicted.eq(targets).sum().item()
             idx_1 = idx
+            break
         # print(train_loss[i] / len(trainloader[i])) # average over number of mini-batch
         # print(correct[i] / len(trainloader[i].dataset))
     time_end = time.time()
