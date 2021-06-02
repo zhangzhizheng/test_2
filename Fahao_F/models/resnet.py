@@ -14,7 +14,8 @@ import time
 class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1):
+    def __init__(self, in_planes, planes, stride=1, a = 0):
+        self.a = a
         super(BasicBlock, self).__init__()
         self.conv1 = nn.Conv2d(
             in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
@@ -37,18 +38,18 @@ class BasicBlock(nn.Module):
         time_start = time.time()
         conv_1 = self.conv1(x)
         time_stop = time.time()
-        #print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
-        # with open('/home/test_2/time/convo_1_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
-        #     #print('a')
-        #     pickle.dump(conv_1, f)
+        print('convo_1_'+str(self.in_planes/64)+':', time_stop-time_start)
+        with open('/home/test_2/time/convo_1_'+str(self.in_planes/64+self.a)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_1, f)
         out = F.relu(self.bn1(conv_1))
         time_start = time.time()
         conv_2 = self.conv2(out)
         time_stop = time.time()
-        #print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
-        # with open('/home/test_2/time/convo_2_'+str(self.in_planes/64)+'.pkl', 'ab') as f:
-        #     #print('a')
-        #     pickle.dump(conv_2, f)
+        print('convo_2_'+str(self.in_planes/64)+':', time_stop-time_start)
+        with open('/home/test_2/time/convo_2_'+str(self.in_planes/64+self.a)+'.pkl', 'ab') as f:
+            #print('a')
+            pickle.dump(conv_2, f)
         out = self.bn2(conv_2)
         out += self.shortcut(x)
         out = F.relu(out)
@@ -102,25 +103,27 @@ class ResNet(nn.Module):
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
-        print(strides)
+        # print(strides)
+        a = 0
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
+            layers.append(block(self.in_planes, planes, stride, a))
+            a += 1
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
 
     def forward(self, x):
 
-        # with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
-        #         #print('a')
-        #         pickle.dump(x, f)
+        with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
+                #print('a')
+                pickle.dump(x, f)
         time_start = time.time()
         conv1 = self.conv1(x)
         time_stop = time.time()
         #print("convo_1_0:", time_stop-time_start)
-        # with open('/home/test_2/time/convo_0_0.pkl', 'ab') as f:
-        #         #print('a')
-        #         pickle.dump(conv1, f)
+        with open('/home/test_2/time/convo_0_1.pkl', 'ab') as f:
+                #print('a')
+                pickle.dump(conv1, f)
         out = F.relu(self.bn1(conv1))
 
         out = self.layer1(out)
