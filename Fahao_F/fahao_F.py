@@ -575,6 +575,9 @@ def run(dataset, client, args):
                 Loss[i].backward()
                 optimizer[i].step()
                 idx_1 = idx
+                P = copy.deepcopy(model[i].state_dict())
+                for name in P:
+                    print(name)
                 with torch.autograd.profiler.profile(use_cuda=True,profile_memory=True) as prof:
                     outputs = model[i](inputs)
                 # print(prof)
