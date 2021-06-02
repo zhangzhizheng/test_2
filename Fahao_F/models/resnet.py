@@ -109,9 +109,9 @@ class ResNet(nn.Module):
         # print(strides)
         a = 0
         layers = []
-        if(planes == 512): 
-            print(a)
         for stride in strides:
+            if(planes == 512): 
+                print(a)
             layers.append(block(self.in_planes, planes, stride, a))
             a = 1
             self.in_planes = planes * block.expansion
